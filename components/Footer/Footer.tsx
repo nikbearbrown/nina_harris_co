@@ -45,12 +45,28 @@ export default function Footer() {
             <h3 className="text-sm font-semibold">Connect</h3>
             <div className="flex flex-col gap-2">
               <a
-                href="https://github.com"
+                href="https://github.com/nikbearbrown/marley"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-sm text-muted-foreground hover:text-foreground transition-colors"
               >
                 GitHub
+              </a>
+              <a
+                href="https://www.skepticism.ai/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Substack
+              </a>
+              <a
+                href="https://www.bearbrown.co/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Bear Brown &amp; Co
               </a>
             </div>
           </div>
