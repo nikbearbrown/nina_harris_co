@@ -29,7 +29,6 @@ export default function TermsOfServicePage() {
               <li><strong>Email:</strong>{' '}
                 <a href="mailto:medhavy@humanitarians.ai" className="text-primary hover:underline">medhavy@humanitarians.ai</a>
               </li>
-              <li><strong>EIN:</strong> 41-4226710</li>
             </ul>
           </section>
 

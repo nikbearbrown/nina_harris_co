@@ -57,8 +57,7 @@ Primary audiences:
 
 ### Footer (`/components/Footer/Footer.tsx`) — DONE
 Four-column grid layout:
-- **Company Info:** Medhavy LLC, 30 N Gould St Ste N, Sheridan WY 82801, medhavy@humanitarians.ai, EIN: 41-4226710
-- **Platform:** Links to Tools, Blog, About
+- **Company Info:** Medhavy LLC, 30 N Gould St Ste N, Sheridan WY 82801, medhavy@humanitarians.ai- **Platform:** Links to Tools, Blog, About
 - **Connect:** GitHub, YouTube, Spotify, Substack (text links)
 - **Legal:** Privacy Policy, Cookie Policy, Terms of Service
 - Bottom bar: copyright
@@ -240,7 +239,7 @@ Prose-forward CV format with sections:
 Content describes Medhavy platform mission, what we build, Humanitarians AI connection, and contact info.
 
 ## Legal Pages — DONE
-All three pages follow the Humanitarians AI structural template, rewritten for Medhavy LLC. Each references: Medhavy LLC (Nik Brown, Sole Member), 30 N Gould St Ste N, Sheridan WY 82801, medhavy@humanitarians.ai, EIN 41-4226710, AI consulting services.
+All three pages follow the Humanitarians AI structural template, rewritten for Medhavy LLC. Each references: Medhavy LLC (Nik Brown, Sole Member), 30 N Gould St Ste N, Sheridan WY 82801, medhavy@humanitarians.ai, AI consulting services.
 
 ### Privacy Policy (`/app/privacy/page.tsx`)
 Sections: introduction, information we collect (contact data, inquiry content, consulting engagement data, analytics), how we use info, sharing (consent, legitimate interests, contract, legal, vital interests), third-party services (Vercel, Neon, Spotify, Substack, Anthropic, GitHub, YouTube), cookies reference (links to Cookie Policy page), data security, data retention, your privacy rights, children's privacy, changes, contact. Nav: Terms of Service ← → Cookie Policy.

@@ -25,7 +25,7 @@ export default function Footer() {
                   medhavy@humanitarians.ai
                 </a>
               </p>
-              <p>EIN: 41-4226710</p>
+
             </div>
           </div>
 
