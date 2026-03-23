@@ -89,12 +89,17 @@ export default function Home() {
                 </a>
               </div>
             </div>
-            <div className="rounded-lg overflow-hidden shadow-lg bg-muted/40 p-12 flex items-center justify-center">
-              <div className="text-center space-y-4">
-                <p className="text-6xl font-bold tracking-tighter text-foreground/80">&pound;</p>
-                <p className="text-sm text-muted-foreground uppercase tracking-widest">Capital Secured</p>
-                <p className="text-sm text-muted-foreground">1 Cornhill, London</p>
-              </div>
+            <div className="aspect-video rounded-lg overflow-hidden shadow-lg">
+              <iframe
+                src="https://www.youtube.com/embed/HJJQoIUElvo?si=xfCpIQTbBqTj38pP"
+                title="Scrooge & Marley"
+                width="100%"
+                height="100%"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="w-full h-full"
+              />
             </div>
           </div>
         </div>

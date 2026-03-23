@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scrooge & Marley — The Ledger — debt tracking and repayment scheduling extension</title>
+  <meta name="description" content="Technical specification for The Ledger — the Scrooge & Marley debt tracking extension. Covers the business case, database schema (5 new tables), new admin routes, creditor status page, and effort estimate. After reading, a developer can assess architectural fit and begin implementation within the Marley Next.js template.">
+  <meta name="keywords" content="Scrooge Marley, debt tracking, ledger, repayment schedule, creditor status page, Marley template, Next.js extension, Neon PostgreSQL, Victorian fintech, counting house, proposed feature, integer money, token auth">
+  <style>
+    :root {
+      --bb-1: #0D0D0D;
+      --bb-2: #4A4A4A;
+      --bb-3: #8B0000;
+      --bb-4: #8B7536;
+      --bb-5: #2F2F2F;
+      --bb-6: #6B6B5E;
+      --bb-7: #9C9680;
+      --bb-8: #E8E0D0;
+    }
+
+    @media print {
+      .page-break { page-break-before: always; }
+      body { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+      .no-print { display: none; }
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.75;
+      color: var(--bb-1);
+      background: #fff;
+      font-size: 10.5pt;
+    }
+
+    .cover {
+      min-height: 44vh;
+      background: linear-gradient(160deg, var(--bb-5) 0%, var(--bb-2) 55%, var(--bb-1) 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: white;
+      padding: 40px;
+    }
+
+    .cover .firm {
+      font-size: 8.5pt;
+      font-family: 'Consolas', monospace;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      opacity: 0.5;
+      margin-bottom: 18px;
+    }
+
+    .cover .doc-type-badge {
+      background: rgba(255,255,255,0.09);
+      border: 1px solid rgba(255,255,255,0.2);
+      padding: 4px 16px;
+      border-radius: 2px;
+      font-size: 8pt;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      font-family: 'Consolas', monospace;
+    }
+
+    .cover h1 {
+      font-size: 30pt;
+      font-weight: 700;
+      margin-bottom: 8px;
+      font-family: 'Consolas', monospace;
+      letter-spacing: 1px;
+    }
+
+    .cover .subtitle {
+      font-size: 11pt;
+      opacity: 0.7;
+      margin-bottom: 0;
+      font-style: italic;
+      max-width: 520px;
+    }
+
+    .version-meta {
+      font-size: 8pt;
+      opacity: 0.45;
+      margin-top: 24px;
+      font-family: 'Consolas', monospace;
+    }
+
+    .version-block {
+      font-size: 8.5pt;
+      color: var(--bb-6);
+      text-align: center;
+      padding: 8px 16px;
+      background: var(--bb-8);
+      border-radius: 2px;
+      margin: 24px 0;
+      font-family: 'Consolas', monospace;
+      border-left: 3px solid var(--bb-6);
+    }
+
+    .container { max-width: 860px; margin: 0 auto; padding: 30px 40px; }
+
+    h1.section-title {
+      font-size: 16pt;
+      color: var(--bb-1);
+      border-bottom: 2px solid var(--bb-4);
+      padding-bottom: 8px;
+      margin: 48px 0 20px 0;
+      font-family: 'Consolas', monospace;
+      letter-spacing: 0.5px;
+    }
+
+    h2 {
+      font-size: 11.5pt;
+      color: var(--bb-2);
+      margin: 28px 0 10px 0;
+      border-left: 4px solid var(--bb-4);
+      padding-left: 12px;
+      font-family: 'Consolas', monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    p { margin: 12px 0; }
+
+    code {
+      background: var(--bb-8);
+      padding: 2px 6px;
+      border-radius: 2px;
+      font-family: 'Consolas', 'Monaco', monospace;
+      font-size: 8.5pt;
+      color: var(--bb-2);
+      border: 1px solid var(--bb-7);
+    }
+
+    pre {
+      background: var(--bb-1);
+      color: var(--bb-8);
+      padding: 18px;
+      border-radius: 2px;
+      overflow-x: auto;
+      font-size: 8.5pt;
+      margin: 16px 0;
+      font-family: 'Consolas', monospace;
+      line-height: 1.6;
+    }
+
+    pre code { background: none; color: inherit; padding: 0; border: none; font-size: inherit; }
+    pre .comment { color: var(--bb-7); }
+
+    table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 9pt; }
+    th {
+      background: var(--bb-2);
+      color: white;
+      padding: 10px 12px;
+      text-align: left;
+      font-weight: 600;
+      font-family: 'Consolas', monospace;
+      font-size: 8pt;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    td { padding: 10px 12px; border-bottom: 1px solid var(--bb-7); vertical-align: top; }
+    tr:nth-child(even) { background: var(--bb-8); }
+
+    .alert { padding: 14px 18px; border-radius: 2px; margin: 18px 0; }
+    .alert-info    { background: var(--bb-8); border-left: 4px solid var(--bb-2); }
+    .alert-warning { background: #faf6e8; border-left: 4px solid var(--bb-4); color: var(--bb-5); }
+    .alert-danger  { background: #f9eded; border-left: 4px solid var(--bb-3); color: var(--bb-3); }
+    .alert strong {
+      display: block;
+      margin-bottom: 5px;
+      font-family: 'Consolas', monospace;
+      font-size: 8pt;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .pull-quote {
+      border-left: 3px solid var(--bb-4);
+      padding: 12px 20px;
+      margin: 22px 0;
+      background: var(--bb-8);
+      font-size: 11.5pt;
+      font-style: italic;
+      color: var(--bb-1);
+    }
+
+    .section-label {
+      font-size: 7.5pt;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--bb-6);
+      margin: 20px 0 6px 0;
+      font-family: 'Consolas', monospace;
+    }
+
+    .effort-badge {
+      display: inline-block;
+      padding: 3px 12px;
+      border-radius: 2px;
+      font-size: 8pt;
+      font-weight: 700;
+      font-family: 'Consolas', monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      background: #faf6e8;
+      color: var(--bb-4);
+      border: 1px solid var(--bb-4);
+    }
+
+    .route-list { list-style: none; margin: 10px 0; padding: 0; }
+    .route-list li {
+      display: flex;
+      gap: 14px;
+      padding: 7px 0;
+      border-bottom: 1px solid var(--bb-8);
+      font-size: 9.5pt;
+    }
+    .route-list li:last-child { border-bottom: none; }
+    .route-path {
+      font-family: 'Consolas', monospace;
+      font-size: 8.5pt;
+      color: var(--bb-2);
+      min-width: 280px;
+    }
+    .route-desc { color: var(--bb-6); }
+
+    ul, ol { margin: 10px 0 10px 22px; }
+    li { margin: 6px 0; }
+
+    .suite-nav {
+      background: var(--bb-1);
+      padding: 10px 20px;
+      font-size: 8pt;
+      font-family: 'Consolas', monospace;
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .suite-nav strong { color: var(--bb-4); margin-right: 6px; }
+    .suite-nav a { color: var(--bb-7); text-decoration: none; opacity: 0.8; }
+    .suite-nav a:hover { color: var(--bb-4); opacity: 1; }
+    .suite-nav a.active { color: var(--bb-4); font-weight: 600; opacity: 1; }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 11px;
+      color: #999;
+      border-top: 1px solid var(--bb-7);
+      margin-top: 40px;
+    }
+    footer a { color: #999; }
+  </style>
+</head>
+<body>
+
+<nav class="suite-nav no-print">
+  <strong>Scrooge &amp; Marley — Proposed Extensions:</strong>
+  <a href="marley-extension-ledger.html" class="active">The Ledger</a>
+  <a href="marley-extension-dead-letter-office.html">The Dead Letter Office</a>
+  <a href="marley-extension-counting-room.html">The Counting Room</a>
+  <a href="marley-template-reference.html">← Template Reference</a>
+</nav>
+
+<div class="cover">
+  <div class="firm">Scrooge &amp; Marley · 1 Cornhill, London · Est. 1836</div>
+  <div class="doc-type-badge">📋 Explanation · Proposed Extension 01 of 03</div>
+  <h1>THE LEDGER</h1>
+  <div class="subtitle">Debt tracking, repayment scheduling, and account status — for creditors who require more than a folder of letters</div>
+  <div class="version-meta">Version 1.0 | March 2026 | Reviewed by Dev the Dev</div>
+</div>
+
+<div class="container">
+
+  <div class="version-block">Version 1.0 | March 2026 | Reviewed by Dev the Dev</div>
+
+  <div class="alert alert-info">
+    <strong>What this document is</strong>
+    A technical specification for The Ledger — the Scrooge &amp; Marley debt tracking
+    extension. It covers the business case, the full database schema, new admin routes,
+    the creditor-facing status page, and the effort estimate. Read this before
+    beginning implementation. The Dead Letter Office and The Counting Room both
+    depend on this extension — build this first.
+  </div>
+
+  <!-- ─── 1. THE BUSINESS CASE ──────────────────────────────────────── -->
+  <h1 class="section-title">1. The business case</h1>
+
+  <p>A counting house that manages debt recovery by email and memory is not a counting house — it is a hope. The Firm currently has no structured record of who owes what, what has been promised, what has been paid, and what remains outstanding. Every engagement lives in a correspondence thread. That is the condition of a business that does not yet believe it will survive long enough to need records.</p>
+
+  <p>The Firm is older than most of its debtors' grandparents. It requires a ledger.</p>
+
+  <div class="pull-quote">
+    "An unrecorded debt is a forgiven debt. We do not forgive debts."
+  </div>
+
+  <!-- ─── 2. WHAT IT DOES ────────────────────────────────────────────── -->
+  <h1 class="section-title">2. What it does</h1>
+
+  <p>The Ledger is a structured debt management system within the admin dashboard. Each debt is a record: debtor name and contact, principal amount, date incurred, interest rate, repayment schedule (if any), payments received to date, outstanding balance calculated to the day, and current status.</p>
+
+  <p>The creditor who engaged the Firm is linked to each debt. The Firm's fee is tracked separately from the principal. Neither field is optional.</p>
+
+  <h2>The creditor status page</h2>
+
+  <p>The public-facing component is a secure, token-authenticated status page a creditor can visit to see the current state of their engagement. The page shows exactly three things: status, amount recovered to date, and outstanding balance. Nothing more. The Firm does not explain itself to creditors — it reports to them.</p>
+
+  <p>Each creditor receives a unique URL containing a token. The token is generated by the Firm and delivered by correspondence. It does not expire by default, but can be revoked or set with an expiry at the Firm's discretion. The token grants read-only access to the single debt it references. It grants nothing else.</p>
+
+  <!-- ─── 3. DATABASE SCHEMA ─────────────────────────────────────────── -->
+  <h1 class="section-title">3. Database schema</h1>
+
+  <p>Five new tables. All in Neon PostgreSQL. All with row-level security enabled.</p>
+
+  <pre><code><span class="comment">-- Debtors</span>
+CREATE TABLE IF NOT EXISTS debtors (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  name TEXT NOT NULL,
+  address TEXT,
+  contact_email TEXT,
+  notes TEXT,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+ALTER TABLE debtors ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "service_role_debtors" ON debtors
+  FOR ALL USING (true) WITH CHECK (true);
+
+<span class="comment">-- Debt accounts</span>
+CREATE TABLE IF NOT EXISTS debts (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  debtor_id UUID NOT NULL REFERENCES debtors(id) ON DELETE RESTRICT,
+  creditor_name TEXT NOT NULL,         <span class="comment">-- who engaged the Firm</span>
+  principal_pence INTEGER NOT NULL,    <span class="comment">-- stored in pence — no floats near money</span>
+  interest_rate_bps INTEGER DEFAULT 0, <span class="comment">-- basis points per annum (500 = 5.00%)</span>
+  date_incurred DATE NOT NULL,
+  date_referred DATE NOT NULL,         <span class="comment">-- when the Firm took it on</span>
+  firm_fee_pence INTEGER DEFAULT 0,    <span class="comment">-- the Firm's recovery fee, tracked separately</span>
+  status TEXT DEFAULT 'active',        <span class="comment">-- active | settled | written_off | disputed</span>
+  notes TEXT,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+ALTER TABLE debts ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "service_role_debts" ON debts
+  FOR ALL USING (true) WITH CHECK (true);
+
+<span class="comment">-- Repayment schedule (optional — not all debts have agreed schedules)</span>
+CREATE TABLE IF NOT EXISTS repayment_schedule (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  debt_id UUID NOT NULL REFERENCES debts(id) ON DELETE CASCADE,
+  due_date DATE NOT NULL,
+  amount_pence INTEGER NOT NULL,
+  status TEXT DEFAULT 'pending',       <span class="comment">-- pending | paid | missed | waived</span>
+  paid_date DATE,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+ALTER TABLE repayment_schedule ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "service_role_schedule" ON repayment_schedule
+  FOR ALL USING (true) WITH CHECK (true);
+
+<span class="comment">-- Payments received</span>
+CREATE TABLE IF NOT EXISTS payments (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  debt_id UUID NOT NULL REFERENCES debts(id) ON DELETE CASCADE,
+  amount_pence INTEGER NOT NULL,
+  received_date DATE NOT NULL,
+  method TEXT,                         <span class="comment">-- cash | draft | cheque | wire</span>
+  notes TEXT,
+  recorded_at TIMESTAMPTZ DEFAULT NOW()
+);
+ALTER TABLE payments ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "service_role_payments" ON payments
+  FOR ALL USING (true) WITH CHECK (true);
+
+<span class="comment">-- Creditor access tokens (for the public status page)</span>
+CREATE TABLE IF NOT EXISTS creditor_tokens (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  debt_id UUID NOT NULL REFERENCES debts(id) ON DELETE CASCADE,
+  token TEXT NOT NULL UNIQUE,          <span class="comment">-- UUID v4, generated server-side</span>
+  expires_at TIMESTAMPTZ,              <span class="comment">-- NULL = no expiry</span>
+  revoked BOOLEAN DEFAULT false,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+ALTER TABLE creditor_tokens ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "service_role_tokens" ON creditor_tokens
+  FOR ALL USING (true) WITH CHECK (true);</code></pre>
+
+  <h2>Outstanding balance calculation</h2>
+
+  <p>The outstanding balance is never stored — it is computed at render time from the principal, accrued interest, and payments received. Storing it would create a second source of truth that will eventually disagree with the first.</p>
+
+  <pre><code><span class="comment">-- Outstanding balance query (run at render time, not stored)</span>
+SELECT
+  d.principal_pence,
+  d.interest_rate_bps,
+  d.date_incurred,
+  COALESCE(SUM(p.amount_pence), 0) AS total_paid_pence,
+
+  <span class="comment">-- Accrued interest: principal × rate × (days elapsed / 365)</span>
+  <span class="comment">-- Calculated in pence throughout; round only at display layer</span>
+  ROUND(
+    d.principal_pence
+    * (d.interest_rate_bps::NUMERIC / 10000)
+    * (CURRENT_DATE - d.date_incurred) / 365.0
+  )::INTEGER AS accrued_interest_pence,
+
+  d.principal_pence
+    + ROUND(
+        d.principal_pence
+        * (d.interest_rate_bps::NUMERIC / 10000)
+        * (CURRENT_DATE - d.date_incurred) / 365.0
+      )::INTEGER
+    - COALESCE(SUM(p.amount_pence), 0)
+  AS outstanding_pence
+
+FROM debts d
+LEFT JOIN payments p ON p.debt_id = d.id
+WHERE d.id = $1
+GROUP BY d.id;</code></pre>
+
+  <div class="alert alert-warning">
+    <strong>No floats near money</strong>
+    All monetary values are stored in pence (integer). All calculations use integer
+    or <code>NUMERIC</code> arithmetic in PostgreSQL. JavaScript receives integers.
+    Formatting to pounds and pence (£X,XXX.XX) happens only at the display layer.
+    A float that represents £1,234.56 as 1234.5600000000002 has no place in a ledger.
+  </div>
+
+  <!-- ─── 4. NEW ROUTES ──────────────────────────────────────────────── -->
+  <h1 class="section-title">4. New routes</h1>
+
+  <h2>Admin routes</h2>
+
+  <ul class="route-list">
+    <li><span class="route-path">/admin/dashboard/ledger</span><span class="route-desc">Debt list — filterable by status, debtor, creditor. Shows outstanding balance per debt.</span></li>
+    <li><span class="route-path">/admin/dashboard/ledger/new</span><span class="route-desc">Open a new debt record — debtor, principal, interest rate, dates, creditor.</span></li>
+    <li><span class="route-path">/admin/dashboard/ledger/[id]</span><span class="route-desc">Full debt record — repayment schedule, payment history, outstanding balance, creditor token management.</span></li>
+    <li><span class="route-path">/admin/dashboard/ledger/[id]/payments/new</span><span class="route-desc">Record a payment received against a debt.</span></li>
+  </ul>
+
+  <h2>Admin API routes</h2>
+
+  <ul class="route-list">
+    <li><span class="route-path">/api/admin/ledger/debts</span><span class="route-desc">GET list / POST create debt record</span></li>
+    <li><span class="route-path">/api/admin/ledger/debts/[id]</span><span class="route-desc">GET / PUT / PATCH status of single debt</span></li>
+    <li><span class="route-path">/api/admin/ledger/debtors</span><span class="route-desc">GET list / POST create debtor</span></li>
+    <li><span class="route-path">/api/admin/ledger/payments</span><span class="route-desc">POST record a payment against a debt_id</span></li>
+    <li><span class="route-path">/api/admin/ledger/schedule</span><span class="route-desc">POST create repayment schedule entries for a debt</span></li>
+    <li><span class="route-path">/api/admin/ledger/tokens</span><span class="route-desc">POST generate a creditor token for a debt_id</span></li>
+    <li><span class="route-path">/api/admin/ledger/tokens/[id]/revoke</span><span class="route-desc">POST revoke a creditor token</span></li>
+  </ul>
+
+  <h2>Public route (token-gated)</h2>
+
+  <ul class="route-list">
+    <li><span class="route-path">/account/[token]</span><span class="route-desc">Creditor status page. Token validated server-side. Displays status, recovered to date, outstanding. No other data.</span></li>
+  </ul>
+
+  <!-- ─── 5. CREDITOR STATUS PAGE ───────────────────────────────────── -->
+  <h1 class="section-title">5. Creditor status page</h1>
+
+  <p>The <code>/account/[token]</code> route is a public page — no login required — but the token must be valid, unexpired, and not revoked. If any of these conditions fail, the page returns a 404. It does not explain why. It does not invite the visitor to try a different token. The Firm does not assist people who arrive without proper credentials.</p>
+
+  <p>The page renders three values and nothing else:</p>
+
+  <table>
+    <tr><th>Field</th><th>Value shown</th><th>Notes</th></tr>
+    <tr>
+      <td>Status</td>
+      <td>Active / Settled / Disputed / Written Off</td>
+      <td>The <code>status</code> field from the debt record, formatted for a layperson.</td>
+    </tr>
+    <tr>
+      <td>Recovered to date</td>
+      <td>£X,XXX.XX</td>
+      <td>Sum of all payments received, formatted from pence.</td>
+    </tr>
+    <tr>
+      <td>Outstanding</td>
+      <td>£X,XXX.XX</td>
+      <td>Computed at render time. Includes accrued interest.</td>
+    </tr>
+  </table>
+
+  <p>The page does not show the debtor's name, the creditor's name, the debt reference, the interest rate, or any correspondence history. A token grants the right to know the current state of one engagement. It grants nothing else.</p>
+
+  <!-- ─── 6. EFFORT AND DEPENDENCIES ───────────────────────────────── -->
+  <h1 class="section-title">6. Effort and dependencies</h1>
+
+  <table>
+    <tr><th>Item</th><th>Detail</th></tr>
+    <tr><td>Effort estimate</td><td><span class="effort-badge">Medium — 8–12 days</span></td></tr>
+    <tr><td>New database tables</td><td>5</td></tr>
+    <tr><td>New admin routes</td><td>4 pages, 7 API routes</td></tr>
+    <tr><td>New public routes</td><td>1 (token-gated)</td></tr>
+    <tr><td>External dependencies</td><td>Resend (for token delivery by email — optional at launch)</td></tr>
+    <tr><td>Required by</td><td>The Dead Letter Office, The Counting Room — both depend on this extension</td></tr>
+  </table>
+
+  <p style="margin-top:16px;">The schema and routes are straightforward. The complexity is in the outstanding balance calculation — interest accrual to the day, partial payments applied correctly, balance computed at render time not stored. The creditor token page introduces a new auth pattern (token-in-URL rather than session cookie) but is entirely self-contained and does not touch the existing admin auth.</p>
+
+  <div class="alert alert-danger" style="margin-top:16px;">
+    <strong>Build this first</strong>
+    The Dead Letter Office requires debt records to trigger against.
+    The Counting Room requires debt records to assign to clerks.
+    Neither can be built without The Ledger in place.
+    Do not begin the other two extensions until this one is complete and tested.
+  </div>
+
+</div>
+
+<footer>
+  Built with <a href="https://www.bearbrown.co" target="_blank" rel="noopener">bearbrown.co</a> ·
+  AI tools for educators, creators &amp; founders
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scrooge & Marley — The Dead Letter Office — automated dunning correspondence extension</title>
+  <meta name="description" content="Technical specification for The Dead Letter Office — the Scrooge & Marley automated dunning correspondence extension. Covers the business case, template engine with handlebars variables, escalation registers, database schema (3 new tables), Vercel cron trigger design, despatch log constraints, and effort estimate. After reading, a developer can assess fit and begin implementation within the Marley Next.js template.">
+  <meta name="keywords" content="Scrooge Marley, dunning letters, automated correspondence, debt collection, letter templates, Vercel cron, Resend, Marley template, Next.js extension, Neon PostgreSQL, Victorian fintech, counting house, proposed feature, escalation register, despatch log">
+  <style>
+    :root {
+      --bb-1: #0D0D0D;
+      --bb-2: #4A4A4A;
+      --bb-3: #8B0000;
+      --bb-4: #8B7536;
+      --bb-5: #2F2F2F;
+      --bb-6: #6B6B5E;
+      --bb-7: #9C9680;
+      --bb-8: #E8E0D0;
+    }
+
+    @media print {
+      .page-break { page-break-before: always; }
+      body { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+      .no-print { display: none; }
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.75;
+      color: var(--bb-1);
+      background: #fff;
+      font-size: 10.5pt;
+    }
+
+    .cover {
+      min-height: 44vh;
+      background: linear-gradient(160deg, var(--bb-3) 0%, #3d0505 55%, var(--bb-1) 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: white;
+      padding: 40px;
+    }
+
+    .cover .firm {
+      font-size: 8.5pt;
+      font-family: 'Consolas', monospace;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      opacity: 0.5;
+      margin-bottom: 18px;
+    }
+
+    .cover .doc-type-badge {
+      background: rgba(255,255,255,0.09);
+      border: 1px solid rgba(255,255,255,0.2);
+      padding: 4px 16px;
+      border-radius: 2px;
+      font-size: 8pt;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      font-family: 'Consolas', monospace;
+    }
+
+    .cover h1 {
+      font-size: 24pt;
+      font-weight: 700;
+      margin-bottom: 8px;
+      font-family: 'Consolas', monospace;
+      letter-spacing: 1px;
+    }
+
+    .cover .subtitle {
+      font-size: 11pt;
+      opacity: 0.7;
+      margin-bottom: 0;
+      font-style: italic;
+      max-width: 560px;
+    }
+
+    .version-meta {
+      font-size: 8pt;
+      opacity: 0.45;
+      margin-top: 24px;
+      font-family: 'Consolas', monospace;
+    }
+
+    .version-block {
+      font-size: 8.5pt;
+      color: var(--bb-6);
+      text-align: center;
+      padding: 8px 16px;
+      background: var(--bb-8);
+      border-radius: 2px;
+      margin: 24px 0;
+      font-family: 'Consolas', monospace;
+      border-left: 3px solid var(--bb-3);
+    }
+
+    .container { max-width: 860px; margin: 0 auto; padding: 30px 40px; }
+
+    h1.section-title {
+      font-size: 16pt;
+      color: var(--bb-1);
+      border-bottom: 2px solid var(--bb-3);
+      padding-bottom: 8px;
+      margin: 48px 0 20px 0;
+      font-family: 'Consolas', monospace;
+      letter-spacing: 0.5px;
+    }
+
+    h2 {
+      font-size: 11.5pt;
+      color: var(--bb-2);
+      margin: 28px 0 10px 0;
+      border-left: 4px solid var(--bb-3);
+      padding-left: 12px;
+      font-family: 'Consolas', monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    p { margin: 12px 0; }
+
+    code {
+      background: var(--bb-8);
+      padding: 2px 6px;
+      border-radius: 2px;
+      font-family: 'Consolas', 'Monaco', monospace;
+      font-size: 8.5pt;
+      color: var(--bb-2);
+      border: 1px solid var(--bb-7);
+    }
+
+    pre {
+      background: var(--bb-1);
+      color: var(--bb-8);
+      padding: 18px;
+      border-radius: 2px;
+      overflow-x: auto;
+      font-size: 8.5pt;
+      margin: 16px 0;
+      font-family: 'Consolas', monospace;
+      line-height: 1.6;
+    }
+
+    pre code { background: none; color: inherit; padding: 0; border: none; font-size: inherit; }
+    pre .comment { color: var(--bb-7); }
+
+    table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 9pt; }
+    th {
+      background: var(--bb-2);
+      color: white;
+      padding: 10px 12px;
+      text-align: left;
+      font-weight: 600;
+      font-family: 'Consolas', monospace;
+      font-size: 8pt;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    td { padding: 10px 12px; border-bottom: 1px solid var(--bb-7); vertical-align: top; }
+    tr:nth-child(even) { background: var(--bb-8); }
+
+    .alert { padding: 14px 18px; border-radius: 2px; margin: 18px 0; }
+    .alert-info    { background: var(--bb-8); border-left: 4px solid var(--bb-2); }
+    .alert-warning { background: #faf6e8; border-left: 4px solid var(--bb-4); color: var(--bb-5); }
+    .alert-danger  { background: #f9eded; border-left: 4px solid var(--bb-3); color: var(--bb-3); }
+    .alert strong {
+      display: block;
+      margin-bottom: 5px;
+      font-family: 'Consolas', monospace;
+      font-size: 8pt;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .pull-quote {
+      border-left: 3px solid var(--bb-3);
+      padding: 12px 20px;
+      margin: 22px 0;
+      background: var(--bb-8);
+      font-size: 11.5pt;
+      font-style: italic;
+      color: var(--bb-1);
+    }
+
+    .section-label {
+      font-size: 7.5pt;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--bb-6);
+      margin: 20px 0 6px 0;
+      font-family: 'Consolas', monospace;
+    }
+
+    .register-card {
+      border: 1px solid var(--bb-7);
+      border-left: 5px solid var(--bb-7);
+      padding: 14px 18px;
+      margin: 10px 0;
+      background: #fff;
+    }
+    .register-card.formal   { border-left-color: var(--bb-6); }
+    .register-card.firm     { border-left-color: var(--bb-4); }
+    .register-card.final    { border-left-color: var(--bb-3); }
+    .register-card.pre-legal { border-left-color: var(--bb-1); }
+
+    .register-name {
+      font-family: 'Consolas', monospace;
+      font-size: 8.5pt;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+    .register-card.formal    .register-name { color: var(--bb-6); }
+    .register-card.firm      .register-name { color: var(--bb-4); }
+    .register-card.final     .register-name { color: var(--bb-3); }
+    .register-card.pre-legal .register-name { color: var(--bb-1); }
+
+    .effort-badge {
+      display: inline-block;
+      padding: 3px 12px;
+      border-radius: 2px;
+      font-size: 8pt;
+      font-weight: 700;
+      font-family: 'Consolas', monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      background: #f9eded;
+      color: var(--bb-3);
+      border: 1px solid var(--bb-3);
+    }
+
+    .route-list { list-style: none; margin: 10px 0; padding: 0; }
+    .route-list li {
+      display: flex;
+      gap: 14px;
+      padding: 7px 0;
+      border-bottom: 1px solid var(--bb-8);
+      font-size: 9.5pt;
+    }
+    .route-list li:last-child { border-bottom: none; }
+    .route-path {
+      font-family: 'Consolas', monospace;
+      font-size: 8.5pt;
+      color: var(--bb-2);
+      min-width: 290px;
+    }
+    .route-desc { color: var(--bb-6); }
+
+    ul, ol { margin: 10px 0 10px 22px; }
+    li { margin: 6px 0; }
+
+    .suite-nav {
+      background: var(--bb-1);
+      padding: 10px 20px;
+      font-size: 8pt;
+      font-family: 'Consolas', monospace;
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .suite-nav strong { color: var(--bb-4); margin-right: 6px; }
+    .suite-nav a { color: var(--bb-7); text-decoration: none; opacity: 0.8; }
+    .suite-nav a:hover { color: var(--bb-4); opacity: 1; }
+    .suite-nav a.active { color: var(--bb-4); font-weight: 600; opacity: 1; }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 11px;
+      color: #999;
+      border-top: 1px solid var(--bb-7);
+      margin-top: 40px;
+    }
+    footer a { color: #999; }
+  </style>
+</head>
+<body>
+
+<nav class="suite-nav no-print">
+  <strong>Scrooge &amp; Marley — Proposed Extensions:</strong>
+  <a href="marley-extension-ledger.html">The Ledger</a>
+  <a href="marley-extension-dead-letter-office.html" class="active">The Dead Letter Office</a>
+  <a href="marley-extension-counting-room.html">The Counting Room</a>
+  <a href="marley-template-reference.html">← Template Reference</a>
+</nav>
+
+<div class="cover">
+  <div class="firm">Scrooge &amp; Marley · 1 Cornhill, London · Est. 1836</div>
+  <div class="doc-type-badge">📋 Explanation · Proposed Extension 02 of 03</div>
+  <h1>THE DEAD LETTER OFFICE</h1>
+  <div class="subtitle">Automated dunning correspondence — escalating in register, inexorable in frequency, dispatched without the Firm lifting a pen</div>
+  <div class="version-meta">Version 1.0 | March 2026 | Reviewed by Dev the Dev</div>
+</div>
+
+<div class="container">
+
+  <div class="version-block">Version 1.0 | March 2026 | Reviewed by Dev the Dev</div>
+
+  <div class="alert alert-info">
+    <strong>What this document is</strong>
+    A technical specification for The Dead Letter Office — the Scrooge &amp; Marley
+    automated dunning correspondence extension. Covers the business case, escalation
+    registers, template variable system, database schema, Vercel cron design,
+    idempotency constraints on the despatch log, and effort estimate.
+    Requires The Ledger to be implemented first.
+  </div>
+
+  <!-- ─── 1. THE BUSINESS CASE ──────────────────────────────────────── -->
+  <h1 class="section-title">1. The business case</h1>
+
+  <p>The cost of debt recovery is correspondence. A clerk who writes the same letter fifteen times to fifteen debtors who have not paid is a clerk who could be doing something else. The letter does not change. The tone escalates on a schedule. The schedule is known in advance. This is a machine's work, not a man's.</p>
+
+  <div class="pull-quote">
+    "The letter is not a courtesy. It is a record of notice given.
+    It will be produced in proceedings."
+  </div>
+
+  <p>The Dead Letter Office automates dunning — the sequence of increasingly firm correspondence dispatched to a debtor who has missed a payment or failed to respond. It does not negotiate. It does not apologise. It states the sum, the date it was due, the consequence of continued non-payment, and the address to which funds should be directed.</p>
+
+  <!-- ─── 2. THE FOUR REGISTERS ──────────────────────────────────────── -->
+  <h1 class="section-title">2. The four registers</h1>
+
+  <p>Each letter in a dunning sequence is written in one of four registers. The register escalates as the sequence progresses. It never de-escalates. A debt that has reached Pre-Legal does not receive a Formal notice unless a new sequence is opened by the Firm.</p>
+
+  <div class="register-card formal">
+    <div class="register-name">Formal</div>
+    <p>The opening notice. Factual, impersonal, professional. States the sum, the due date, and the Firm's banking details. Assumes the debtor may have overlooked the obligation. Does not threaten. Does not remind them of what the Firm can do. That comes later.</p>
+    <p style="margin-top:8px;font-size:9.5pt;color:var(--bb-6);">Typical trigger: 7 days after payment missed.</p>
+  </div>
+
+  <div class="register-card firm">
+    <div class="register-name">Firm</div>
+    <p>The second notice. Acknowledges that the first letter was received and not acted upon. States that this is the second correspondence on the matter. Notes that continued non-payment will result in escalation. Does not specify what escalation means — that specificity belongs to the next register.</p>
+    <p style="margin-top:8px;font-size:9.5pt;color:var(--bb-6);">Typical trigger: 14 days after Formal notice, no payment received.</p>
+  </div>
+
+  <div class="register-card final">
+    <div class="register-name">Final</div>
+    <p>The final demand. States explicitly that legal proceedings are being considered. Specifies the exact sum now due including accrued interest and the Firm's recovery costs. Sets a final date by which payment must be received to avoid further action. Short. Unambiguous.</p>
+    <p style="margin-top:8px;font-size:9.5pt;color:var(--bb-6);">Typical trigger: 21 days after Firm notice, no payment received.</p>
+  </div>
+
+  <div class="register-card pre-legal">
+    <div class="register-name">Pre-Legal</div>
+    <p>Formal notice of intended legal action. Drafted to satisfy the pre-action protocol requirements of the courts. References the correspondence history by date. States that proceedings will be initiated on a specified date unless the outstanding sum is received in full. Reviewed by the Firm before despatch without exception.</p>
+    <p style="margin-top:8px;font-size:9.5pt;color:var(--bb-6);">Requires manual approval before despatch regardless of auto_despatch setting.</p>
+  </div>
+
+  <!-- ─── 3. TEMPLATE VARIABLES ─────────────────────────────────────── -->
+  <h1 class="section-title">3. Template variable system</h1>
+
+  <p>Letter templates use a minimal handlebars-style syntax. The renderer resolves variables at despatch time against the live debt record. Templates are stored as plain text in the database — no HTML, no rich text. The Firm writes letters, not web pages.</p>
+
+  <table>
+    <tr><th>Variable</th><th>Resolves to</th><th>Source</th></tr>
+    <tr>
+      <td><code>{{debtor_name}}</code></td>
+      <td>Full name of the debtor</td>
+      <td><code>debtors.name</code></td>
+    </tr>
+    <tr>
+      <td><code>{{debtor_address}}</code></td>
+      <td>Debtor's address for formal correspondence</td>
+      <td><code>debtors.address</code></td>
+    </tr>
+    <tr>
+      <td><code>{{debt_ref}}</code></td>
+      <td>First 8 characters of the debt UUID — used as the account reference</td>
+      <td><code>debts.id</code></td>
+    </tr>
+    <tr>
+      <td><code>{{principal}}</code></td>
+      <td>Original principal, formatted: £X,XXX.XX</td>
+      <td><code>debts.principal_pence</code></td>
+    </tr>
+    <tr>
+      <td><code>{{outstanding}}</code></td>
+      <td>Current outstanding balance including accrued interest, formatted: £X,XXX.XX</td>
+      <td>Computed at render time</td>
+    </tr>
+    <tr>
+      <td><code>{{due_date}}</code></td>
+      <td>Next scheduled payment date, or original due date if no schedule</td>
+      <td><code>repayment_schedule.due_date</code></td>
+    </tr>
+    <tr>
+      <td><code>{{days_overdue}}</code></td>
+      <td>Calendar days since the debt or instalment fell due</td>
+      <td>Computed: <code>CURRENT_DATE - due_date</code></td>
+    </tr>
+    <tr>
+      <td><code>{{despatch_date}}</code></td>
+      <td>Date this letter is being despatched, formatted: DD Month YYYY</td>
+      <td><code>NOW()</code> at despatch time</td>
+    </tr>
+    <tr>
+      <td><code>{{final_payment_date}}</code></td>
+      <td>Deadline stated in Final and Pre-Legal notices — 14 days from despatch</td>
+      <td>Computed: <code>NOW() + INTERVAL '14 days'</code></td>
+    </tr>
+    <tr>
+      <td><code>{{firm_name}}</code></td>
+      <td>Scrooge &amp; Marley</td>
+      <td><code>public/theme.json</code></td>
+    </tr>
+    <tr>
+      <td><code>{{firm_address}}</code></td>
+      <td>1 Cornhill, London EC3V 3ND</td>
+      <td><code>public/theme.json</code></td>
+    </tr>
+  </table>
+
+  <!-- ─── 4. DATABASE SCHEMA ─────────────────────────────────────────── -->
+  <h1 class="section-title">4. Database schema</h1>
+
+  <p>Three new tables. The despatch log has no DELETE policy — it is a permanent record and cannot be removed.</p>
+
+  <pre><code><span class="comment">-- Letter templates (the named sequences and their steps)</span>
+CREATE TABLE IF NOT EXISTS dunning_templates (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  name TEXT NOT NULL,                  <span class="comment">-- e.g. 'Standard Arrears — First Notice'</span>
+  sequence_name TEXT NOT NULL,         <span class="comment">-- e.g. 'Standard Arrears'</span>
+  sequence_position INTEGER NOT NULL,  <span class="comment">-- 1, 2, 3... within the sequence</span>
+  register TEXT NOT NULL,              <span class="comment">-- formal | firm | final | pre_legal</span>
+  subject_template TEXT NOT NULL,      <span class="comment">-- e.g. 'Account {{debt_ref}} — Notice of Arrears'</span>
+  body_template TEXT NOT NULL,         <span class="comment">-- full letter body with {{variables}}</span>
+  trigger_days INTEGER NOT NULL,       <span class="comment">-- days since last despatch (or referral date for step 1)</span>
+  requires_approval BOOLEAN            <span class="comment">-- pre_legal always true; others configurable</span>
+    GENERATED ALWAYS AS (register = 'pre_legal') STORED,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  UNIQUE(sequence_name, sequence_position)
+);
+ALTER TABLE dunning_templates ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "service_role_templates" ON dunning_templates
+  FOR ALL USING (true) WITH CHECK (true);
+
+<span class="comment">-- Assignment of a dunning sequence to a specific debt</span>
+CREATE TABLE IF NOT EXISTS dunning_assignments (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  debt_id UUID NOT NULL REFERENCES debts(id) ON DELETE CASCADE,
+  sequence_name TEXT NOT NULL,
+  auto_despatch BOOLEAN DEFAULT false, <span class="comment">-- must be explicitly enabled per debt</span>
+  paused BOOLEAN DEFAULT false,
+  current_position INTEGER DEFAULT 1,
+  next_trigger_date DATE,              <span class="comment">-- set by cron after each despatch</span>
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW(),
+  UNIQUE(debt_id)                      <span class="comment">-- one active sequence per debt</span>
+);
+ALTER TABLE dunning_assignments ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "service_role_assignments" ON dunning_assignments
+  FOR ALL USING (true) WITH CHECK (true);
+
+<span class="comment">-- Despatch log — permanent record, no DELETE policy</span>
+CREATE TABLE IF NOT EXISTS correspondence_log (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  debt_id UUID NOT NULL REFERENCES debts(id) ON DELETE RESTRICT,
+  assignment_id UUID REFERENCES dunning_assignments(id),
+  template_id UUID REFERENCES dunning_templates(id),
+  despatched_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  recipient_email TEXT NOT NULL,
+  subject TEXT NOT NULL,
+  body_rendered TEXT NOT NULL,         <span class="comment">-- full rendered text at despatch time, immutable</span>
+  resend_message_id TEXT,              <span class="comment">-- Resend delivery ID for tracking</span>
+  status TEXT DEFAULT 'sent',          <span class="comment">-- sent | bounced | failed</span>
+  approved_by TEXT                     <span class="comment">-- 'auto' or admin identifier for manual approvals</span>
+);
+ALTER TABLE correspondence_log ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "service_role_log_read" ON correspondence_log FOR SELECT USING (true);
+CREATE POLICY "service_role_log_insert" ON correspondence_log FOR INSERT WITH CHECK (true);
+<span class="comment">-- No UPDATE or DELETE policy — the log is permanent</span></code></pre>
+
+  <!-- ─── 5. CRON TRIGGER DESIGN ────────────────────────────────────── -->
+  <h1 class="section-title">5. Cron trigger design</h1>
+
+  <p>A Vercel cron job fires daily at 08:00. It evaluates all active dunning assignments and queues any letters whose trigger date has been reached. It does not despatch — it queues. Despatch requires a second step.</p>
+
+  <h2>Cron logic</h2>
+
+  <pre><code><span class="comment">-- Letters ready to queue (run by cron at 08:00 daily)</span>
+SELECT
+  da.id AS assignment_id,
+  da.debt_id,
+  da.current_position,
+  da.auto_despatch,
+  dt.id AS template_id,
+  dt.register,
+  dt.requires_approval,
+  dt.subject_template,
+  dt.body_template,
+  d.debtor_id
+
+FROM dunning_assignments da
+JOIN dunning_templates dt
+  ON dt.sequence_name = da.sequence_name
+  AND dt.sequence_position = da.current_position
+JOIN debts d ON d.id = da.debt_id
+
+WHERE da.paused = false
+  AND da.next_trigger_date &lt;= CURRENT_DATE
+  AND d.status = 'active'
+
+  <span class="comment">-- Do not queue if already despatched today (idempotency guard)</span>
+  AND NOT EXISTS (
+    SELECT 1 FROM correspondence_log cl
+    WHERE cl.assignment_id = da.id
+      AND cl.despatched_at::DATE = CURRENT_DATE
+  );</code></pre>
+
+  <h2>Idempotency</h2>
+
+  <p>The cron job must not despatch a letter twice. Two mechanisms enforce this. First, the query above excludes assignments that have already produced a log entry today. Second, the cron sets a <code>next_trigger_date</code> on the assignment immediately after queuing — before Resend is called. If Resend fails, the letter is in the queue but not logged as sent; the administrator is notified and can retry manually. The assignment is not advanced until despatch is confirmed.</p>
+
+  <div class="alert alert-danger">
+    <strong>Pre-legal letters require manual approval without exception</strong>
+    The <code>requires_approval</code> column is a generated column — it is always
+    <code>true</code> when <code>register = 'pre_legal'</code> and cannot be overridden.
+    The cron job places pre-legal letters in the approval queue and stops.
+    It does not despatch them. An administrator must review and approve before the
+    letter leaves the Firm. This is not a configuration option.
+  </div>
+
+  <!-- ─── 6. NEW ROUTES ──────────────────────────────────────────────── -->
+  <h1 class="section-title">6. New routes</h1>
+
+  <ul class="route-list">
+    <li><span class="route-path">/admin/dashboard/letters</span><span class="route-desc">Correspondence queue — letters pending review. Approve or discard each.</span></li>
+    <li><span class="route-path">/admin/dashboard/letters/templates</span><span class="route-desc">Template manager — create and edit dunning sequences and their steps.</span></li>
+    <li><span class="route-path">/admin/dashboard/letters/log</span><span class="route-desc">Permanent despatch log — read-only. Filterable by debt, date, register, status.</span></li>
+    <li><span class="route-path">/api/admin/letters/queue</span><span class="route-desc">GET letters awaiting approval / POST approve and despatch a queued letter</span></li>
+    <li><span class="route-path">/api/admin/letters/templates</span><span class="route-desc">GET / POST / PUT dunning templates</span></li>
+    <li><span class="route-path">/api/admin/letters/assignments</span><span class="route-desc">POST assign a dunning sequence to a debt_id</span></li>
+    <li><span class="route-path">/api/admin/letters/assignments/[id]/pause</span><span class="route-desc">POST pause or resume an assignment</span></li>
+    <li><span class="route-path">/api/cron/letters</span><span class="route-desc">GET — Vercel cron endpoint. Daily trigger evaluation and queue population. Secured by CRON_SECRET env var.</span></li>
+  </ul>
+
+  <!-- ─── 7. EFFORT AND DEPENDENCIES ───────────────────────────────── -->
+  <h1 class="section-title">7. Effort and dependencies</h1>
+
+  <table>
+    <tr><th>Item</th><th>Detail</th></tr>
+    <tr><td>Effort estimate</td><td><span class="effort-badge">High — 14–18 days</span></td></tr>
+    <tr><td>New database tables</td><td>3</td></tr>
+    <tr><td>New admin routes</td><td>3 pages, 5 API routes, 1 cron endpoint</td></tr>
+    <tr><td>External dependencies</td><td>Resend (email despatch — one env var, one API call). The Ledger (required).</td></tr>
+    <tr><td>New environment variable</td><td><code>CRON_SECRET</code> — validates Vercel cron requests to prevent external triggering</td></tr>
+    <tr><td>Requires</td><td>The Ledger must be implemented and tested before this extension begins</td></tr>
+  </table>
+
+  <p style="margin-top:16px;">The template engine and trigger evaluation are straightforward in isolation. The complexity is in the guarantees: no letter despatched without a log entry, no log entry deleted, no trigger misfiring on a paused or settled debt, no pre-legal letter despatched without human approval. The Vercel cron pattern is well-documented but requires careful idempotency design — the query above handles the common case; edge cases (Resend timeout, partial failure) require explicit retry logic in the queue processor.</p>
+
+</div>
+
+<footer>
+  Built with <a href="https://www.bearbrown.co" target="_blank" rel="noopener">bearbrown.co</a> ·
+  AI tools for educators, creators &amp; founders
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scrooge & Marley — The Counting Room — clerk dashboard and daily brief extension</title>
+  <meta name="description" content="Technical specification for The Counting Room — the Scrooge & Marley clerk dashboard and daily brief extension. Covers the business case, clerk authentication design, case assignment model, server-side data scoping requirements, daily brief generation via Vercel cron, database schema (4 new tables), new routes, and effort estimate. After reading, a developer can assess architectural fit and begin implementation within the Marley Next.js template.">
+  <meta name="keywords" content="Scrooge Marley, clerk dashboard, case assignment, daily brief, multi-user admin, data scoping, Vercel cron, Resend, Marley template, Next.js extension, Neon PostgreSQL, Victorian fintech, counting house, proposed feature, server-side auth">
+  <style>
+    :root {
+      --bb-1: #0D0D0D;
+      --bb-2: #4A4A4A;
+      --bb-3: #8B0000;
+      --bb-4: #8B7536;
+      --bb-5: #2F2F2F;
+      --bb-6: #6B6B5E;
+      --bb-7: #9C9680;
+      --bb-8: #E8E0D0;
+    }
+
+    @media print {
+      .page-break { page-break-before: always; }
+      body { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+      .no-print { display: none; }
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.75;
+      color: var(--bb-1);
+      background: #fff;
+      font-size: 10.5pt;
+    }
+
+    .cover {
+      min-height: 44vh;
+      background: linear-gradient(160deg, var(--bb-1) 0%, #1a1a1a 40%, var(--bb-5) 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: white;
+      padding: 40px;
+    }
+
+    .cover .firm {
+      font-size: 8.5pt;
+      font-family: 'Consolas', monospace;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      opacity: 0.5;
+      margin-bottom: 18px;
+    }
+
+    .cover .doc-type-badge {
+      background: rgba(255,255,255,0.09);
+      border: 1px solid rgba(255,255,255,0.2);
+      padding: 4px 16px;
+      border-radius: 2px;
+      font-size: 8pt;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      font-family: 'Consolas', monospace;
+    }
+
+    .cover h1 {
+      font-size: 26pt;
+      font-weight: 700;
+      margin-bottom: 8px;
+      font-family: 'Consolas', monospace;
+      letter-spacing: 1px;
+    }
+
+    .cover .subtitle {
+      font-size: 11pt;
+      opacity: 0.7;
+      margin-bottom: 0;
+      font-style: italic;
+      max-width: 560px;
+    }
+
+    .version-meta {
+      font-size: 8pt;
+      opacity: 0.45;
+      margin-top: 24px;
+      font-family: 'Consolas', monospace;
+    }
+
+    .version-block {
+      font-size: 8.5pt;
+      color: var(--bb-6);
+      text-align: center;
+      padding: 8px 16px;
+      background: var(--bb-8);
+      border-radius: 2px;
+      margin: 24px 0;
+      font-family: 'Consolas', monospace;
+      border-left: 3px solid var(--bb-5);
+    }
+
+    .container { max-width: 860px; margin: 0 auto; padding: 30px 40px; }
+
+    h1.section-title {
+      font-size: 16pt;
+      color: var(--bb-1);
+      border-bottom: 2px solid var(--bb-5);
+      padding-bottom: 8px;
+      margin: 48px 0 20px 0;
+      font-family: 'Consolas', monospace;
+      letter-spacing: 0.5px;
+    }
+
+    h2 {
+      font-size: 11.5pt;
+      color: var(--bb-2);
+      margin: 28px 0 10px 0;
+      border-left: 4px solid var(--bb-5);
+      padding-left: 12px;
+      font-family: 'Consolas', monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    p { margin: 12px 0; }
+
+    code {
+      background: var(--bb-8);
+      padding: 2px 6px;
+      border-radius: 2px;
+      font-family: 'Consolas', 'Monaco', monospace;
+      font-size: 8.5pt;
+      color: var(--bb-2);
+      border: 1px solid var(--bb-7);
+    }
+
+    pre {
+      background: var(--bb-1);
+      color: var(--bb-8);
+      padding: 18px;
+      border-radius: 2px;
+      overflow-x: auto;
+      font-size: 8.5pt;
+      margin: 16px 0;
+      font-family: 'Consolas', monospace;
+      line-height: 1.6;
+    }
+
+    pre code { background: none; color: inherit; padding: 0; border: none; font-size: inherit; }
+    pre .comment { color: var(--bb-7); }
+
+    table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 9pt; }
+    th {
+      background: var(--bb-2);
+      color: white;
+      padding: 10px 12px;
+      text-align: left;
+      font-weight: 600;
+      font-family: 'Consolas', monospace;
+      font-size: 8pt;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    td { padding: 10px 12px; border-bottom: 1px solid var(--bb-7); vertical-align: top; }
+    tr:nth-child(even) { background: var(--bb-8); }
+
+    .alert { padding: 14px 18px; border-radius: 2px; margin: 18px 0; }
+    .alert-info    { background: var(--bb-8); border-left: 4px solid var(--bb-2); }
+    .alert-warning { background: #faf6e8; border-left: 4px solid var(--bb-4); color: var(--bb-5); }
+    .alert-danger  { background: #f9eded; border-left: 4px solid var(--bb-3); color: var(--bb-3); }
+    .alert strong {
+      display: block;
+      margin-bottom: 5px;
+      font-family: 'Consolas', monospace;
+      font-size: 8pt;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .pull-quote {
+      border-left: 3px solid var(--bb-5);
+      padding: 12px 20px;
+      margin: 22px 0;
+      background: var(--bb-8);
+      font-size: 11.5pt;
+      font-style: italic;
+      color: var(--bb-1);
+    }
+
+    .section-label {
+      font-size: 7.5pt;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--bb-6);
+      margin: 20px 0 6px 0;
+      font-family: 'Consolas', monospace;
+    }
+
+    .brief-section {
+      border: 1px solid var(--bb-7);
+      border-left: 5px solid var(--bb-2);
+      padding: 14px 18px;
+      margin: 10px 0;
+      background: #fff;
+    }
+    .brief-section.urgent   { border-left-color: var(--bb-3); }
+    .brief-section.overdue  { border-left-color: var(--bb-4); }
+    .brief-section.letters  { border-left-color: var(--bb-5); }
+    .brief-section.flagged  { border-left-color: var(--bb-3); }
+    .brief-section.dormant  { border-left-color: var(--bb-7); }
+
+    .brief-num {
+      font-family: 'Consolas', monospace;
+      font-size: 8pt;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 5px;
+      color: var(--bb-6);
+    }
+
+    .effort-badge {
+      display: inline-block;
+      padding: 3px 12px;
+      border-radius: 2px;
+      font-size: 8pt;
+      font-weight: 700;
+      font-family: 'Consolas', monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      background: #f9eded;
+      color: var(--bb-3);
+      border: 1px solid var(--bb-3);
+    }
+
+    .route-list { list-style: none; margin: 10px 0; padding: 0; }
+    .route-list li {
+      display: flex;
+      gap: 14px;
+      padding: 7px 0;
+      border-bottom: 1px solid var(--bb-8);
+      font-size: 9.5pt;
+    }
+    .route-list li:last-child { border-bottom: none; }
+    .route-path {
+      font-family: 'Consolas', monospace;
+      font-size: 8.5pt;
+      color: var(--bb-2);
+      min-width: 290px;
+    }
+    .route-desc { color: var(--bb-6); }
+
+    ul, ol { margin: 10px 0 10px 22px; }
+    li { margin: 6px 0; }
+
+    .suite-nav {
+      background: var(--bb-1);
+      padding: 10px 20px;
+      font-size: 8pt;
+      font-family: 'Consolas', monospace;
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .suite-nav strong { color: var(--bb-4); margin-right: 6px; }
+    .suite-nav a { color: var(--bb-7); text-decoration: none; opacity: 0.8; }
+    .suite-nav a:hover { color: var(--bb-4); opacity: 1; }
+    .suite-nav a.active { color: var(--bb-4); font-weight: 600; opacity: 1; }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 11px;
+      color: #999;
+      border-top: 1px solid var(--bb-7);
+      margin-top: 40px;
+    }
+    footer a { color: #999; }
+  </style>
+</head>
+<body>
+
+<nav class="suite-nav no-print">
+  <strong>Scrooge &amp; Marley — Proposed Extensions:</strong>
+  <a href="marley-extension-ledger.html">The Ledger</a>
+  <a href="marley-extension-dead-letter-office.html">The Dead Letter Office</a>
+  <a href="marley-extension-counting-room.html" class="active">The Counting Room</a>
+  <a href="marley-template-reference.html">← Template Reference</a>
+</nav>
+
+<div class="cover">
+  <div class="firm">Scrooge &amp; Marley · 1 Cornhill, London · Est. 1836</div>
+  <div class="doc-type-badge">📋 Explanation · Proposed Extension 03 of 03</div>
+  <h1>THE COUNTING ROOM</h1>
+  <div class="subtitle">Clerk accounts, case assignment, scoped dashboard, and a daily brief — for a firm with more than one person in it</div>
+  <div class="version-meta">Version 1.0 | March 2026 | Reviewed by Dev the Dev</div>
+</div>
+
+<div class="container">
+
+  <div class="version-block">Version 1.0 | March 2026 | Reviewed by Dev the Dev</div>
+
+  <div class="alert alert-info">
+    <strong>What this document is</strong>
+    A technical specification for The Counting Room — the Scrooge &amp; Marley clerk
+    dashboard and daily brief extension. Covers the business case, clerk auth design,
+    case assignment model, server-side data scoping requirements, daily brief
+    content and cron design, database schema, and effort estimate.
+    Requires The Ledger. Benefits significantly from The Dead Letter Office.
+  </div>
+
+  <!-- ─── 1. THE BUSINESS CASE ──────────────────────────────────────── -->
+  <h1 class="section-title">1. The business case</h1>
+
+  <p>The Firm's current admin system has one seat: the administrator. There is no concept of a clerk — a person who handles a subset of cases, receives a subset of correspondence, and is responsible for a defined portion of the Firm's outstanding work. Every engagement is managed by whoever last looked at the dashboard. This is adequate for one person. It is not adequate for a firm that has been in continuous operation since 1836.</p>
+
+  <div class="pull-quote">
+    "A clerk who does not know what he owes by noon will not collect it by five.
+    The brief is not optional."
+  </div>
+
+  <p>The Counting Room adds a clerk layer beneath the administrator. Each clerk has an assigned caseload, a restricted view of the dashboard, and a daily brief generated each morning that tells them exactly what requires attention before close of business. They cannot see what they have not been assigned. They cannot change what they have not been permitted to change.</p>
+
+  <!-- ─── 2. WHAT A CLERK CAN AND CANNOT DO ─────────────────────────── -->
+  <h1 class="section-title">2. What a clerk can and cannot do</h1>
+
+  <table>
+    <tr><th>Action</th><th>Clerk</th><th>Administrator</th></tr>
+    <tr>
+      <td>View assigned cases</td>
+      <td>✓ Yes</td>
+      <td>✓ Yes (all cases)</td>
+    </tr>
+    <tr>
+      <td>View unassigned cases</td>
+      <td>✗ No</td>
+      <td>✓ Yes</td>
+    </tr>
+    <tr>
+      <td>Record a payment received</td>
+      <td>✓ Yes (assigned cases only)</td>
+      <td>✓ Yes</td>
+    </tr>
+    <tr>
+      <td>Add a case note</td>
+      <td>✓ Yes (assigned cases only)</td>
+      <td>✓ Yes</td>
+    </tr>
+    <tr>
+      <td>Approve a letter in queue</td>
+      <td>✓ Yes (their queue only, non-pre-legal)</td>
+      <td>✓ Yes (all)</td>
+    </tr>
+    <tr>
+      <td>Change debt terms (principal, rate, status)</td>
+      <td>✗ No</td>
+      <td>✓ Yes</td>
+    </tr>
+    <tr>
+      <td>Assign or reassign cases</td>
+      <td>✗ No</td>
+      <td>✓ Yes</td>
+    </tr>
+    <tr>
+      <td>Create or edit letter templates</td>
+      <td>✗ No</td>
+      <td>✓ Yes</td>
+    </tr>
+    <tr>
+      <td>View the despatch log</td>
+      <td>✓ Yes (their cases only)</td>
+      <td>✓ Yes (all)</td>
+    </tr>
+    <tr>
+      <td>Create or deactivate clerk accounts</td>
+      <td>✗ No</td>
+      <td>✓ Yes</td>
+    </tr>
+  </table>
+
+  <!-- ─── 3. AUTHENTICATION DESIGN ─────────────────────────────────── -->
+  <h1 class="section-title">3. Authentication design</h1>
+
+  <p>The existing admin auth uses a single password in an environment variable. It cannot support multiple named users. The clerk auth is a parallel track — it does not replace or modify the existing admin pattern.</p>
+
+  <p>Clerks authenticate at <code>/clerk/login</code> with email and password. On success, a <code>clerk_session</code> cookie is set containing the clerk's UUID (signed, httpOnly, 7-day expiry). Middleware checks for a valid <code>clerk_session</code> on all <code>/clerk/*</code> routes. The existing <code>admin_session</code> check is unchanged.</p>
+
+  <p>Passwords are hashed with bcrypt before storage. The <code>lib/admin-auth.ts</code> pattern is extended with a parallel <code>lib/clerk-auth.ts</code> that extracts and validates the clerk UUID from the <code>clerk_session</code> cookie. Every clerk-facing API route calls <code>getClerkId()</code> from this lib before executing any query.</p>
+
+  <div class="alert alert-danger">
+    <strong>Data scoping is a security requirement, not a UX convenience</strong>
+    Every clerk-facing API route must join against <code>case_assignments</code>
+    before returning any debt data. Filtering in the frontend is not sufficient —
+    a clerk who can fetch unassigned cases by constructing a direct API call has
+    broken the system's central promise. The scoping query below is the minimum
+    acceptable pattern. Do not omit it.
+  </div>
+
+  <h2>The scoping pattern</h2>
+
+  <pre><code><span class="comment">-- Every clerk API query must follow this pattern</span>
+<span class="comment">-- Replace the SELECT list with the columns required for the specific endpoint</span>
+
+SELECT d.*
+FROM debts d
+INNER JOIN case_assignments ca
+  ON ca.debt_id = d.id
+  AND ca.clerk_id = $1   <span class="comment">-- $1 = clerk UUID from clerk_session cookie</span>
+WHERE d.id = $2;         <span class="comment">-- $2 = requested debt ID (if single record)</span>
+
+<span class="comment">-- For list endpoints, omit the WHERE clause on debt ID:</span>
+SELECT d.id, d.status, d.principal_pence, d.creditor_name,
+       db.name AS debtor_name
+FROM debts d
+INNER JOIN case_assignments ca ON ca.debt_id = d.id AND ca.clerk_id = $1
+INNER JOIN debtors db ON db.id = d.debtor_id
+ORDER BY d.updated_at DESC;</code></pre>
+
+  <!-- ─── 4. THE DAILY BRIEF ────────────────────────────────────────── -->
+  <h1 class="section-title">4. The daily brief</h1>
+
+  <p>At 07:00 each business day, a Vercel cron job generates a daily brief for each active clerk. The brief is delivered by email via Resend and is available on the clerk's dashboard. It is generated fresh each morning. It reflects the state of the clerk's caseload at the moment of generation, not at midnight.</p>
+
+  <p>The brief contains five sections, evaluated in this order. Each section lists only what is relevant to that clerk's assigned cases.</p>
+
+  <div class="brief-section urgent">
+    <div class="brief-num">Section 1 — Payments due today</div>
+    <p>Cases with a scheduled payment due on today's date. For each: debtor name, amount due, expected payment method. Ordered by amount descending.</p>
+  </div>
+
+  <div class="brief-section overdue">
+    <div class="brief-num">Section 2 — Missed payments (1–7 days overdue)</div>
+    <p>Cases with a missed scheduled payment in the last seven days. For each: debtor name, amount overdue, days since due date, current dunning assignment status. Ordered by days overdue descending.</p>
+  </div>
+
+  <div class="brief-section letters">
+    <div class="brief-num">Section 3 — Letters awaiting approval</div>
+    <p>Letters in the queue assigned to this clerk that have not been approved. For each: debtor name, template name, register, days in queue. Does not include pre-legal letters — those remain with the administrator.</p>
+  </div>
+
+  <div class="brief-section flagged">
+    <div class="brief-num">Section 4 — Cases flagged by the administrator</div>
+    <p>Cases the administrator has explicitly flagged for this clerk's attention. For each: debtor name, flag text, date flagged.</p>
+  </div>
+
+  <div class="brief-section dormant">
+    <div class="brief-num">Section 5 — Cases with no activity in 14 days</div>
+    <p>Active cases in the clerk's caseload with no payment received, no note added, and no letter despatched in the last 14 calendar days. A reminder, not a reprimand. Ordered by last activity date ascending — the most dormant first.</p>
+  </div>
+
+  <p style="margin-top:20px;">If all five sections are empty, the brief reads a single line:</p>
+
+  <pre><code>Nothing requires your attention today.</code></pre>
+
+  <p>The Firm considers this a satisfactory outcome.</p>
+
+  <!-- ─── 5. DATABASE SCHEMA ─────────────────────────────────────────── -->
+  <h1 class="section-title">5. Database schema</h1>
+
+  <pre><code><span class="comment">-- Clerk accounts</span>
+CREATE TABLE IF NOT EXISTS clerks (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  name TEXT NOT NULL,
+  email TEXT NOT NULL UNIQUE,
+  password_hash TEXT NOT NULL,         <span class="comment">-- bcrypt, cost factor 12</span>
+  active BOOLEAN DEFAULT true,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  last_login TIMESTAMPTZ
+);
+ALTER TABLE clerks ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "service_role_clerks" ON clerks
+  FOR ALL USING (true) WITH CHECK (true);
+
+<span class="comment">-- Case assignments — one clerk per debt at any time</span>
+CREATE TABLE IF NOT EXISTS case_assignments (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  debt_id UUID NOT NULL REFERENCES debts(id) ON DELETE CASCADE,
+  clerk_id UUID NOT NULL REFERENCES clerks(id) ON DELETE RESTRICT,
+  assigned_at TIMESTAMPTZ DEFAULT NOW(),
+  assigned_by TEXT NOT NULL,           <span class="comment">-- 'admin' or admin identifier — audit trail</span>
+  UNIQUE(debt_id)                      <span class="comment">-- enforces single assignment</span>
+);
+ALTER TABLE case_assignments ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "service_role_assignments" ON case_assignments
+  FOR ALL USING (true) WITH CHECK (true);
+
+<span class="comment">-- Case notes — immutable once written</span>
+CREATE TABLE IF NOT EXISTS case_notes (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  debt_id UUID NOT NULL REFERENCES debts(id) ON DELETE RESTRICT,
+  clerk_id UUID REFERENCES clerks(id), <span class="comment">-- NULL if written by admin</span>
+  note TEXT NOT NULL,
+  created_at TIMESTAMPTZ DEFAULT NOW() <span class="comment">-- no updated_at — notes are not edited</span>
+);
+ALTER TABLE case_notes ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "service_role_notes_write" ON case_notes
+  FOR INSERT WITH CHECK (true);
+CREATE POLICY "service_role_notes_read" ON case_notes
+  FOR SELECT USING (true);
+<span class="comment">-- No UPDATE or DELETE — notes are permanent</span>
+
+<span class="comment">-- Administrator flags on cases (visible to assigned clerk in brief)</span>
+CREATE TABLE IF NOT EXISTS case_flags (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  debt_id UUID NOT NULL REFERENCES debts(id) ON DELETE CASCADE,
+  flag_text TEXT NOT NULL,
+  flagged_at TIMESTAMPTZ DEFAULT NOW(),
+  resolved BOOLEAN DEFAULT false,
+  resolved_at TIMESTAMPTZ
+);
+ALTER TABLE case_flags ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "service_role_flags" ON case_flags
+  FOR ALL USING (true) WITH CHECK (true);
+
+<span class="comment">-- Daily briefs — generated and stored for the record</span>
+CREATE TABLE IF NOT EXISTS daily_briefs (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  clerk_id UUID NOT NULL REFERENCES clerks(id) ON DELETE CASCADE,
+  brief_date DATE NOT NULL,
+  content_html TEXT NOT NULL,          <span class="comment">-- rendered at generation time, immutable</span>
+  generated_at TIMESTAMPTZ DEFAULT NOW(),
+  delivered BOOLEAN DEFAULT false,
+  resend_message_id TEXT,
+  UNIQUE(clerk_id, brief_date)         <span class="comment">-- one brief per clerk per day</span>
+);
+ALTER TABLE daily_briefs ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "service_role_briefs" ON daily_briefs
+  FOR ALL USING (true) WITH CHECK (true);</code></pre>
+
+  <!-- ─── 6. NEW ROUTES ──────────────────────────────────────────────── -->
+  <h1 class="section-title">6. New routes</h1>
+
+  <h2>Clerk routes</h2>
+
+  <ul class="route-list">
+    <li><span class="route-path">/clerk/login</span><span class="route-desc">Clerk login page — email and password. Sets clerk_session cookie.</span></li>
+    <li><span class="route-path">/clerk/dashboard</span><span class="route-desc">Clerk home — today's brief, assigned case list, letter queue.</span></li>
+    <li><span class="route-path">/clerk/dashboard/cases/[id]</span><span class="route-desc">Single case — payment history, notes, letters, repayment schedule. Assigned cases only.</span></li>
+    <li><span class="route-path">/clerk/dashboard/cases/[id]/notes/new</span><span class="route-desc">Add a case note.</span></li>
+    <li><span class="route-path">/clerk/dashboard/cases/[id]/payments/new</span><span class="route-desc">Record a payment received.</span></li>
+  </ul>
+
+  <h2>Admin routes (additions to existing dashboard)</h2>
+
+  <ul class="route-list">
+    <li><span class="route-path">/admin/dashboard/clerks</span><span class="route-desc">Clerk management — list, create, deactivate. Assign cases to clerks.</span></li>
+    <li><span class="route-path">/admin/dashboard/clerks/[id]</span><span class="route-desc">Single clerk — their caseload, activity log, brief history.</span></li>
+  </ul>
+
+  <h2>API routes</h2>
+
+  <ul class="route-list">
+    <li><span class="route-path">/api/clerk/session</span><span class="route-desc">POST login (validate credentials, set cookie) / DELETE logout</span></li>
+    <li><span class="route-path">/api/clerk/cases</span><span class="route-desc">GET assigned cases (scoped by clerk_session)</span></li>
+    <li><span class="route-path">/api/clerk/cases/[id]</span><span class="route-desc">GET single case detail (scoped)</span></li>
+    <li><span class="route-path">/api/clerk/notes</span><span class="route-desc">POST a case note</span></li>
+    <li><span class="route-path">/api/clerk/payments</span><span class="route-desc">POST record a payment (scoped to assigned cases)</span></li>
+    <li><span class="route-path">/api/clerk/letters/queue</span><span class="route-desc">GET letters in this clerk's queue / POST approve a letter</span></li>
+    <li><span class="route-path">/api/admin/clerks</span><span class="route-desc">GET / POST clerk accounts (admin only)</span></li>
+    <li><span class="route-path">/api/admin/clerks/[id]</span><span class="route-desc">PUT deactivate / GET clerk detail (admin only)</span></li>
+    <li><span class="route-path">/api/admin/assignments</span><span class="route-desc">POST assign a debt to a clerk / DELETE reassign</span></li>
+    <li><span class="route-path">/api/admin/flags</span><span class="route-desc">POST flag a case for clerk attention / POST resolve a flag</span></li>
+    <li><span class="route-path">/api/cron/briefs</span><span class="route-desc">GET — Vercel cron. 07:00 daily brief generation and Resend despatch. Secured by CRON_SECRET.</span></li>
+  </ul>
+
+  <!-- ─── 7. EFFORT AND DEPENDENCIES ───────────────────────────────── -->
+  <h1 class="section-title">7. Effort and dependencies</h1>
+
+  <table>
+    <tr><th>Item</th><th>Detail</th></tr>
+    <tr><td>Effort estimate</td><td><span class="effort-badge">High — 16–20 days</span></td></tr>
+    <tr><td>New database tables</td><td>5 (clerks, case_assignments, case_notes, case_flags, daily_briefs)</td></tr>
+    <tr><td>New clerk routes</td><td>5 pages</td></tr>
+    <tr><td>New admin routes</td><td>2 pages</td></tr>
+    <tr><td>New API routes</td><td>11, plus 1 cron endpoint</td></tr>
+    <tr><td>External dependencies</td><td>Resend (brief delivery). The Ledger (required). The Dead Letter Office (recommended — clerk letter queue requires it).</td></tr>
+    <tr><td>New environment variables</td><td><code>CRON_SECRET</code> (if not already added for Dead Letter Office)</td></tr>
+  </table>
+
+  <p style="margin-top:16px;">The schema and routes are methodical rather than complex. The effort is concentrated in two places. First, the parallel auth track — building a second credential system that does not interfere with the existing admin pattern requires careful middleware design. Second, the data scoping — every clerk-facing query must enforce assignment at the database layer. There are eleven clerk API routes; each one must include the scoping join. A single missed join is a data breach.</p>
+
+  <p>The daily brief cron is simpler than it appears. Five queries, one HTML template, one Resend call per clerk. The <code>UNIQUE(clerk_id, brief_date)</code> constraint on <code>daily_briefs</code> makes the cron idempotent — running it twice produces one brief, not two.</p>
+
+  <div class="alert alert-warning" style="margin-top:16px;">
+    <strong>Build order within this extension</strong>
+    Build and test clerk auth and the scoping pattern before adding any other
+    clerk functionality. Every subsequent feature depends on the scoping being
+    correct. A clerk dashboard built before the scoping is tested is a clerk
+    dashboard that may leak data.
+  </div>
+
+</div>
+
+<footer>
+  Built with <a href="https://www.bearbrown.co" target="_blank" rel="noopener">bearbrown.co</a> ·
+  AI tools for educators, creators &amp; founders
+</footer>
+
+</body>
+</html>
