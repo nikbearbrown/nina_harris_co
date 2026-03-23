@@ -115,8 +115,8 @@ export default function Home() {
               Transform Your Textbooks
             </h2>
             <p className="text-lg text-muted-foreground leading-relaxed">
-              Medhavy turns static textbooks into a living, AI-curated course inside
-              Canvas—combining automation with instructor control to deliver effortless,
+              Medhavy turns static textbooks into a living, AI-curated course that runs
+              alongside Canvas—combining automation with instructor control to deliver effortless,
               personalized, and emotionally intelligent learning at scale.
             </p>
           </div>
@@ -188,7 +188,7 @@ export default function Home() {
           </h2>
           <p className="text-lg text-white/80 max-w-3xl mx-auto mb-10 leading-relaxed">
             Medhavy turns any textbook into an AI-curated, conversational, and empathetic
-            course inside Canvas—unifying fragmented content, reducing faculty workload, and
+            course that reads and writes to Canvas—unifying fragmented content, reducing faculty workload, and
             giving students effortless, human-centered access to knowledge.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
