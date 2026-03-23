@@ -56,91 +56,31 @@ function parseCSVLine(line: string): string[] {
 }
 
 /**
- * Extract the post body HTML from a full Substack HTML document.
- * Substack exports are full HTML pages — we want only the article content.
- * Tries several selectors in order, falls back to <body> content.
+ * Clean up Substack HTML content by removing subscription widgets and CTAs.
+ * Substack export HTML is already just the post body (no <html>/<head>/<body>
+ * wrapper), but includes subscribe buttons and widget forms we don't want.
  */
-function extractPostBody(html: string): string {
-  // Try to extract content from known Substack body containers:
-  // <div class="body markup"> is the most common in Substack exports
-  const bodyMarkupMatch = html.match(
-    /<div\s+class="body\s+markup"[^>]*>([\s\S]*?)<\/div>\s*(<div\s+class="(footer|post-footer|subscription)|<\/article|$)/i,
-  )
-  if (bodyMarkupMatch) {
-    return bodyMarkupMatch[1].trim()
-  }
+function cleanSubstackContent(html: string): string {
+  let content = html
 
-  // Try <div class="available-content"> (another Substack wrapper)
-  const availableMatch = html.match(
-    /<div\s+class="available-content"[^>]*>([\s\S]*?)<\/div>\s*(<div\s+class="(footer|post-footer|subscription)|<\/article|$)/i,
-  )
-  if (availableMatch) {
-    return availableMatch[1].trim()
-  }
+  // Remove subscription widget divs
+  content = content.replace(/<div\s+class="subscription-widget-wrap[^"]*"[\s\S]*?<\/div>\s*<\/div>\s*<\/div>/gi, '')
 
-  // Try extracting everything inside <body>...</body>, stripping headers/footers
-  const bodyMatch = html.match(/<body[^>]*>([\s\S]*?)<\/body>/i)
-  if (bodyMatch) {
-    let body = bodyMatch[1]
-    // Remove <header>...</header> and <footer>...</footer> if present
-    body = body.replace(/<header[\s\S]*?<\/header>/gi, '')
-    body = body.replace(/<footer[\s\S]*?<\/footer>/gi, '')
-    // Remove <script> tags
-    body = body.replace(/<script[\s\S]*?<\/script>/gi, '')
-    // Remove <style> tags
-    body = body.replace(/<style[\s\S]*?<\/style>/gi, '')
-    const trimmed = body.trim()
-    if (trimmed.length > 0) {
-      return trimmed
-    }
-  }
+  // Remove "Subscribe now" button wrappers
+  content = content.replace(/<p\s+class="button-wrapper"[^>]*>[\s\S]*?<\/p>/gi, '')
 
-  // Last resort: return the full HTML (better than empty)
-  return html
-}
+  // Remove empty paragraphs at start and end
+  content = content.replace(/^(\s*<p>\s*<\/p>\s*)+/, '')
+  content = content.replace(/(\s*<p>\s*<\/p>\s*)+$/, '')
 
-/**
- * Find the best matching HTML content for a given slug from the htmlMap.
- * Tries exact match first, then progressively looser strategies.
- */
-function findHtmlContent(
-  slug: string,
-  htmlMap: Map<string, string>,
-  htmlKeys: string[],
-): string | null {
-  // 1. Exact match
-  if (htmlMap.has(slug)) {
-    return htmlMap.get(slug)!
-  }
-
-  // 2. Filename starts with slug (handles numeric suffixes like "my-post-123456")
-  const startsWithMatch = htmlKeys.find((key) => key.startsWith(slug + '-') || key.startsWith(slug + '.'))
-  if (startsWithMatch) {
-    return htmlMap.get(startsWithMatch)!
-  }
-
-  // 3. Slug starts with filename (slug has extra segments)
-  const reverseMatch = htmlKeys.find((key) => slug.startsWith(key + '-') || slug.startsWith(key + '.'))
-  if (reverseMatch) {
-    return htmlMap.get(reverseMatch)!
-  }
-
-  // 4. Slug is contained within a filename (handles date-prefix patterns like "2024-01-15-my-post")
-  const containsMatch = htmlKeys.find((key) => key.includes(slug) || slug.includes(key))
-  if (containsMatch) {
-    return htmlMap.get(containsMatch)!
-  }
-
-  return null
+  return content.trim()
 }
 
 export function parseSubstackZip(buffer: Buffer): ParsedPost[] {
   const zip = new AdmZip(buffer)
   const entries = zip.getEntries()
 
-  // Debug: log all entry names in the ZIP
-  const allEntryNames = entries.map((e) => e.entryName)
-  console.log('[substack-parser] ZIP contains', entries.length, 'entries:', allEntryNames)
+  console.log('[substack-parser] ZIP contains', entries.length, 'entries')
 
   // Find posts.csv
   const csvEntry = entries.find(
@@ -158,6 +98,8 @@ export function parseSubstackZip(buffer: Buffer): ParsedPost[] {
 
   const headers = parseCSVLine(lines[0]).map((h) => h.trim().toLowerCase())
   console.log('[substack-parser] CSV headers:', headers)
+
+  const postIdIdx = headers.indexOf('post_id')
   const titleIdx = headers.indexOf('title')
   const subtitleIdx = headers.indexOf('subtitle')
   const postDateIdx = headers.indexOf('post_date')
@@ -166,19 +108,21 @@ export function parseSubstackZip(buffer: Buffer): ParsedPost[] {
   const typeIdx = headers.indexOf('type')
   const isPublishedIdx = headers.indexOf('is_published')
 
-  // Build a map of HTML files by basename (without extension)
-  // Handle files at root or in subdirectories
+  // Build a map of HTML files keyed by basename (without .html extension).
+  // Substack ZIPs put files in posts/ subdirectory with names like:
+  //   posts/186459709.the-collapse-of-traditional-resume.html
+  // The basename (186459709.the-collapse-of-traditional-resume) matches the
+  // post_id column in posts.csv.
   const htmlMap = new Map<string, string>()
   for (const entry of entries) {
     if (entry.entryName.endsWith('.html')) {
       const basename = entry.entryName.split('/').pop()!.replace('.html', '')
       const rawHtml = entry.getData().toString('utf-8')
       htmlMap.set(basename, rawHtml)
-      console.log('[substack-parser] HTML file found:', entry.entryName, '→ key:', basename, '(', rawHtml.length, 'bytes)')
     }
   }
 
-  const htmlKeys = Array.from(htmlMap.keys())
+  console.log('[substack-parser] Found', htmlMap.size, 'HTML files')
 
   const posts: ParsedPost[] = []
 
@@ -197,29 +141,62 @@ export function parseSubstackZip(buffer: Buffer): ParsedPost[] {
     const subtitle = subtitleIdx >= 0 ? fields[subtitleIdx]?.trim() || '' : ''
     const postDate = postDateIdx >= 0 ? fields[postDateIdx]?.trim() || '' : ''
     const url = urlIdx >= 0 ? fields[urlIdx]?.trim() || '' : ''
+    const postId = postIdIdx >= 0 ? fields[postIdIdx]?.trim() || '' : ''
 
-    // Derive slug from CSV slug column, URL, or title
+    // Derive the public-facing slug for the URL.
+    // Substack post_id format: "186459709.the-collapse-of-traditional-resume"
+    // The part after the first dot is the slug fragment.
     let slug = ''
     if (slugIdx >= 0 && fields[slugIdx]?.trim()) {
       slug = fields[slugIdx].trim()
     } else if (url) {
-      // URL is like https://example.substack.com/p/my-post-title
-      const urlPath = url.replace(/\/$/, '') // strip trailing slash
+      const urlPath = url.replace(/\/$/, '')
       const parts = urlPath.split('/')
-      slug = parts[parts.length - 1] || slugify(title)
-    } else {
+      slug = parts[parts.length - 1] || ''
+    }
+    if (!slug && postId) {
+      // Extract slug from post_id: "186459709.the-collapse-of-traditional-resume" → "the-collapse-of-traditional-resume"
+      const dotIdx = postId.indexOf('.')
+      slug = dotIdx >= 0 ? postId.substring(dotIdx + 1) : postId
+    }
+    if (!slug) {
       slug = slugify(title)
     }
 
-    // Find matching HTML content with fuzzy matching
-    const rawHtml = findHtmlContent(slug, htmlMap, htmlKeys)
-    const content = rawHtml ? extractPostBody(rawHtml) : ''
+    // Find matching HTML content.
+    // Strategy 1: Use post_id directly as the htmlMap key (exact match for Substack format)
+    // Strategy 2: Look for any key that ends with the slug
+    // Strategy 3: Look for any key that contains the slug
+    let rawHtml: string | null = null
+    if (postId && htmlMap.has(postId)) {
+      rawHtml = htmlMap.get(postId)!
+    }
+    if (!rawHtml) {
+      // Try keys ending with the slug (handles numeric prefix variations)
+      for (const [key, val] of htmlMap) {
+        if (key.endsWith('.' + slug) || key.endsWith('-' + slug)) {
+          rawHtml = val
+          break
+        }
+      }
+    }
+    if (!rawHtml) {
+      // Try substring containment
+      for (const [key, val] of htmlMap) {
+        if (key.includes(slug) || slug.includes(key.replace(/^\d+\./, ''))) {
+          rawHtml = val
+          break
+        }
+      }
+    }
+
+    const content = rawHtml ? cleanSubstackContent(rawHtml) : ''
 
     console.log(
       '[substack-parser] Post:', JSON.stringify(slug),
-      '→ HTML match:', rawHtml ? 'YES' : 'NO',
-      '| raw:', rawHtml?.length ?? 0, 'bytes',
-      '| extracted:', content.length, 'bytes',
+      '| postId:', JSON.stringify(postId),
+      '→ match:', rawHtml ? 'YES' : 'NO',
+      '| content:', content.length, 'bytes',
     )
 
     // Build excerpt from content
