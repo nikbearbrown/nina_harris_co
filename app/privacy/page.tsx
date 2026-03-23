@@ -2,8 +2,8 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: 'Privacy Policy - Medhavy LLC',
-  description: 'Privacy policy for Medhavy LLC, AI consulting services, and medhavy.com',
+  title: 'Privacy Policy - Scrooge & Marley',
+  description: 'Privacy policy for Scrooge & Marley and scroogeandmarley.com',
 }
 
 export default function PrivacyPolicyPage() {
@@ -19,17 +19,17 @@ export default function PrivacyPolicyPage() {
           <section className="mb-8">
             <h2 className="text-2xl font-semibold mb-4">Introduction</h2>
             <p>
-              Welcome to <strong>medhavy.com</strong>, operated by <strong>Medhavy LLC</strong> (Nik Brown, Sole Member),
-              a Wyoming limited liability company providing AI consulting services. We are committed to protecting your
+              Welcome to <strong>scroogeandmarley.com</strong>, operated by <strong>Scrooge &amp; Marley</strong>,
+              a London counting house and money lending concern. We are committed to protecting your
               personal information and your right to privacy. If you have any questions or concerns about this privacy
               policy or our practices with regard to your personal information, please contact us at{' '}
-              <a href="mailto:medhavy@humanitarians.ai" className="text-primary hover:underline">medhavy@humanitarians.ai</a>.
+              <a href="mailto:correspondence@scroogeandmarley.com" className="text-primary hover:underline">correspondence@scroogeandmarley.com</a>.
             </p>
             <ul className="list-none pl-0 mt-4 space-y-1 text-base">
-              <li><strong>Company:</strong> Medhavy LLC (Nik Brown, Sole Member)</li>
-              <li><strong>Address:</strong> 30 N Gould St Ste N, Sheridan, WY 82801</li>
+              <li><strong>Company:</strong> Scrooge &amp; Marley</li>
+              <li><strong>Address:</strong> 1 Cornhill, London EC3V 3ND</li>
               <li><strong>Email:</strong>{' '}
-                <a href="mailto:medhavy@humanitarians.ai" className="text-primary hover:underline">medhavy@humanitarians.ai</a>
+                <a href="mailto:correspondence@scroogeandmarley.com" className="text-primary hover:underline">correspondence@scroogeandmarley.com</a>
               </li>
             </ul>
           </section>
@@ -38,7 +38,7 @@ export default function PrivacyPolicyPage() {
             <h2 className="text-2xl font-semibold mb-4">Information We Collect</h2>
             <p>
               We collect personal information that you voluntarily provide to us when you contact us through our
-              website, express an interest in obtaining information about us or our AI consulting services, participate
+              website, express an interest in obtaining information about us or our financial services, participate
               in activities on the website, or otherwise contact us.
             </p>
             <p className="mt-4">
@@ -46,9 +46,9 @@ export default function PrivacyPolicyPage() {
               the choices you make, and the services you use. The personal information we collect may include:
             </p>
             <ul className="list-disc pl-6 mt-4 space-y-2">
-              <li><strong>Name and Contact Data:</strong> We collect your name, email address, and other similar contact data when you reach out to us via the contact assistant or email.</li>
-              <li><strong>Inquiry Content:</strong> We collect the content of messages, questions, and inquiries you send through the site or contact assistant.</li>
-              <li><strong>Consulting Engagement Data:</strong> When engaging our AI consulting services, we may collect business information, project requirements, and related professional details as governed by separate consulting agreements.</li>
+              <li><strong>Name and Contact Data:</strong> We collect your name, email address, and other similar contact data when you reach out to us via correspondence or email.</li>
+              <li><strong>Inquiry Content:</strong> We collect the content of messages, questions, and inquiries you send through the site.</li>
+              <li><strong>Engagement Data:</strong> When engaging our financial services, we may collect business information, account requirements, and related professional details as governed by separate agreements.</li>
             </ul>
             <p className="mt-4">
               We also automatically collect certain information when you visit our website, including standard analytics
@@ -62,14 +62,13 @@ export default function PrivacyPolicyPage() {
             <p>We use the information we collect or receive:</p>
             <ul className="list-disc pl-6 mt-4 space-y-2">
               <li>To respond to your inquiries and provide support</li>
-              <li>To deliver AI consulting services you have engaged</li>
+              <li>To deliver financial services you have engaged</li>
               <li>To send administrative information, such as updates to our terms or policies</li>
               <li>To send relevant updates about our services and publications (only with your consent)</li>
               <li>To improve our website, content, and services</li>
               <li>To understand site usage through aggregated analytics</li>
               <li>To protect our services and enforce our terms</li>
               <li>To respond to legal requests and prevent harm</li>
-              <li>To connect organizations with engineering talent through our placement services</li>
             </ul>
           </section>
 
@@ -85,7 +84,7 @@ export default function PrivacyPolicyPage() {
             <ul className="list-disc pl-6 mt-4 space-y-2">
               <li><strong>Consent:</strong> We may process your data if you have given us specific consent to use your personal information for a specific purpose.</li>
               <li><strong>Legitimate Interests:</strong> We may process your data when it is reasonably necessary to achieve our legitimate business interests, such as improving our services or responding to inquiries.</li>
-              <li><strong>Performance of a Contract:</strong> Where we have entered into a consulting agreement or other contract with you, we may process your personal information to fulfill the terms of that agreement.</li>
+              <li><strong>Performance of a Contract:</strong> Where we have entered into an agreement or other contract with you, we may process your personal information to fulfill the terms of that agreement.</li>
               <li><strong>Legal Obligations:</strong> We may disclose your information where we are legally required to do so in order to comply with applicable law, governmental requests, a judicial proceeding, court order, or legal process.</li>
               <li><strong>Vital Interests:</strong> We may disclose your information where we believe it is necessary to investigate, prevent, or take action regarding potential violations of our policies, suspected fraud, situations involving potential threats to safety, or as evidence in litigation.</li>
             </ul>
@@ -98,12 +97,11 @@ export default function PrivacyPolicyPage() {
               <li><strong>Vercel:</strong> Website hosting and privacy-focused analytics</li>
               <li><strong>Neon:</strong> PostgreSQL database infrastructure</li>
               <li><strong>Substack:</strong> Newsletter publishing and distribution platform</li>
-              <li><strong>Anthropic:</strong> AI-powered contact assistant</li>
+              <li><strong>Anthropic:</strong> AI-powered tools</li>
               <li><strong>GitHub:</strong> Source code hosting and collaboration</li>
-              <li><strong>YouTube:</strong> Video content hosting</li>
             </ul>
             <p className="mt-4">
-              We encourage you to review the privacy policies of these third-party services. Medhavy LLC is not
+              We encourage you to review the privacy policies of these third-party services. Scrooge &amp; Marley is not
               responsible for the privacy practices of external services.
             </p>
           </section>
@@ -196,13 +194,13 @@ export default function PrivacyPolicyPage() {
           <section className="mb-8">
             <h2 className="text-2xl font-semibold mb-4">Contact Us</h2>
             <p>
-              If you have questions or comments about this privacy policy, please contact Medhavy LLC:
+              If you have questions or comments about this privacy policy, please contact Scrooge &amp; Marley:
             </p>
             <ul className="list-none pl-0 mt-4 space-y-1 text-base">
               <li><strong>Email:</strong>{' '}
-                <a href="mailto:medhavy@humanitarians.ai" className="text-primary hover:underline">medhavy@humanitarians.ai</a>
+                <a href="mailto:correspondence@scroogeandmarley.com" className="text-primary hover:underline">correspondence@scroogeandmarley.com</a>
               </li>
-              <li><strong>Address:</strong> 30 N Gould St Ste N, Sheridan, WY 82801</li>
+              <li><strong>Address:</strong> 1 Cornhill, London EC3V 3ND</li>
             </ul>
           </section>
         </div>

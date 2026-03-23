@@ -2,8 +2,8 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: 'Terms of Service - Medhavy LLC',
-  description: 'Terms of Service for Medhavy LLC, AI consulting services, and medhavy.com',
+  title: 'Terms of Service - Scrooge & Marley',
+  description: 'Terms of Service for Scrooge & Marley and scroogeandmarley.com',
 }
 
 export default function TermsOfServicePage() {
@@ -19,15 +19,15 @@ export default function TermsOfServicePage() {
           <section className="mb-8">
             <h2 className="text-2xl font-semibold mb-4">1. Introduction</h2>
             <p>
-              Welcome to <strong>medhavy.com</strong>. By accessing or using this website, you agree to be bound by
+              Welcome to <strong>scroogeandmarley.com</strong>. By accessing or using this website, you agree to be bound by
               these Terms of Service (&ldquo;Terms&rdquo;). If you do not agree to these Terms, please do not use
               our website.
             </p>
             <ul className="list-none pl-0 mt-4 space-y-1 text-base">
-              <li><strong>Company:</strong> Medhavy LLC (Nik Brown, Sole Member)</li>
-              <li><strong>Address:</strong> 30 N Gould St Ste N, Sheridan, WY 82801</li>
+              <li><strong>Company:</strong> Scrooge &amp; Marley</li>
+              <li><strong>Address:</strong> 1 Cornhill, London EC3V 3ND</li>
               <li><strong>Email:</strong>{' '}
-                <a href="mailto:medhavy@humanitarians.ai" className="text-primary hover:underline">medhavy@humanitarians.ai</a>
+                <a href="mailto:correspondence@scroogeandmarley.com" className="text-primary hover:underline">correspondence@scroogeandmarley.com</a>
               </li>
             </ul>
           </section>
@@ -35,30 +35,30 @@ export default function TermsOfServicePage() {
           <section className="mb-8">
             <h2 className="text-2xl font-semibold mb-4">2. Website Purpose</h2>
             <p>
-              Medhavy LLC provides AI consulting services, educational content, newsletter publications, and related
-              resources. The medhavy.com website serves as an informational resource, newsletter archive, tool directory,
+              Scrooge &amp; Marley provides financial services including debt recovery, money lending, estate accounting,
+              and commercial bookkeeping. The scroogeandmarley.com website serves as an informational resource, tool directory,
               and professional contact point. Content on this website is intended to provide general information about our
-              organization, services, and activities, and does not constitute professional advice.
+              firm, services, and activities, and does not constitute professional advice.
             </p>
           </section>
 
           <section className="mb-8">
-            <h2 className="text-2xl font-semibold mb-4">3. AI Consulting Services</h2>
+            <h2 className="text-2xl font-semibold mb-4">3. Financial Services</h2>
             <p>
-              Medhavy LLC offers AI consulting services to organizations, including strategy, implementation, and
-              connecting organizations with recent engineering graduates. All consulting engagements are governed by
-              separate written agreements between Medhavy LLC and the client. These Terms apply to use of this
-              website only and do not supersede any consulting engagement agreement.
+              Scrooge &amp; Marley offers financial services to individuals and organisations, including debt collection,
+              money lending, and bookkeeping. All engagements are governed by
+              separate written agreements between Scrooge &amp; Marley and the client. These Terms apply to use of this
+              website only and do not supersede any engagement agreement.
             </p>
           </section>
 
           <section className="mb-8">
             <h2 className="text-2xl font-semibold mb-4">4. Intellectual Property</h2>
             <p>
-              All content on this website, including text, graphics, logos, images, audio, newsletter articles, AI tools,
-              and software, is the property of Medhavy LLC or its content suppliers and is protected by United States
-              and international copyright laws. The compilation of all content on this website is the exclusive property
-              of Medhavy LLC.
+              All content on this website, including text, graphics, logos, images, audio, newsletter articles, tools,
+              and software, is the property of Scrooge &amp; Marley or its content suppliers and is protected by
+              applicable copyright laws. The compilation of all content on this website is the exclusive property
+              of Scrooge &amp; Marley.
             </p>
             <p className="mt-4">
               Newsletter content originally published on Substack is displayed with attribution to its original source.
@@ -82,14 +82,14 @@ export default function TermsOfServicePage() {
             </ul>
             <p className="mt-4">
               This license shall automatically terminate if you violate any of these restrictions and may be terminated
-              by Medhavy LLC at any time.
+              by Scrooge &amp; Marley at any time.
             </p>
           </section>
 
           <section className="mb-8">
             <h2 className="text-2xl font-semibold mb-4">6. User Conduct</h2>
             <p>
-              When using this website, including any interactive features such as the AI contact assistant, you agree
+              When using this website, including any interactive features, you agree
               not to:
             </p>
             <ul className="list-disc pl-6 mt-4 space-y-2">
@@ -98,7 +98,7 @@ export default function TermsOfServicePage() {
               <li>Use the website to transmit harmful code, spam, or malicious content</li>
               <li>Interfere with or disrupt the website&apos;s infrastructure or services</li>
               <li>Use automated tools to access the website beyond normal browser usage</li>
-              <li>Attempt to abuse or exploit the AI contact assistant or embedded tools</li>
+              <li>Attempt to abuse or exploit embedded tools</li>
             </ul>
           </section>
 
@@ -106,7 +106,7 @@ export default function TermsOfServicePage() {
             <h2 className="text-2xl font-semibold mb-4">7. Newsletter Content</h2>
             <p>
               Newsletter articles displayed on this website are imported from Substack publications operated by
-              Medhavy. These articles are provided for convenient reading and are attributed to their original
+              Scrooge &amp; Marley. These articles are provided for convenient reading and are attributed to their original
               Substack source. For the most current version of any article, refer to the original Substack publication
               linked on each article page.
             </p>
@@ -116,9 +116,9 @@ export default function TermsOfServicePage() {
             <h2 className="text-2xl font-semibold mb-4">8. Third-Party Services and Links</h2>
             <p>
               This website integrates with and contains links to third-party services including Substack,
-              GitHub, YouTube, Vercel, Neon, and Anthropic. Medhavy LLC does not guarantee the accuracy,
+              GitHub, Vercel, Neon, and Anthropic. Scrooge &amp; Marley does not guarantee the accuracy,
               relevance, timeliness, or completeness of any information on these external services. Please note that
-              Medhavy LLC is not responsible for the content, privacy practices, or availability of these external
+              Scrooge &amp; Marley is not responsible for the content, privacy practices, or availability of these external
               services. Your use of third-party services is governed by their respective terms.
             </p>
           </section>
@@ -126,15 +126,15 @@ export default function TermsOfServicePage() {
           <section className="mb-8">
             <h2 className="text-2xl font-semibold mb-4">9. Disclaimer</h2>
             <p>
-              The materials on Medhavy LLC&apos;s website are provided &ldquo;as is&rdquo; and &ldquo;as available.&rdquo;
-              Medhavy LLC makes no warranties, expressed or implied, and hereby disclaims and negates all other
+              The materials on Scrooge &amp; Marley&apos;s website are provided &ldquo;as is&rdquo; and &ldquo;as available.&rdquo;
+              Scrooge &amp; Marley makes no warranties, expressed or implied, and hereby disclaims and negates all other
               warranties, including without limitation, implied warranties or conditions of merchantability, fitness for
               a particular purpose, or non-infringement of intellectual property or other violation of rights.
             </p>
             <p className="mt-4">
-              AI-related content, tools, and recommendations are provided for informational and educational purposes
+              Content, tools, and recommendations are provided for informational purposes
               only. They should not be relied upon as the sole basis for business, technical, or professional decisions.
-              Medhavy LLC does not warrant that the website will be uninterrupted, error-free, or free of harmful
+              Scrooge &amp; Marley does not warrant that the website will be uninterrupted, error-free, or free of harmful
               components.
             </p>
           </section>
@@ -142,9 +142,9 @@ export default function TermsOfServicePage() {
           <section className="mb-8">
             <h2 className="text-2xl font-semibold mb-4">10. Limitations</h2>
             <p>
-              In no event shall Medhavy LLC or its sole member be liable for any damages (including, without
+              In no event shall Scrooge &amp; Marley or its partners be liable for any damages (including, without
               limitation, damages for loss of data or profit, or due to business interruption) arising out of the use
-              or inability to use the materials on this website, even if Medhavy LLC or an authorized representative
+              or inability to use the materials on this website, even if Scrooge &amp; Marley or an authorised representative
               has been notified orally or in writing of the possibility of such damage.
             </p>
           </section>
@@ -152,7 +152,7 @@ export default function TermsOfServicePage() {
           <section className="mb-8">
             <h2 className="text-2xl font-semibold mb-4">11. Indemnification</h2>
             <p>
-              You agree to indemnify and hold harmless Medhavy LLC, its sole member, and its affiliates from any
+              You agree to indemnify and hold harmless Scrooge &amp; Marley, its partners, and its affiliates from any
               claims, damages, losses, or expenses (including reasonable attorneys&apos; fees) arising from your use
               of the website or violation of these Terms.
             </p>
@@ -161,9 +161,9 @@ export default function TermsOfServicePage() {
           <section className="mb-8">
             <h2 className="text-2xl font-semibold mb-4">12. Revisions and Errata</h2>
             <p>
-              The materials appearing on Medhavy LLC&apos;s website could include technical, typographical, or
-              photographic errors. Medhavy LLC does not warrant that any of the materials on its website are accurate,
-              complete, or current. Medhavy LLC may make changes to the materials contained on its website at any time
+              The materials appearing on Scrooge &amp; Marley&apos;s website could include technical, typographical, or
+              photographic errors. Scrooge &amp; Marley does not warrant that any of the materials on its website are accurate,
+              complete, or current. Scrooge &amp; Marley may make changes to the materials contained on its website at any time
               without notice.
             </p>
           </section>
@@ -171,16 +171,16 @@ export default function TermsOfServicePage() {
           <section className="mb-8">
             <h2 className="text-2xl font-semibold mb-4">13. Governing Law</h2>
             <p>
-              These Terms shall be governed and construed in accordance with the laws of the State of Wyoming, without
-              regard to its conflict of law provisions. Any disputes relating to these Terms shall be subject to the
-              exclusive jurisdiction of the state and federal courts located in Wyoming.
+              These Terms shall be governed and construed in accordance with the laws of England and Wales, without
+              regard to conflict of law provisions. Any disputes relating to these Terms shall be subject to the
+              exclusive jurisdiction of the courts of England and Wales.
             </p>
           </section>
 
           <section className="mb-8">
             <h2 className="text-2xl font-semibold mb-4">14. Modifications to Terms of Service</h2>
             <p>
-              Medhavy LLC may revise these Terms of Service at any time without notice. By using this website, you
+              Scrooge &amp; Marley may revise these Terms of Service at any time without notice. By using this website, you
               are agreeing to be bound by the then-current version of these Terms. Changes take effect immediately upon
               posting. We encourage you to review this page periodically.
             </p>
@@ -189,13 +189,13 @@ export default function TermsOfServicePage() {
           <section className="mb-8">
             <h2 className="text-2xl font-semibold mb-4">15. Contact</h2>
             <p>
-              If you have any questions about these Terms, please contact Medhavy LLC:
+              If you have any questions about these Terms, please contact Scrooge &amp; Marley:
             </p>
             <ul className="list-none pl-0 mt-4 space-y-1 text-base">
               <li><strong>Email:</strong>{' '}
-                <a href="mailto:medhavy@humanitarians.ai" className="text-primary hover:underline">medhavy@humanitarians.ai</a>
+                <a href="mailto:correspondence@scroogeandmarley.com" className="text-primary hover:underline">correspondence@scroogeandmarley.com</a>
               </li>
-              <li><strong>Address:</strong> 30 N Gould St Ste N, Sheridan, WY 82801</li>
+              <li><strong>Address:</strong> 1 Cornhill, London EC3V 3ND</li>
             </ul>
           </section>
         </div>

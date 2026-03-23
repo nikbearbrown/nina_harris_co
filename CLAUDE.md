@@ -1,17 +1,22 @@
-# CLAUDE.md — medhavy.com
+# CLAUDE.md — Scrooge & Marley
+
+> **Source:** Charles Dickens, *A Christmas Carol* (1843) — public domain.
+> This is a multi-brand template demonstrating the same Next.js codebase styled for a fictional Victorian counting house.
 
 ## Who this site is for
-Medhavy — adaptive learning platform, white-label, institution-deployable AI education infrastructure. Operated by Medhavy LLC.
+Scrooge & Marley — Counting House & Money Lenders, Est. 1836. A London financial services firm dealing in debt recovery, money lending, estate accounting, and commercial bookkeeping.
 
-Primary audiences:
-- Educators and instructional leaders looking for AI-powered learning tools
-- Institutions seeking white-label adaptive learning infrastructure
-- Organizations seeking AI consulting or engineering talent
-- General public interested in AI education technology
+Primary audiences (fictional):
+- Creditors seeking systematic debt recovery
+- Borrowers requiring capital advanced against collateral
+- Merchants needing commercial bookkeeping services
+- Landlords and estate holders requiring accounting
+
+Brand voice: Terse, transactional, unsentimental. Every word costs something. "We deal in debts, not dreams."
 
 ## Tech stack
 - Next.js (App Router)
-- Deployed on Vercel via GitHub repo: nikbearbrown/medhavy_com
+- Deployed on Vercel
 - Tailwind CSS + @tailwindcss/typography (for prose article rendering)
 - TypeScript
 - next-themes for dark/light mode
@@ -22,20 +27,20 @@ Primary audiences:
 - adm-zip (server-side Substack ZIP parsing)
 
 ## Founders
-Medhavy LLC was founded by **Nik Bear Brown** and **Srinivas Sridhar**.
+The firm was founded by **Ebenezer Scrooge** and **Jacob Marley**.
 
 ## Site structure
-1. `/` — Home (platform intro + services + connect)
+1. `/` — Home (firm intro + services + contact)
 2. `/tools` — Tools directory (card grid, Neon-driven)
 3. `/tools/[slug]` — Artifact tool embed page (full-viewport iframe)
 4. `/dev` — Dev docs browser (searchable card grid, filesystem-driven)
 5. `/dev/[slug]` — Full-viewport iframe of a dev doc HTML file
 6. `/blog` — Blog feed: published posts newest first, clean card list
 7. `/blog/[slug]` — Individual blog post with prose content
-8. `/about` — CV / bio page (prose format, founders info)
-9. `/privacy` — Privacy Policy for Medhavy LLC
-10. `/privacy/cookies` — Cookie Policy for Medhavy LLC (dedicated page)
-11. `/terms-of-service` — Terms of Service for Medhavy LLC
+8. `/about` — About the firm (prose format, founders info)
+9. `/privacy` — Privacy Policy for Scrooge & Marley
+10. `/privacy/cookies` — Cookie Policy for Scrooge & Marley (dedicated page)
+11. `/terms-of-service` — Terms of Service for Scrooge & Marley
 12. `/substack` — Newsletter hub: card grid of all Substack sections
 13. `/substack/[section]` — Section page: description, "Follow on Substack" CTA, chronological article list
 14. `/substack/[section]/[slug]` — Full article: attribution banner, prose content, "Subscribe on Substack" footer CTA
@@ -58,17 +63,18 @@ Medhavy LLC was founded by **Nik Bear Brown** and **Srinivas Sridhar**.
 ## Persistent layout (every page)
 
 ### Header (`/components/Header/Header.tsx`) — DONE
-- Logo: theme-aware SVG (white for dark, black for light)
+- Logo: text-based "Scrooge & Marley" in bold tracking-tighter
 - Nav: Home (`/`) | Tools (`/tools`) | Dev (`/dev`) | About (`/about`) | Blog (`/blog`)
-- Social buttons (top right): GitHub, YouTube, Substack — black button style
+- Social buttons (top right): GitHub, Substack — black button style
 - Dark/light mode toggle (ThemeToggle component)
 - Mobile hamburger menu with backdrop (lg breakpoint)
 - Sticky, z-50, backdrop-blur
 
 ### Footer (`/components/Footer/Footer.tsx`) — DONE
 Four-column grid layout:
-- **Company Info:** Medhavy LLC, 30 N Gould St Ste N, Sheridan WY 82801, medhavy@humanitarians.ai- **Platform:** Links to Tools, Blog, About
-- **Connect:** GitHub, YouTube, Substack (text links)
+- **Company Info:** Scrooge & Marley, 1 Cornhill, London EC3V 3ND, correspondence@scroogeandmarley.com
+- **Platform:** Links to Tools, Blog, About
+- **Connect:** GitHub (text link)
 - **Legal:** Privacy Policy, Cookie Policy, Terms of Service
 - Bottom bar: copyright
 
@@ -77,15 +83,14 @@ Four-column grid layout:
 - Inter font
 - Header + main + Footer
 - Vercel Analytics
-- Music components removed from site
 
 ## Home page (`/app/page.tsx`) — DONE
 Five sections, alternating white/muted/dark backgrounds:
-1. **Hero** (two-column): Left — h1 "Medhavy", subtext "Also known as Medhavi", Sanskrit definition (मेधावी bold), "Request Demo" + "Contact Us" buttons (both mailto:medhavy@humanitarians.ai). Right — YouTube embed (GN7yQntWJHU).
-2. **Transform Your Textbooks** (2×2 card grid, muted bg): Four feature cards — Conversational Textbooks, AI as Co-Instructor, Effortless Course Creation, Unified Learning Platform. Each with description + "Learn more" link (placeholder anchors).
-3. **Who Benefits from Medhavy?** (3-column cards, dark bg): For Instructors, For Students, For Administrators — each with 4 bullet points.
-4. **Ready to Transform Your Courses?** (dark brown bg, bb-2 color): CTA section with "REQUEST A DEMO", "LEARN MORE" (/about), "CONTACT US" buttons.
-5. **Let's Collaborate** (dark bg): Connect section with YouTube, GitHub, Humanitarians AI buttons.
+1. **Hero** (two-column): Left — h1 "Scrooge & Marley", subtext "Counting House & Money Lenders, Est. 1836", firm description, "Arrange a Consultation" + "Send Correspondence" buttons (both mailto:correspondence@scroogeandmarley.com). Right — pound sign display with address.
+2. **Our Services** (2x2 card grid, muted bg): Four feature cards — Debt Recovery, Money Lending, Estate Accounting, Commercial Bookkeeping. Each with description + enquiry link.
+3. **Who We Serve** (3-column cards, dark bg): For Creditors, For Borrowers, For Merchants — each with 4 bullet points.
+4. **Settle Your Accounts** (bb-2 bg): CTA section with "ARRANGE A MEETING", "ABOUT THE FIRM" (/about), "SEND CORRESPONDENCE" buttons.
+5. **Place of Business** (dark bg): Address and contact info.
 
 ## Tools system — DONE
 
@@ -140,10 +145,6 @@ CREATE POLICY "service_role_tools" ON tools FOR ALL USING (true) WITH CHECK (tru
 ### Public pages
 - `/tools` — Card grid of all tools. Artifact tools show "Artifact" badge and link to `/tools/[slug]`. Link tools open in new tab.
 - `/tools/[slug]` — Full-page artifact embed with title bar (name, description, "Back to Tools" link, optional "Open External" button). Iframe takes full viewport height minus header.
-
-### Initial tools to add via admin:
-1. **Subby** — Substack writing assistant (artifact_id: `6dc0c6cf-32e0-4f53-94b9-f6d01cc4df9c`)
-2. **CRITIQ** — Peer review & paper development protocol (artifact_id: `a53d969f-5aaf-45f6-9992-2c6a00a4122f`)
 
 ## Dev Docs system
 
@@ -208,7 +209,7 @@ Tiptap (ProseMirror-based) rich text editor, Substack-style:
 - Large title input (no label, headline style)
 - Italic subtitle input ("Add a subtitle...")
 - Cover image upload (drag/drop or click, uploads to Vercel Blob, preview with remove button)
-- Byline textarea (pre-populated with default author bio, saved per post)
+- Byline textarea (pre-populated with default firm description, saved per post)
 - Tags input (comma-separated, stored as PostgreSQL text array)
 - Auto-generated slug from title (editable)
 - Tiptap WYSIWYG editor with toolbar:
@@ -222,7 +223,7 @@ Tiptap (ProseMirror-based) rich text editor, Substack-style:
 
 ### Blog viz system
 - `lib/viz/registry.ts` — maps `data-viz` names to lazy-loaded render functions
-- `lib/viz/ai-adoption-bars.ts` — D3 horizontal bar chart ("AI Adoption by Sector"), chocolate brown bars, responsive
+- `lib/viz/ai-adoption-bars.ts` — D3 horizontal bar chart ("AI Adoption by Sector"), responsive
 - `lib/viz/ai-ecosystem-graph.ts` — D3 force-directed graph ("The AI Ecosystem 2025"), interactive: drag nodes, hover/click to highlight connections, tooltips, color-coded groups
 - `components/BlogVizHydrator/BlogVizHydrator.tsx` — client component that renders HTML via `dangerouslySetInnerHTML`, then hydrates any `[data-viz]` elements by looking up the registry and dynamically importing the renderer
 - To add a new viz: create `lib/viz/<name>.ts` exporting `default (el: HTMLElement) => void`, add entry to `registry.ts`
@@ -239,61 +240,58 @@ Tiptap (ProseMirror-based) rich text editor, Substack-style:
 
 ## About page (`/app/about/page.tsx`) — DONE
 Prose-forward format with sections:
-- Platform intro
-- Founders (Nik Bear Brown and Srinivas Sridhar)
-- Mission
-- What We Build
-- Humanitarians AI (501c3, Fellows Program)
-- Connect (email, GitHub/YouTube buttons)
-
-Content describes founders, Medhavy platform mission, what we build, Humanitarians AI connection, and contact info.
+- Firm introduction
+- Founders (Ebenezer Scrooge and Jacob Marley)
+- Our Principles
+- Services
+- Correspondence (email, address)
 
 ## Legal Pages — DONE
-All three pages follow the Humanitarians AI structural template, rewritten for Medhavy LLC. Founded by Nik Bear Brown and Srinivas Sridhar. Each references: Medhavy LLC, 30 N Gould St Ste N, Sheridan WY 82801, medhavy@humanitarians.ai, AI consulting services.
+All three pages use the same structural template, branded for Scrooge & Marley. Address: 1 Cornhill, London EC3V 3ND. Contact: correspondence@scroogeandmarley.com. Financial services firm.
 
 ### Privacy Policy (`/app/privacy/page.tsx`)
-Sections: introduction, information we collect (contact data, inquiry content, consulting engagement data, analytics), how we use info, sharing (consent, legitimate interests, contract, legal, vital interests), third-party services (Vercel, Neon, Substack, Anthropic, GitHub, YouTube), cookies reference (links to Cookie Policy page), data security, data retention, your privacy rights, children's privacy, changes, contact. Nav: Terms of Service ← → Cookie Policy.
+Sections: introduction, information we collect (contact data, inquiry content, engagement data, analytics), how we use info, sharing (consent, legitimate interests, contract, legal, vital interests), third-party services (Vercel, Neon, Substack, Anthropic, GitHub), cookies reference (links to Cookie Policy page), data security, data retention, your privacy rights, children's privacy, changes, contact. Nav: Terms of Service ← → Cookie Policy.
 
 ### Cookie Policy (`/app/privacy/cookies/page.tsx`)
 Separate dedicated page at `/privacy/cookies`. Sections: what are cookies, cookies we use (table: theme + admin_session), cookies we do NOT use (advertising, remarketing, cross-site tracking, social pixels, individual analytics), third-party cookies (Substack, Claude.site with links to their policies), how to manage cookies (browser-specific instructions), Do Not Track, changes, contact. Nav: Privacy Policy ← → Terms of Service.
 
 ### Terms of Service (`/app/terms-of-service/page.tsx`)
-15 sections: introduction, website purpose, AI consulting services, intellectual property, use license, user conduct, newsletter content (lists all 5 Substack publications), third-party services and links, disclaimer, limitations, indemnification, revisions and errata, governing law (Wyoming), modifications, contact. Nav: Privacy Policy ← → Home.
+15 sections: introduction, website purpose, financial services, intellectual property, use license, user conduct, newsletter content, third-party services and links, disclaimer, limitations, indemnification, revisions and errata, governing law (England and Wales), modifications, contact. Nav: Privacy Policy ← → Home.
 
-## Theming (Medhavy template)
+## Theming (Scrooge & Marley palette)
 
 The color palette lives in three places that must stay in sync:
 - `lib/theme.ts` — TypeScript source of truth
-- `public/theme.json` — machine-readable for Indiana and Dev doc generators
+- `public/theme.json` — machine-readable for doc generators
 - `app/globals.css` — CSS variables (`--bb-1` through `--bb-8`) that drive the actual site
 
-### Medhavy palette
+### Scrooge & Marley palette
 | Var | Hex | Role | WCAG on bb8 |
 |-----|-----|------|-------------|
-| bb1 | #1a0a00 | near black — primary text | 15.6:1 |
-| bb2 | #8B3A0F | burnt orange — primary accent | 6.3:1 |
-| bb3 | #A52A1A | deep crimson — danger/emphasis | 5.8:1 |
-| bb4 | #E8A020 | amber — highlight/callout | 8.7:1 (on bb1) |
-| bb5 | #B5420A | burnt sienna — secondary accent | 4.5:1 |
-| bb6 | #B8860B | dark goldenrod — muted accent | — |
-| bb7 | #C8A96E | warm tan — borders, subtle bg | — |
-| bb8 | #F0E6D0 | cream — page background | — |
+| bb1 | #0D0D0D | soot black — primary text | 16.5:1 |
+| bb2 | #4A4A4A | iron grey — primary accent | 5.9:1 |
+| bb3 | #8B0000 | dried-ink red — danger/emphasis | 5.2:1 |
+| bb4 | #8B7536 | cold brass — highlight/callout | 4.5:1 |
+| bb5 | #2F2F2F | charcoal — secondary accent | 10.8:1 |
+| bb6 | #6B6B5E | tarnished pewter — muted accent | — |
+| bb7 | #9C9680 | aged ledger tan — borders, subtle bg | — |
+| bb8 | #E8E0D0 | parchment — page background | — |
 
 ### To rebrand a new deployment
 1. Edit the hex values in all three files (`lib/theme.ts`, `public/theme.json`, `app/globals.css`)
 2. The entire site repaints — no component changes needed
-3. Indiana and Dev read `public/theme.json` to match HTML output
+3. Doc generators read `public/theme.json` to match HTML output
 
 ### Design principles
 - Minimal and editorial by default — white space is the primary design element
 - Color used for accent, hierarchy, and accessibility — not decoration
 - Never use color for pure aesthetics — every color use must serve readability or navigation
 - WCAG AA contrast minimum for all text/background combinations
-- No purple gradients, no generic AI aesthetics
+- Cold, austere Victorian aesthetic — no warmth, no ornamentation
 
 ## Design direction
 - Light mode default (dark mode toggle available)
-- Clean, editorial — not a portfolio showoff site
+- Clean, editorial — sparse and transactional
 - Typography: Inter font (headings bold tracking-tighter, body clean)
 - Color: driven by the BB palette above — use `var(--color-accent)` etc.
 - Black button style: `bg-black text-white hover:bg-gray-800` (dark mode: border outline with accent hover)
@@ -305,10 +303,6 @@ Sun/Moon toggle using next-themes. Import and use as-is.
 
 ### theme-provider.tsx (`/components/theme-provider.tsx`)
 Wrapper around NextThemesProvider. Used in root layout.
-
-### Logo paths (in `/public/svg-logos/`)
-- Dark mode: NikBearBrown_white_logo.svg
-- Light mode: NikBearBrown_black_logo.svg
 
 ### UI components (`/components/ui/`)
 60+ shadcn/ui components. PrimaryButton and SecondaryButton exist but home page currently uses inline button styles.
@@ -366,7 +360,7 @@ Server-side parser using adm-zip. Reads `posts.csv` + HTML files from a Substack
 ```
 DATABASE_URL=                    # Neon PostgreSQL connection string (from Vercel marketplace or Neon dashboard)
 ADMIN_PASSWORD=                  # Password for /admin/login — set a strong value in production
-NEXT_PUBLIC_SITE_URL=https://medhavy.com  # Used in sitemap generation
+NEXT_PUBLIC_SITE_URL=https://scroogeandmarley.com  # Used in sitemap generation
 BLOB_READ_WRITE_TOKEN=           # Vercel Blob token (from Vercel dashboard → Storage → Blob)
 NEXT_PUBLIC_GA_ID=               # Google Analytics measurement ID (optional, e.g. G-XXXXXXXXXX)
 NEXT_PUBLIC_ANTHROPIC_API_KEY=   # only if embedding AI assistant directly
@@ -374,7 +368,7 @@ NEXT_PUBLIC_ANTHROPIC_API_KEY=   # only if embedding AI assistant directly
 
 ## Deployment
 - Push to main → auto-deploys to Vercel
-- Domain: medhavy.com
+- Domain: scroogeandmarley.com
 
 ## What NOT to do
 - Do not use localStorage — use React state or sessionStorage
@@ -386,17 +380,17 @@ NEXT_PUBLIC_ANTHROPIC_API_KEY=   # only if embedding AI assistant directly
 
 ### Overview
 
-medhavy.com is the Medhavy adaptive learning platform site — part product intro, part tool directory, part blog. It runs on Next.js with Vercel auto-deploy. The public site has no login; the admin dashboard is cookie-protected.
+scroogeandmarley.com is a multi-brand template site demonstrating a Next.js codebase styled as a Victorian counting house (from Dickens' *A Christmas Carol*, 1843, public domain). It runs on Next.js with Vercel auto-deploy. The public site has no login; the admin dashboard is cookie-protected.
 
 ---
 
 ### For visitors
 
-**Home page** (`/`) — Landing page with platform intro, feature cards, benefits section, CTA, and collaboration links.
+**Home page** (`/`) — Landing page with firm intro, services cards, client benefits, CTA, and contact info.
 
-**About** (`/about`) — Prose-format CV covering academic work at Northeastern, writing and speaking credits, Humanitarians AI, music projects, and contact info.
+**About** (`/about`) — Prose-format page covering the firm's history, founders, principles, services, and contact details.
 
-**Tools** (`/tools`) — Placeholder page. Will contain interactive tool cards (Subby, CRITIQ, etc.) once populated.
+**Tools** (`/tools`) — Tools directory page. Contains interactive tool cards when populated.
 
 **Newsletter** (`/substack`) — Card grid of all Substack newsletter sections. Click a section to see its articles listed chronologically. Click an article to read the full post with original Substack attribution.
 
@@ -459,7 +453,7 @@ ALTER TABLE blog_posts ADD COLUMN IF NOT EXISTS cover_image TEXT;
 
 ```
 DATABASE_URL=postgresql://user:pass@ep-xxx.us-east-2.aws.neon.tech/neondb?sslmode=require
-NEXT_PUBLIC_SITE_URL=https://medhavy.com
+NEXT_PUBLIC_SITE_URL=https://scroogeandmarley.com
 ```
 
 3. **Admin access** — Navigate to `/admin` (redirects to `/admin/login`). Enter the password set in `ADMIN_PASSWORD` env var. On success, an `admin_session` cookie is set (httpOnly, 7-day expiry) and you're redirected to the dashboard.
@@ -467,10 +461,10 @@ NEXT_PUBLIC_SITE_URL=https://medhavy.com
 #### Managing Substack sections
 
 1. Go to `/admin/dashboard/substack`
-2. Click **"New Section"** to create a newsletter section (e.g., "AI in Education")
+2. Click **"New Section"** to create a newsletter section
    - **Title**: Display name shown on public pages
-   - **Slug**: Auto-generated from title, used in URLs (e.g., `/substack/ai-in-education`)
-   - **Substack URL**: Link to the original Substack (e.g., `https://nikbearbrown.substack.com`)
+   - **Slug**: Auto-generated from title, used in URLs
+   - **Substack URL**: Link to the original Substack
    - **Description**: Shown on the section page hero and section cards
 3. Each section card shows its title, slug badge, article count, and Substack URL
 4. Use the **pencil icon** to edit or the **trash icon** to delete (deletes all articles too)
@@ -520,7 +514,7 @@ npm run dev        # starts at http://localhost:3000
 ```
 app/
   page.tsx                          # Home
-  about/page.tsx                    # About / CV
+  about/page.tsx                    # About the firm
   blog/page.tsx                     # Blog feed (server component, fetches posts)
   blog/BlogFeed.tsx                 # Client component: search + post cards with cover images
   blog/[slug]/page.tsx              # Individual blog post
@@ -610,5 +604,5 @@ After every session, always:
 2. Commit and push all changes to main with a descriptive commit message.
 
 ## Remaining work (in priority order)
-1. Add Subby + CRITIQ tools via admin dashboard (artifact IDs in Tools system docs above)
-2. Consider AI contact assistant widget (currently all CTAs route to mailto)
+1. Add tools via admin dashboard
+2. Consider contact form widget (currently all CTAs route to mailto)

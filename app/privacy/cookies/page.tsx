@@ -2,8 +2,8 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: 'Cookie Policy - Medhavy LLC',
-  description: 'Cookie policy for Medhavy LLC and medhavy.com',
+  title: 'Cookie Policy - Scrooge & Marley',
+  description: 'Cookie policy for Scrooge & Marley and scroogeandmarley.com',
 }
 
 export default function CookiePolicyPage() {
@@ -21,14 +21,14 @@ export default function CookiePolicyPage() {
             <p>
               Cookies are small text files that are placed on your computer or mobile device when you visit a website.
               They are widely used to make websites work more efficiently and to provide information to website owners.
-              This Cookie Policy explains how <strong>Medhavy LLC</strong> uses cookies and similar technologies on{' '}
-              <strong>medhavy.com</strong>.
+              This Cookie Policy explains how <strong>Scrooge &amp; Marley</strong> uses cookies and similar technologies on{' '}
+              <strong>scroogeandmarley.com</strong>.
             </p>
             <ul className="list-none pl-0 mt-4 space-y-1 text-base">
-              <li><strong>Company:</strong> Medhavy LLC (Nik Brown, Sole Member)</li>
-              <li><strong>Address:</strong> 30 N Gould St Ste N, Sheridan, WY 82801</li>
+              <li><strong>Company:</strong> Scrooge &amp; Marley</li>
+              <li><strong>Address:</strong> 1 Cornhill, London EC3V 3ND</li>
               <li><strong>Email:</strong>{' '}
-                <a href="mailto:medhavy@humanitarians.ai" className="text-primary hover:underline">medhavy@humanitarians.ai</a>
+                <a href="mailto:correspondence@scroogeandmarley.com" className="text-primary hover:underline">correspondence@scroogeandmarley.com</a>
               </li>
             </ul>
           </section>
@@ -85,7 +85,7 @@ export default function CookiePolicyPage() {
             <p>
               Our website includes embedded content from third-party services. When these embeds load, the
               third-party provider may set their own cookies in your browser. These cookies are not controlled
-              by Medhavy LLC.
+              by Scrooge &amp; Marley.
             </p>
             <ul className="list-disc pl-6 mt-4 space-y-2">
               <li>
@@ -147,13 +147,13 @@ export default function CookiePolicyPage() {
           <section className="mb-8">
             <h2 className="text-2xl font-semibold mb-4">Contact Us</h2>
             <p>
-              If you have questions about our use of cookies, please contact Medhavy LLC:
+              If you have questions about our use of cookies, please contact Scrooge &amp; Marley:
             </p>
             <ul className="list-none pl-0 mt-4 space-y-1 text-base">
               <li><strong>Email:</strong>{' '}
-                <a href="mailto:medhavy@humanitarians.ai" className="text-primary hover:underline">medhavy@humanitarians.ai</a>
+                <a href="mailto:correspondence@scroogeandmarley.com" className="text-primary hover:underline">correspondence@scroogeandmarley.com</a>
               </li>
-              <li><strong>Address:</strong> 30 N Gould St Ste N, Sheridan, WY 82801</li>
+              <li><strong>Address:</strong> 1 Cornhill, London EC3V 3ND</li>
             </ul>
           </section>
         </div>

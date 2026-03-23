@@ -22,8 +22,8 @@ const sql = neon(process.env.DATABASE_URL!)
 const title = 'AI Adoption Across Industries — What the Data Shows'
 const subtitle = 'A look at where AI is gaining real traction'
 const slug = 'ai-adoption-across-industries'
-const byline = `Medhavy builds adaptive learning infrastructure — white-label, institution-deployable AI education tools that help organizations deliver personalized learning at scale. Founded at the intersection of AI research and education practice, Medhavy makes advanced learning technology accessible to every institution.
-Learn more at https://www.medhavy.com/`
+const byline = `Scrooge & Marley — Counting House & Money Lenders, Est. 1836. We deal in debts, not dreams. Financial services for merchants, landlords, and trading concerns across the City of London.
+Correspondence: correspondence@scroogeandmarley.com`
 
 const content = `<p>Artificial intelligence is no longer a uniform phenomenon. Adoption rates vary dramatically by sector, shaped by regulatory environment, data availability, and organizational appetite for change.</p>
 

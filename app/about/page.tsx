@@ -1,81 +1,65 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'About - Medhavy',
-  description: 'Medhavy — adaptive learning platform, white-label, institution-deployable AI education infrastructure.',
+  title: 'About - Scrooge & Marley',
+  description: 'Scrooge & Marley — Counting House & Money Lenders, Est. 1836, 1 Cornhill, London.',
 }
 
 export default function AboutPage() {
   return (
     <div className="container px-4 md:px-6 mx-auto py-12">
       <div className="max-w-3xl mx-auto">
-        <h1 className="text-4xl font-bold tracking-tighter mb-8">About</h1>
+        <h1 className="text-4xl font-bold tracking-tighter mb-8">About the Firm</h1>
 
         <div className="prose prose-lg dark:prose-invert max-w-none space-y-8">
           <section>
             <p>
-              Medhavy is an adaptive learning platform built for institutions. We provide white-label,
-              deployable AI education infrastructure that helps organizations build and deliver
-              personalized learning experiences at scale.
+              Scrooge &amp; Marley is a London counting house and money lending concern,
+              established in 1836. We provide financial services to merchants, landlords,
+              and trading concerns across the City. Our reputation is built on precision,
+              discretion, and the unwavering enforcement of contractual obligations.
             </p>
           </section>
 
           <section>
             <h2 className="text-2xl font-bold mb-4">Founders</h2>
             <p>
-              Medhavy was founded by <strong>Nik Bear Brown</strong> and <strong>Srinivas Sridhar</strong>.
-              Together they bring decades of experience in AI, education technology, and academic research
-              to the mission of making adaptive learning infrastructure accessible to every institution.
+              The firm was founded by <strong>Ebenezer Scrooge</strong> and <strong>Jacob Marley</strong>.
+              Mr Marley, though deceased these seven years, remains memorialised in the name above
+              our door. Mr Scrooge, sole surviving partner, continues to conduct all business
+              with the same exacting standards upon which the firm was built.
             </p>
           </section>
 
           <section>
-            <h2 className="text-2xl font-bold mb-4">Mission</h2>
+            <h2 className="text-2xl font-bold mb-4">Our Principles</h2>
             <p>
-              Our mission is to make high-quality, adaptive education accessible to every institution —
-              from universities to workforce training programs. Medhavy provides the AI backbone so
-              organizations can focus on what they do best: teaching.
+              We believe that sound finance requires no ornamentation. A debt is a debt.
+              A contract is a contract. We do not speculate, we do not indulge sentiment,
+              and we do not extend terms beyond what prudence allows. These principles have
+              served our clients — and our ledgers — well.
             </p>
           </section>
 
           <section>
-            <h2 className="text-2xl font-bold mb-4">What We Build</h2>
+            <h2 className="text-2xl font-bold mb-4">Services</h2>
             <p>
-              Medhavy develops AI-powered tools for education — adaptive assessments, personalized
-              learning paths, and intelligent content delivery systems. Our platform integrates with
-              existing LMS infrastructure and scales from individual courses to institution-wide deployments.
+              Scrooge &amp; Marley offers debt recovery, money lending, estate accounting,
+              and commercial bookkeeping. All engagements are governed by written agreement.
+              We maintain detailed records and provide quarterly statements to all clients
+              without exception.
             </p>
           </section>
 
           <section>
-            <h2 className="text-2xl font-bold mb-4">Humanitarians AI</h2>
+            <h2 className="text-2xl font-bold mb-4">Correspondence</h2>
             <p>
-              Medhavy is connected to{' '}
-              <a href="https://humanitarians.ai" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-                Humanitarians AI
-              </a>
-              , a 501(c)(3) nonprofit dedicated to developing ethical AI solutions for education, healthcare, and
-              social impact. The organization mentors recent graduates through its Fellows Program, helping them
-              build portfolios and transition into AI careers.
+              Enquiries may be directed to{' '}
+              <a href="mailto:correspondence@scroogeandmarley.com" className="text-primary hover:underline">correspondence@scroogeandmarley.com</a>.
             </p>
-          </section>
-
-          <section>
-            <h2 className="text-2xl font-bold mb-4">Connect</h2>
-            <p>
-              Interested in deploying Medhavy at your institution? Reach out at{' '}
-              <a href="mailto:medhavy@humanitarians.ai" className="text-primary hover:underline">medhavy@humanitarians.ai</a>.
+            <p className="mt-2 text-muted-foreground">
+              1 Cornhill, London EC3V 3ND
             </p>
-            <div className="flex flex-wrap gap-4 mt-4 not-prose">
-              <a href="https://github.com/nikbearbrown" target="_blank" rel="noopener noreferrer"
-                className="inline-flex h-10 items-center justify-center rounded-md px-8 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring bg-black text-white shadow hover:bg-gray-800 dark:border dark:border-input dark:bg-background dark:text-foreground dark:shadow-sm dark:hover:bg-accent dark:hover:text-accent-foreground">
-                GitHub
-              </a>
-              <a href="https://www.youtube.com/@NikBearBrown" target="_blank" rel="noopener noreferrer"
-                className="inline-flex h-10 items-center justify-center rounded-md px-8 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring bg-black text-white shadow hover:bg-gray-800 dark:border dark:border-input dark:bg-background dark:text-foreground dark:shadow-sm dark:hover:bg-accent dark:hover:text-accent-foreground">
-                YouTube
-              </a>
-            </div>
           </section>
         </div>
       </div>

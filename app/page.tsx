@@ -6,57 +6,57 @@ const buttonOutline =
 
 const FEATURES = [
   {
-    title: 'CONVERSATIONAL TEXTBOOKS',
+    title: 'DEBT RECOVERY',
     description:
-      'Medhavy transforms static PDFs into interactive conversations. Students can ask questions in natural language and receive answers grounded in course-specific content, not generic internet responses.',
-    link: 'Learn more about conversational features',
+      'We pursue outstanding balances with methodical rigour. Every shilling owed is a shilling that shall be collected. Our ledgers do not forget, and neither do we.',
+    link: 'Review collection terms',
   },
   {
-    title: 'AI AS CO-INSTRUCTOR',
+    title: 'MONEY LENDING',
     description:
-      'Medhavy automatically creates summaries, quizzes, exams, and lecture notes while keeping instructors in control. AI proposes, instructors dispose—preserving pedagogical expertise and teaching philosophy.',
-    link: 'Explore AI co-instruction capabilities',
+      'Capital advanced at competitive rates, secured against suitable collateral. Terms are precise, interest is punctual, and repayment is non-negotiable. We lend to those who can repay.',
+    link: 'Enquire about lending rates',
   },
   {
-    title: 'EFFORTLESS COURSE CREATION',
+    title: 'ESTATE ACCOUNTING',
     description:
-      'Import an OpenStax book or GitHub markdown repository and Medhavy builds Canvas modules, generates assessments, and creates lecture materials. What used to take weeks becomes an afternoon of review.',
-    link: 'See how Medhavy saves time',
+      'Complete stewardship of financial estates, from property rents to inheritance settlements. Every transaction recorded in duplicate, every farthing accounted for.',
+    link: 'Learn about estate services',
   },
   {
-    title: 'UNIFIED LEARNING PLATFORM',
+    title: 'COMMERCIAL BOOKKEEPING',
     description:
-      'Medhavy unifies OpenStax textbooks, GitHub repositories, and existing Canvas content into a single, structured course experience—eliminating frustrating platform jumping for both students and instructors.',
-    link: 'Discover platform integration',
+      'Double-entry bookkeeping for merchants, warehouses, and trading concerns. We bring order to commerce and ensure your accounts withstand the scrutiny of any auditor.',
+    link: 'See bookkeeping services',
   },
 ]
 
 const BENEFITS = [
   {
-    heading: 'FOR INSTRUCTORS',
+    heading: 'FOR CREDITORS',
     items: [
-      'Cut course build time from weeks to hours',
-      'Keep full editorial control over content',
-      'Align AI-generated content with your teaching style',
-      'Gain a "co-instructor" that knows your course',
+      'Systematic recovery of outstanding debts',
+      'Detailed accounting of every payment received',
+      'Legal proceedings initiated where necessary',
+      'Quarterly statements delivered without fail',
     ],
   },
   {
-    heading: 'FOR STUDENTS',
+    heading: 'FOR BORROWERS',
     items: [
-      'Access a cohesive course where textbooks answer questions',
-      'Receive personalized explanations aligned with learning style',
-      'Spend less time hunting for materials',
-      'Focus more time on understanding concepts',
+      'Clear terms set forth before any sum changes hands',
+      'Repayment schedules calculated to the penny',
+      'No hidden charges — our rates are stated plainly',
+      'Prompt acknowledgement of all payments rendered',
     ],
   },
   {
-    heading: 'FOR ADMINISTRATORS',
+    heading: 'FOR MERCHANTS',
     items: [
-      'Rapidly deploy consistent, high-quality courses',
-      'Maintain FERPA-compliant architecture',
-      'Track version history with unpublished-by-default workflow',
-      'Implement best-practice AI principles',
+      'Ledgers maintained with absolute precision',
+      'Monthly reconciliation of all trade accounts',
+      'Tax obligations calculated and documented',
+      'Confidential handling of all financial matters',
     ],
   },
 ]
@@ -70,38 +70,31 @@ export default function Home() {
           <div className="grid gap-10 lg:grid-cols-2 lg:gap-16 items-center">
             <div className="flex flex-col justify-center space-y-6">
               <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
-                Medhavy
+                Scrooge &amp; Marley
               </h1>
               <p className="text-lg text-muted-foreground">
-                Also known as Medhavi
+                Counting House &amp; Money Lenders, Est. 1836
               </p>
               <p className="max-w-[540px] text-lg leading-relaxed">
-                <strong className="font-bold">
-                  मेधावी (Medhavy): From Sanskrit, meaning &ldquo;intelligent&rdquo; or
-                  &ldquo;intellectually brilliant&rdquo;
-                </strong>
-                {' — the perfect name for our AI-powered intelligent textbook system.'}
+                We deal in debts, not dreams. For nearly a decade, our firm has provided
+                sound financial services to the merchants, landlords, and trading concerns
+                of London. Every transaction recorded. Every obligation enforced.
               </p>
               <div className="flex flex-wrap gap-3 pt-2">
-                <a href="mailto:medhavy@humanitarians.ai" className={buttonStyles}>
-                  Request Demo
+                <a href="mailto:correspondence@scroogeandmarley.com" className={buttonStyles}>
+                  Arrange a Consultation
                 </a>
-                <a href="mailto:medhavy@humanitarians.ai" className={buttonOutline}>
-                  Contact Us
+                <a href="mailto:correspondence@scroogeandmarley.com" className={buttonOutline}>
+                  Send Correspondence
                 </a>
               </div>
             </div>
-            <div className="aspect-video rounded-lg overflow-hidden shadow-lg">
-              <iframe
-                src="https://www.youtube.com/embed/GN7yQntWJHU"
-                title="Medhavy"
-                width="100%"
-                height="100%"
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                className="w-full h-full"
-              />
+            <div className="rounded-lg overflow-hidden shadow-lg bg-muted/40 p-12 flex items-center justify-center">
+              <div className="text-center space-y-4">
+                <p className="text-6xl font-bold tracking-tighter text-foreground/80">&pound;</p>
+                <p className="text-sm text-muted-foreground uppercase tracking-widest">Capital Secured</p>
+                <p className="text-sm text-muted-foreground">1 Cornhill, London</p>
+              </div>
             </div>
           </div>
         </div>
@@ -112,12 +105,11 @@ export default function Home() {
         <div className="container px-4 md:px-6 mx-auto">
           <div className="text-center mb-12 max-w-3xl mx-auto">
             <h2 className="text-sm font-semibold tracking-widest uppercase text-muted-foreground mb-3">
-              Transform Your Textbooks
+              Our Services
             </h2>
             <p className="text-lg text-muted-foreground leading-relaxed">
-              Medhavy turns static textbooks into a living, AI-curated course that runs
-              alongside Canvas—combining automation with instructor control to deliver effortless,
-              personalized, and emotionally intelligent learning at scale.
+              Scrooge &amp; Marley offers a complete range of financial services
+              for the prudent man of business. Precision in all matters. Sentiment in none.
             </p>
           </div>
           <div className="grid gap-8 md:grid-cols-2">
@@ -149,10 +141,11 @@ export default function Home() {
         <div className="container px-4 md:px-6 mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-sm font-semibold tracking-widest uppercase text-background/60 mb-3">
-              Who Benefits from Medhavy?
+              Who We Serve
             </h2>
             <p className="text-lg text-background/70 max-w-2xl mx-auto">
-              Medhavy creates value for everyone involved in the educational ecosystem.
+              Our clients value discretion, accuracy, and the certainty that their
+              financial affairs are managed by men who understand the weight of a pound.
             </p>
           </div>
           <div className="grid gap-8 md:grid-cols-3">
@@ -184,31 +177,31 @@ export default function Home() {
       <section className="w-full py-16 md:py-24 bg-[var(--bb-2)] text-white">
         <div className="container px-4 md:px-6 mx-auto text-center">
           <h2 className="text-sm font-semibold tracking-widest uppercase text-white/60 mb-3">
-            Ready to Transform Your Courses?
+            Settle Your Accounts
           </h2>
           <p className="text-lg text-white/80 max-w-3xl mx-auto mb-10 leading-relaxed">
-            Medhavy turns any textbook into an AI-curated, conversational, and empathetic
-            course that reads and writes to Canvas—unifying fragmented content, reducing faculty workload, and
-            giving students effortless, human-centered access to knowledge.
+            Whether you require capital advanced, debts collected, or ledgers put in order,
+            Scrooge &amp; Marley stands ready. We do not waste your time, and we expect
+            the same courtesy. State your business plainly.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <a
-              href="mailto:medhavy@humanitarians.ai"
+              href="mailto:correspondence@scroogeandmarley.com"
               className="inline-flex h-10 items-center justify-center rounded-md px-8 text-sm font-bold tracking-wide transition-colors bg-white text-[var(--bb-2)] shadow hover:bg-white/90"
             >
-              REQUEST A DEMO
+              ARRANGE A MEETING
             </a>
             <a
               href="/about"
               className="inline-flex h-10 items-center justify-center rounded-md px-8 text-sm font-bold tracking-wide transition-colors border border-white/30 text-white hover:bg-white/10"
             >
-              LEARN MORE
+              ABOUT THE FIRM
             </a>
             <a
-              href="mailto:medhavy@humanitarians.ai"
+              href="mailto:correspondence@scroogeandmarley.com"
               className="inline-flex h-10 items-center justify-center rounded-md px-8 text-sm font-bold tracking-wide transition-colors border border-white/30 text-white hover:bg-white/10"
             >
-              CONTACT US
+              SEND CORRESPONDENCE
             </a>
           </div>
         </div>
@@ -218,27 +211,23 @@ export default function Home() {
       <section className="w-full py-16 md:py-24 bg-foreground text-background">
         <div className="container px-4 md:px-6 mx-auto text-center">
           <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl mb-4">
-            Let&apos;s Collaborate
+            Place of Business
           </h2>
           <p className="max-w-[600px] mx-auto text-background/70 text-lg mb-8">
-            Whether you need an adaptive learning platform, a white-label deployment
-            for your institution, or a research partnership — let&apos;s talk.
+            Scrooge &amp; Marley receive callers by appointment at our counting house.
+            Correspondence may be directed to the address below. We do not keep idle hours.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             {[
-              { name: 'YouTube', href: 'https://www.youtube.com/@NikBearBrown' },
-              { name: 'GitHub', href: 'https://github.com/nikbearbrown' },
-              { name: 'Humanitarians AI', href: 'https://humanitarians.ai' },
+              { name: '1 Cornhill, London', href: '#' },
+              { name: 'correspondence@scroogeandmarley.com', href: 'mailto:correspondence@scroogeandmarley.com' },
             ].map((link) => (
-              <a
+              <span
                 key={link.name}
-                href={link.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex h-10 items-center justify-center rounded-md px-8 text-sm font-medium transition-colors border border-background/30 text-background hover:bg-background/10"
+                className="inline-flex h-10 items-center justify-center rounded-md px-8 text-sm font-medium transition-colors border border-background/30 text-background"
               >
                 {link.name}
-              </a>
+              </span>
             ))}
           </div>
         </div>

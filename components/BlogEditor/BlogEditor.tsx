@@ -46,7 +46,7 @@ interface BlogPost {
   published: boolean
 }
 
-const DEFAULT_BYLINE = `Medhavy builds adaptive learning infrastructure — white-label, institution-deployable AI education tools that help organizations deliver personalized learning at scale. Founded at the intersection of AI research and education practice, Medhavy makes advanced learning technology accessible to every institution.\nLearn more at https://www.medhavy.com/`
+const DEFAULT_BYLINE = `Scrooge & Marley — Counting House & Money Lenders, Est. 1836. We deal in debts, not dreams. Financial services for merchants, landlords, and trading concerns across the City of London.\nCorrespondence: correspondence@scroogeandmarley.com`
 
 function slugify(text: string): string {
   return text

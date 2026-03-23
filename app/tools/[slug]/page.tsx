@@ -26,8 +26,8 @@ export async function generateMetadata({
   const doc = getArtifactDoc(slug)
   if (doc) {
     return {
-      title: `${doc.title} - Medhavy Tools`,
-      description: doc.description || `${doc.title} — AI tool by Medhavy`,
+      title: `${doc.title} - Scrooge & Marley Tools`,
+      description: doc.description || `${doc.title} — tool by Scrooge & Marley`,
     }
   }
 
@@ -36,13 +36,13 @@ export async function generateMetadata({
     const rows = await sql`SELECT name, description FROM tools WHERE slug = ${slug}`
     if (rows.length > 0) {
       return {
-        title: `${rows[0].name} - Medhavy Tools`,
-        description: rows[0].description || `${rows[0].name} — AI tool by Medhavy`,
+        title: `${rows[0].name} - Scrooge & Marley Tools`,
+        description: rows[0].description || `${rows[0].name} — tool by Scrooge & Marley`,
       }
     }
   } catch {}
 
-  return { title: 'Tool - Medhavy' }
+  return { title: 'Tool - Scrooge & Marley' }
 }
 
 export default async function ToolPage({

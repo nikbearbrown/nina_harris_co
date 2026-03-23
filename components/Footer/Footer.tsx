@@ -2,11 +2,6 @@
 
 import Link from 'next/link'
 
-const SOCIAL_LINKS = [
-  { name: 'GitHub', href: 'https://github.com/nikbearbrown' },
-  { name: 'YouTube', href: 'https://www.youtube.com/@NikBearBrown' },
-]
-
 export default function Footer() {
   const currentYear = new Date().getFullYear()
 
@@ -16,13 +11,13 @@ export default function Footer() {
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
           {/* Company Info */}
           <div className="space-y-3">
-            <h3 className="text-sm font-semibold">Medhavy LLC</h3>
+            <h3 className="text-sm font-semibold">Scrooge &amp; Marley</h3>
             <div className="text-sm text-muted-foreground space-y-1">
-              <p>30 N Gould St Ste N</p>
-              <p>Sheridan, WY 82801</p>
+              <p>1 Cornhill</p>
+              <p>London EC3V 3ND</p>
               <p>
-                <a href="mailto:medhavy@humanitarians.ai" className="hover:text-foreground transition-colors">
-                  medhavy@humanitarians.ai
+                <a href="mailto:correspondence@scroogeandmarley.com" className="hover:text-foreground transition-colors">
+                  correspondence@scroogeandmarley.com
                 </a>
               </p>
 
@@ -49,17 +44,14 @@ export default function Footer() {
           <div className="space-y-3">
             <h3 className="text-sm font-semibold">Connect</h3>
             <div className="flex flex-col gap-2">
-              {SOCIAL_LINKS.map((link) => (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  {link.name}
-                </a>
-              ))}
+              <a
+                href="https://github.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
+                GitHub
+              </a>
             </div>
           </div>
 
@@ -82,7 +74,7 @@ export default function Footer() {
 
         {/* Bottom bar */}
         <div className="mt-8 pt-6 border-t text-center text-sm text-muted-foreground">
-          &copy; {currentYear} Medhavy LLC. All rights reserved.
+          &copy; {currentYear} Scrooge &amp; Marley. All rights reserved.
         </div>
       </div>
     </footer>

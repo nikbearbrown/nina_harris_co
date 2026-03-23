@@ -3,15 +3,15 @@
 @tailwind utilities;
 @layer base {
   :root {
-    /* Medhavy palette — swap these to rebrand the entire site */
-    --bb-1: #1a0a00;
-    --bb-2: #8B3A0F;
-    --bb-3: #A52A1A;
-    --bb-4: #E8A020;
-    --bb-5: #B5420A;
-    --bb-6: #B8860B;
-    --bb-7: #C8A96E;
-    --bb-8: #F0E6D0;
+    /* Scrooge & Marley palette — swap these to rebrand the entire site */
+    --bb-1: #0D0D0D;
+    --bb-2: #4A4A4A;
+    --bb-3: #8B0000;
+    --bb-4: #8B7536;
+    --bb-5: #2F2F2F;
+    --bb-6: #6B6B5E;
+    --bb-7: #9C9680;
+    --bb-8: #E8E0D0;
 
     /* Semantic aliases */
     --color-text:        var(--bb-1);
@@ -25,50 +25,50 @@
 
     /* shadcn/ui variables */
     --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --foreground: 0 0% 5%;
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 0 0% 5%;
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --primary: 25 100% 11%; /* Chocolate Brown */
-    --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 25 100% 11%; /* Chocolate Brown */
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 25 100% 11%; /* Chocolate Brown */
-    --accent-foreground: 210 40% 98%; 
-    --destructive: 0 68% 42%; /* Crimson Red */
-    --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 25 100% 11%; /* Chocolate Brown */
-    --highlight: 0 68% 42%; /* Crimson Red for highlighting */
-    --highlight-foreground: 210 40% 98%;
+    --popover-foreground: 0 0% 5%;
+    --primary: 0 0% 29%; /* Iron Grey */
+    --primary-foreground: 40 20% 95%;
+    --secondary: 40 10% 95%;
+    --secondary-foreground: 0 0% 29%; /* Iron Grey */
+    --muted: 40 10% 95%;
+    --muted-foreground: 0 0% 40%;
+    --accent: 0 0% 29%; /* Iron Grey */
+    --accent-foreground: 40 20% 95%;
+    --destructive: 0 100% 27%; /* Dried-ink Red */
+    --destructive-foreground: 40 20% 95%;
+    --border: 40 10% 85%;
+    --input: 40 10% 85%;
+    --ring: 0 0% 29%; /* Iron Grey */
+    --highlight: 0 100% 27%; /* Dried-ink Red for highlighting */
+    --highlight-foreground: 40 20% 95%;
     --radius: 0.5rem;
   }
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 25 70% 30%; /* Lighter Chocolate Brown for dark mode */
-    --primary-foreground: 210 40% 98%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 25 70% 30%; /* Lighter Chocolate Brown for dark mode */
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 68% 52%; /* Brighter Crimson Red for dark mode */
-    --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 25 70% 30%; /* Lighter Chocolate Brown for dark mode */
-    --highlight: 0 68% 52%; /* Brighter Crimson Red for dark mode */
-    --highlight-foreground: 210 40% 98%;
+    --background: 0 0% 7%;
+    --foreground: 40 10% 93%;
+    --card: 0 0% 7%;
+    --card-foreground: 40 10% 93%;
+    --popover: 0 0% 7%;
+    --popover-foreground: 40 10% 93%;
+    --primary: 0 0% 45%; /* Lighter Iron Grey for dark mode */
+    --primary-foreground: 40 10% 93%;
+    --secondary: 0 0% 15%;
+    --secondary-foreground: 40 10% 93%;
+    --muted: 0 0% 15%;
+    --muted-foreground: 40 5% 60%;
+    --accent: 0 0% 45%; /* Lighter Iron Grey for dark mode */
+    --accent-foreground: 40 10% 93%;
+    --destructive: 0 100% 35%; /* Brighter Dried-ink Red for dark mode */
+    --destructive-foreground: 40 10% 93%;
+    --border: 0 0% 18%;
+    --input: 0 0% 18%;
+    --ring: 0 0% 45%; /* Lighter Iron Grey for dark mode */
+    --highlight: 0 100% 35%; /* Brighter Dried-ink Red for dark mode */
+    --highlight-foreground: 40 10% 93%;
   }
 }
 @layer base {
