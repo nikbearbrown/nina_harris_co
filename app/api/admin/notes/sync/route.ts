@@ -8,6 +8,6 @@ export async function POST() {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
-  const docs = scanHtmlDir(join(process.cwd(), 'public', 'dev'))
+  const docs = scanHtmlDir(join(process.cwd(), 'public', 'notes'))
   return NextResponse.json({ docs })
 }

@@ -91,12 +91,12 @@ export default function DevBrowser({ docs }: { docs: Doc[] }) {
       {/* Cards */}
       {filtered.length === 0 ? (
         <p className="text-muted-foreground">
-          {query || activeTag ? 'No docs match your search.' : 'No docs yet. Drop HTML files into public/dev/.'}
+          {query || activeTag ? 'No docs match your search.' : 'No notes yet. Drop HTML files into public/notes/.'}
         </p>
       ) : (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {filtered.map(doc => (
-            <Link key={doc.slug} href={`/dev/${doc.slug}`}>
+            <Link key={doc.slug} href={`/notes/${doc.slug}`}>
               <Card className="h-full hover:border-foreground/20 transition-colors cursor-pointer">
                 <CardHeader>
                   <CardTitle className="text-base flex items-center gap-2">

@@ -12,15 +12,15 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>
 }) {
   const { slug } = await params
-  const docs = scanHtmlDir(join(process.cwd(), 'public', 'dev'))
+  const docs = scanHtmlDir(join(process.cwd(), 'public', 'notes'))
   const doc = docs.find(d => d.slug === slug)
   if (doc) {
     return {
-      title: `${doc.title} - Dev Docs`,
+      title: `${doc.title} - Notes`,
       description: doc.description || doc.title,
     }
   }
-  return { title: 'Dev Docs - Irreducibly Human' }
+  return { title: 'Notes - Irreducibly Human' }
 }
 
 export default async function DevDocPage({
@@ -29,11 +29,11 @@ export default async function DevDocPage({
   params: Promise<{ slug: string }>
 }) {
   const { slug } = await params
-  const filePath = join(process.cwd(), 'public', 'dev', `${slug}.html`)
+  const filePath = join(process.cwd(), 'public', 'notes', `${slug}.html`)
 
   if (!existsSync(filePath)) notFound()
 
-  const docs = scanHtmlDir(join(process.cwd(), 'public', 'dev'))
+  const docs = scanHtmlDir(join(process.cwd(), 'public', 'notes'))
   const doc = docs.find(d => d.slug === slug)
   const title = doc?.title || slug
 
@@ -43,10 +43,10 @@ export default async function DevDocPage({
         <div className="container px-4 md:px-6 mx-auto py-4 flex items-center justify-between">
           <div>
             <Link
-              href="/dev"
+              href="/notes"
               className="text-sm text-muted-foreground hover:text-foreground mb-1 inline-block"
             >
-              ← Back to Docs
+              ← Back to Notes
             </Link>
             <h1 className="text-2xl font-bold tracking-tighter">{title}</h1>
             {doc?.description && (
@@ -57,7 +57,7 @@ export default async function DevDocPage({
       </div>
       <div className="flex-1 w-full">
         <iframe
-          src={`/dev/${slug}.html`}
+          src={`/notes/${slug}.html`}
           title={title}
           className="w-full border-none"
           style={{ minHeight: 'calc(100vh - 12rem)' }}

@@ -1,16 +1,16 @@
 /**
- * List all dev docs in public/dev/.
- * Usage: npx tsx scripts/sync-dev.ts
+ * List all notes in public/notes/.
+ * Usage: npx tsx scripts/sync-notes.ts
  */
 import { join } from 'path'
 import { scanHtmlDir } from '../lib/html-meta'
 
-const docs = scanHtmlDir(join(process.cwd(), 'public', 'dev'))
+const docs = scanHtmlDir(join(process.cwd(), 'public', 'notes'))
 
 if (docs.length === 0) {
-  console.log('No HTML files found in public/dev/')
+  console.log('No HTML files found in public/notes/')
 } else {
-  console.log(`Found ${docs.length} doc(s) in public/dev/:\n`)
+  console.log(`Found ${docs.length} doc(s) in public/notes/:\n`)
   for (const doc of docs) {
     console.log(`  ${doc.filename}`)
     console.log(`    Title: ${doc.title}`)

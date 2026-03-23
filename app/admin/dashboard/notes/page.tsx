@@ -30,7 +30,7 @@ export default function DevAdminPage() {
     setSyncing(true)
     setError('')
     try {
-      const res = await fetch('/api/admin/dev/sync', { method: 'POST' })
+      const res = await fetch('/api/admin/notes/sync', { method: 'POST' })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error || 'Failed to sync')
       setDocs(data.docs)
@@ -47,15 +47,15 @@ export default function DevAdminPage() {
   }, [fetchDocs])
 
   async function deleteDoc(filename: string) {
-    if (!confirm(`Delete ${filename}? This removes the file from public/dev/.`)) return
+    if (!confirm(`Delete ${filename}? This removes the file from public/notes/.`)) return
     try {
-      const res = await fetch('/api/admin/dev/sync', {
+      const res = await fetch('/api/admin/notes/sync', {
         method: 'POST',
       })
       // Note: file deletion requires server access — show message instead
-      setMessage(`To delete ${filename}, remove it from public/dev/ and redeploy.`)
+      setMessage(`To delete ${filename}, remove it from public/notes/ and redeploy.`)
     } catch {
-      setError('Delete not available — remove the file manually from public/dev/')
+      setError('Delete not available — remove the file manually from public/notes/')
     }
   }
 
@@ -63,14 +63,14 @@ export default function DevAdminPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold tracking-tighter">Dev Docs</h2>
+          <h2 className="text-2xl font-bold tracking-tighter">Notes</h2>
           <p className="text-sm text-muted-foreground">
-            HTML files in <code className="text-xs bg-muted px-1 rounded">public/dev/</code> — filesystem is the source of truth
+            HTML files in <code className="text-xs bg-muted px-1 rounded">public/notes/</code> — filesystem is the source of truth
           </p>
         </div>
         <Button variant="outline" onClick={fetchDocs} disabled={syncing} className="gap-2">
           <RefreshCw className={`h-4 w-4 ${syncing ? 'animate-spin' : ''}`} />
-          {syncing ? 'Syncing…' : 'Sync Dev Docs'}
+          {syncing ? 'Syncing…' : 'Sync Notes'}
         </Button>
       </div>
 
@@ -84,7 +84,7 @@ export default function DevAdminPage() {
       {loading ? (
         <p className="text-muted-foreground">Loading…</p>
       ) : docs.length === 0 ? (
-        <p className="text-muted-foreground">No docs found. Drop .html files into public/dev/.</p>
+        <p className="text-muted-foreground">No docs found. Drop .html files into public/notes/.</p>
       ) : (
         <div className="grid gap-3">
           {docs.map(doc => (
@@ -103,7 +103,7 @@ export default function DevAdminPage() {
                   )}
                 </div>
                 <div className="flex gap-2 ml-4">
-                  <a href={`/dev/${doc.slug}`} target="_blank" rel="noopener noreferrer">
+                  <a href={`/notes/${doc.slug}`} target="_blank" rel="noopener noreferrer">
                     <Button variant="outline" size="sm">
                       <ExternalLink className="h-3.5 w-3.5" />
                     </Button>
