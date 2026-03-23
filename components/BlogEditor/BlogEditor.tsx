@@ -47,7 +47,7 @@ interface BlogPost {
   published: boolean
 }
 
-const DEFAULT_BYLINE = `Few advisors put skin in the game the way Bear Brown does — building bespoke AI solutions, taking equity instead of checks for early-stage advising, and connecting startups with top engineering graduates before the competition finds them. An Associate Teaching Professor of Engineering at Northeastern University, Ph.D., MBA, and founder of Bear Brown & Company, he's spent years making AI practical, ethical, and accessible — inside the classroom, inside the lab, and inside the cap table.\nFollow his work at https://www.bearbrown.co/`
+const DEFAULT_BYLINE = `Medhavy builds adaptive learning infrastructure — white-label, institution-deployable AI education tools that help organizations deliver personalized learning at scale. Founded at the intersection of AI research and education practice, Medhavy makes advanced learning technology accessible to every institution.\nLearn more at https://www.medhavy.com/`
 
 function slugify(text: string): string {
   return text

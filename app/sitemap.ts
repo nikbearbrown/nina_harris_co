@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next'
 import { neon } from '@neondatabase/serverless'
 
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://bearbrown.co'
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://medhavy.com'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const entries: MetadataRoute.Sitemap = [

@@ -106,7 +106,7 @@ export default function MycroftPage() {
              
              <blockquote className="border-l-4 pl-4 italic">
                "We're building to learn. This open-source experiment is about discovering which approaches actually help process information effectively, identify meaningful patterns, and maintain disciplined investment strategies. We don't have all the answers—that's precisely why we're building."
-               <footer className="text-sm mt-2">— Professor Nik Bear Brown, PhD, MBA</footer>
+               <footer className="text-sm mt-2">— Medhavy</footer>
              </blockquote>
              
              <h3 className="text-xl font-bold mt-8 mb-4">Potential Agentic Tools for Mycroft Fellows</h3>
@@ -162,7 +162,7 @@ export default function MycroftPage() {
                </a>
                
                <a 
-                 href="https://www.nikbearbrown.com/mycroft" 
+                 href="https://www.medhavy.com/mycroft"
                  target="_blank"
                  rel="noopener noreferrer"
                  className="flex items-center gap-2 text-primary hover:underline"
@@ -176,14 +176,14 @@ export default function MycroftPage() {
                </a>
                
                <a 
-                 href="mailto:info@nikbearbrown.com"
+                 href="mailto:medhavy@humanitarians.ai"
                  className="flex items-center gap-2 text-primary hover:underline"
                >
                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
                    <rect width="20" height="16" x="2" y="4" rx="2"></rect>
                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
                  </svg>
-                 Email: info@nikbearbrown.com
+                 Email: medhavy@humanitarians.ai
                </a>
              </div>
            </div>
@@ -198,10 +198,10 @@ export default function MycroftPage() {
              <PrimaryButton href="https://github.com/nikbearbrown">
                Mycroft GitHub
              </PrimaryButton>
-             <SecondaryButton href="https://www.nikbearbrown.com/mycroft">
+             <SecondaryButton href="https://www.medhavy.com/mycroft">
                Mycroft Website
              </SecondaryButton>
-             <SecondaryButton href="mailto:info@nikbearbrown.com">
+             <SecondaryButton href="mailto:medhavy@humanitarians.ai">
                Contact Us
              </SecondaryButton>
            </div>

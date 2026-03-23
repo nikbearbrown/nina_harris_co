@@ -5,8 +5,8 @@ import PrimaryButton from "@/components/ui/primary-button"
 import SecondaryButton from "@/components/ui/secondary-button"
 
 export const metadata: Metadata = {
-  title: "Courses | Nik Bear Brown",
-  description: "Courses taught by Professor Nik Bear Brown in artificial intelligence, machine learning, virtual environments, and computational biology at Northeastern University.",
+  title: "Courses | Medhavy",
+  description: "Courses taught by Medhavy in artificial intelligence, machine learning, virtual environments, and computational biology at Northeastern University.",
 }
 
 export default function ClassesPage() {

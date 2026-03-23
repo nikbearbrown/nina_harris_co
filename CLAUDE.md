@@ -1,18 +1,17 @@
-# CLAUDE.md — bearbrown.co
+# CLAUDE.md — medhavy.com
 
 ## Who this site is for
-Nik Bear Brown — professor, educator, artist, musician, and AI innovator at Northeastern University. Owner of Bear Brown LLC (AI consulting) and connector of organizations to recent engineering grads.
+Medhavy — adaptive learning platform, white-label, institution-deployable AI education infrastructure. Operated by Medhavy LLC.
 
 Primary audiences:
-- Educators and instructional leaders looking for AI tools
-- Conference organizers and editors considering him as a speaker or contributor
-- Artists and students he collaborates with
+- Educators and instructional leaders looking for AI-powered learning tools
+- Institutions seeking white-label adaptive learning infrastructure
 - Organizations seeking AI consulting or engineering talent
-- General public who found him via Substack, EdSurge, ISTE+ASCD, or YouTube
+- General public interested in AI education technology
 
 ## Tech stack
 - Next.js (App Router)
-- Deployed on Vercel via GitHub repo: nikbearbrown/bearbrown_co
+- Deployed on Vercel via GitHub repo: nikbearbrown/medhavy_com
 - Tailwind CSS + @tailwindcss/typography (for prose article rendering)
 - TypeScript
 - next-themes for dark/light mode
@@ -23,7 +22,7 @@ Primary audiences:
 - adm-zip (server-side Substack ZIP parsing)
 
 ## Site structure
-1. `/` — Home (business card + Spotify player + AI contact assistant)
+1. `/` — Home (platform intro + services + connect)
 2. `/tools` — Tools directory (card grid, Neon-driven)
 3. `/tools/[slug]` — Artifact tool embed page (full-viewport iframe)
 4. `/dev` — Dev docs browser (searchable card grid, filesystem-driven)
@@ -31,9 +30,9 @@ Primary audiences:
 6. `/blog` — Blog feed: published posts newest first, clean card list
 5. `/blog/[slug]` — Individual blog post with prose content
 6. `/about` — CV / bio page (prose format)
-7. `/privacy` — Privacy Policy for Bear Brown LLC
-8. `/privacy/cookies` — Cookie Policy for Bear Brown LLC (dedicated page)
-9. `/terms-of-service` — Terms of Service for Bear Brown LLC
+7. `/privacy` — Privacy Policy for Medhavy LLC
+8. `/privacy/cookies` — Cookie Policy for Medhavy LLC (dedicated page)
+9. `/terms-of-service` — Terms of Service for Medhavy LLC
 10. `/substack` — Newsletter hub: card grid of all Substack sections
 11. `/substack/[section]` — Section page: description, "Follow on Substack" CTA, chronological article list
 12. `/substack/[section]/[slug]` — Full article: attribution banner, prose content, "Subscribe on Substack" footer CTA
@@ -58,8 +57,8 @@ Primary audiences:
 
 ### Footer (`/components/Footer/Footer.tsx`) — DONE
 Four-column grid layout:
-- **Company Info:** Bear Brown LLC, 30 N Gould St Ste N, Sheridan WY 82801, bear@bearbrown.co, EIN: 41-4226710
-- **Publications:** Links to all 5 Substack publications (Bear Brown Co, Skepticism AI, Theorist AI, Hypothetical AI, Musinique)
+- **Company Info:** Medhavy LLC, 30 N Gould St Ste N, Sheridan WY 82801, medhavy@humanitarians.ai, EIN: 41-4226710
+- **Platform:** Links to Tools, Blog, About
 - **Connect:** GitHub, YouTube, Spotify, Substack (text links)
 - **Legal:** Privacy Policy, Cookie Policy, Terms of Service
 - Bottom bar: copyright
@@ -73,20 +72,9 @@ Four-column grid layout:
 
 ## Home page (`/app/page.tsx`) — DONE
 Four sections, alternating white/muted/dark backgrounds:
-1. **Hero** (two-column): Left — name (h1), subtitle "AI Consultant, Angel Advisor & Talent Connector", body text, "Work With Me" (mailto) button + "Read My Writing" label with 4 publication buttons (skepticism.ai, Musinique, Theorist, Hypothetical). Right — YouTube embed (GN7yQntWJHU).
-2. **What I Do** (3-column cards, muted bg): AI Consulting (Brain icon), Angel Advising (Rocket icon), Talent Connector (Users icon). Each with description + mailto link.
-3. **Connect** (centered, dark bg foreground/background inverted): "Let's Collaborate" heading, subtext, buttons for Substack, YouTube, GitHub, Humanitarians AI.
-4. **Music** (white bg): "Music from the Bear Brown Family & Friends" heading, ArtistCarousel component showing 13 artists with Spotify embeds, prev/next arrows, dot indicators, and per-artist links (Spotify, Apple Music, Musinique).
-
-## ArtistCarousel (`/components/ArtistCarousel/ArtistCarousel.tsx`) — DONE
-Client component. Shows one artist at a time with:
-- Artist name + tagline
-- Spotify embed iframe (352px height, rounded-xl)
-- Links row: Spotify icon + Apple Music icon + Musinique/website (where available)
-- Prev/next arrow buttons on sides
-- Dot indicators below (clickable to jump)
-- Auto-rotates every 8 seconds, pauses on hover
-- 13 artists with full link data (Spotify, Apple Music, Musinique URLs)
+1. **Hero** (two-column): Left — name (h1 "Medhavy"), subtitle "Adaptive Learning Platform", body text, "Work With Us" (mailto) button. Right — YouTube embed (GN7yQntWJHU).
+2. **What We Do** (3-column cards, muted bg): AI Consulting (Brain icon), Angel Advising (Rocket icon), Talent Connector (Users icon). Each with description + mailto link.
+3. **Connect** (centered, dark bg foreground/background inverted): "Let's Collaborate" heading, subtext, buttons for YouTube, GitHub, Humanitarians AI.
 
 ## Tools system — DONE
 
@@ -247,10 +235,10 @@ Prose-forward CV format with sections:
 - Music & Art (Spotify link)
 - Connect (email, GitHub/YouTube/Spotify buttons)
 
-Still needs: Substack link, musinique.com links, Bear Brown LLC details, publications list.
+Content describes Medhavy platform mission, what we build, Humanitarians AI connection, and contact info.
 
 ## Legal Pages — DONE
-All three pages follow the Humanitarians AI structural template, rewritten for Bear Brown LLC. Each references: Bear Brown LLC (Nik Bear Brown, Sole Member), 30 N Gould St Ste N, Sheridan WY 82801, bear@bearbrown.co, EIN 41-4226710, AI consulting services.
+All three pages follow the Humanitarians AI structural template, rewritten for Medhavy LLC. Each references: Medhavy LLC (Nik Brown, Sole Member), 30 N Gould St Ste N, Sheridan WY 82801, medhavy@humanitarians.ai, EIN 41-4226710, AI consulting services.
 
 ### Privacy Policy (`/app/privacy/page.tsx`)
 Sections: introduction, information we collect (contact data, inquiry content, consulting engagement data, analytics), how we use info, sharing (consent, legitimate interests, contract, legal, vital interests), third-party services (Vercel, Neon, Spotify, Substack, Anthropic, GitHub, YouTube), cookies reference (links to Cookie Policy page), data security, data retention, your privacy rights, children's privacy, changes, contact. Nav: Terms of Service ← → Cookie Policy.
@@ -261,52 +249,14 @@ Separate dedicated page at `/privacy/cookies`. Sections: what are cookies, cooki
 ### Terms of Service (`/app/terms-of-service/page.tsx`)
 15 sections: introduction, website purpose, AI consulting services, intellectual property, use license, user conduct, newsletter content (lists all 5 Substack publications), third-party services and links, disclaimer, limitations, indemnification, revisions and errata, governing law (Wyoming), modifications, contact. Nav: Privacy Policy ← → Home.
 
-## Spotify player (`/components/SpotifyPlayer/SpotifyPlayer.tsx`) — DONE
-Client component. Randomly picks one artist on mount via `pickRandom()` helper.
-"Another artist" button shuffles without repeating. Uses `key={artist.id}` on iframe to force reload.
-
-### All 13 artist IDs:
-```typescript
-const ARTISTS = [
-  { name: 'Nik Bear Brown',         id: '0hSpFCJodAYMP2cWK72zI6' },
-  { name: 'Mayfield King',          id: '6vpw3aw6hEJRPHgYGrN3kX' },
-  { name: 'Liam Bear Brown',        id: '4SSyKsRubysg99cAIs82uI' },
-  { name: 'Tuzi Brown',             id: '5DvRo9Gtg5bxsUUbKQBdg6' },
-  { name: 'Newton Willams Brown',   id: '7Ec9DTFD4EMsxdpiiGos2p' },
-  { name: 'Parvati Patel Brown',    id: '0tYk1RYgGD7k9MN0bd1p8u' },
-  { name: 'Dijit Arjun Bear Brown', id: '55YYr6d7P8x8LVZWaOd5SZ' },
-  { name: 'Prarthana Maha Brown',   id: '1sPHt959TSCSgctMB5Xdop' },
-  { name: 'Marley Bear Brown',      id: '09UwgY1zJ63aJUkM4xgOb1' },
-  { name: 'Humanitarians AI',       id: '3cj3R4pDpYQHaWx0MM2vFV' },
-  { name: 'Jingle Yankel',          id: '3T20r0SBgeL2xUUNCRJZHG' },
-  { name: 'Muzack',                 id: '4V8CzlAfk1VipGmOx5Hv7o' },
-  { name: 'Cletus Bear Spuckler',   id: '2hmp7X5Qx3K1PZAIm2ciUB' },
-];
-```
-
-## Artist profile links (for About page or footer)
-- Nik Bear Brown: spotify/0hSpFCJodAYMP2cWK72zI6 · apple/1779725275 · nikbear.musinique.com
-- Mayfield King: spotify/6vpw3aw6hEJRPHgYGrN3kX · apple/1846526759 · mayfield.musinique.com
-- Liam Bear Brown: spotify/4SSyKsRubysg99cAIs82uI · apple/1780970474 · liam.musinique.com
-- Tuzi Brown: spotify/5DvRo9Gtg5bxsUUbKQBdg6 · apple/1838852692 · tuzi.musinique.com
-- Newton Willams Brown: spotify/7Ec9DTFD4EMsxdpiiGos2p · apple/1781653273 · newton.musinique.com
-- Parvati Patel Brown: spotify/0tYk1RYgGD7k9MN0bd1p8u · apple/1781528271 · parvati.musinique.com
-- Dijit Arjun Bear Brown: spotify/55YYr6d7P8x8LVZWaOd5SZ · apple/1842722191 · dijit.musinique.com
-- Prarthana Maha Brown: spotify/1sPHt959TSCSgctMB5Xdop · apple/1840725199 · prarthana.musinique.com
-- Marley Bear Brown: spotify/09UwgY1zJ63aJUkM4xgOb1 · apple/1835745524 · marley.musinique.com
-- Humanitarians AI: spotify/3cj3R4pDpYQHaWx0MM2vFV · apple/1781414009 · humanitarians.ai
-- Jingle Yankel: spotify/3T20r0SBgeL2xUUNCRJZHG · mayfield.musinique.com
-- Muzack: spotify/4V8CzlAfk1VipGmOx5Hv7o
-- Cletus Bear Spuckler: spotify/2hmp7X5Qx3K1PZAIm2ciUB
-
-## Theming (Beary Bear template)
+## Theming (Medhavy template)
 
 The color palette lives in three places that must stay in sync:
 - `lib/theme.ts` — TypeScript source of truth
 - `public/theme.json` — machine-readable for Indiana and Dev doc generators
 - `app/globals.css` — CSS variables (`--bb-1` through `--bb-8`) that drive the actual site
 
-### Bear Brown palette
+### Medhavy palette
 | Var | Hex | Role | WCAG on bb8 |
 |-----|-----|------|-------------|
 | bb1 | #1a0a00 | near black — primary text | 15.6:1 |
@@ -405,7 +355,7 @@ Server-side parser using adm-zip. Reads `posts.csv` + HTML files from a Substack
 ```
 DATABASE_URL=                    # Neon PostgreSQL connection string (from Vercel marketplace or Neon dashboard)
 ADMIN_PASSWORD=                  # Password for /admin/login — set a strong value in production
-NEXT_PUBLIC_SITE_URL=https://bearbrown.co  # Used in sitemap generation
+NEXT_PUBLIC_SITE_URL=https://medhavy.com  # Used in sitemap generation
 BLOB_READ_WRITE_TOKEN=           # Vercel Blob token (from Vercel dashboard → Storage → Blob)
 NEXT_PUBLIC_GA_ID=               # Google Analytics measurement ID (optional, e.g. G-XXXXXXXXXX)
 NEXT_PUBLIC_ANTHROPIC_API_KEY=   # only if embedding AI assistant directly
@@ -413,7 +363,7 @@ NEXT_PUBLIC_ANTHROPIC_API_KEY=   # only if embedding AI assistant directly
 
 ## Deployment
 - Push to main → auto-deploys to Vercel
-- Domain: bearbrown.co
+- Domain: medhavy.com
 
 ## What NOT to do
 - Do not use localStorage — use React state or sessionStorage
@@ -425,7 +375,7 @@ NEXT_PUBLIC_ANTHROPIC_API_KEY=   # only if embedding AI assistant directly
 
 ### Overview
 
-bearbrown.co is Nik Bear Brown's personal site — part business card, part newsletter archive, part tool directory. It runs on Next.js with Vercel auto-deploy. The public site has no login; the admin dashboard is cookie-protected.
+medhavy.com is the Medhavy adaptive learning platform site — part product intro, part tool directory, part blog. It runs on Next.js with Vercel auto-deploy. The public site has no login; the admin dashboard is cookie-protected.
 
 ---
 
@@ -498,7 +448,7 @@ ALTER TABLE blog_posts ADD COLUMN IF NOT EXISTS cover_image TEXT;
 
 ```
 DATABASE_URL=postgresql://user:pass@ep-xxx.us-east-2.aws.neon.tech/neondb?sslmode=require
-NEXT_PUBLIC_SITE_URL=https://bearbrown.co
+NEXT_PUBLIC_SITE_URL=https://medhavy.com
 ```
 
 3. **Admin access** — Navigate to `/admin` (redirects to `/admin/login`). Enter the password set in `ADMIN_PASSWORD` env var. On success, an `admin_session` cookie is set (httpOnly, 7-day expiry) and you're redirected to the dashboard.
@@ -613,11 +563,9 @@ app/
 middleware.ts                         # Auth middleware (protects /admin/dashboard)
 components/
   Header/Header.tsx                 # Sticky header with nav + social + theme toggle
-  Footer/Footer.tsx                 # 4-column footer (company, publications, social, legal)
-  ArtistCarousel/ArtistCarousel.tsx  # Rotating artist carousel with Spotify/Apple/Musinique links
+  Footer/Footer.tsx                 # 4-column footer (company, platform, social, legal)
   BlogEditor/BlogEditor.tsx         # Tiptap rich text editor (WYSIWYG, embeds, viz)
   BlogVizHydrator/BlogVizHydrator.tsx # Client component: hydrates data-viz elements with D3 charts
-  SpotifyPlayer/SpotifyPlayer.tsx   # Random artist Spotify embed (legacy, still available)
   ThemeToggle.tsx                   # Dark/light mode toggle
   theme-provider.tsx                # next-themes wrapper
   ui/                               # 60+ shadcn/ui components
@@ -637,7 +585,6 @@ lib/
 
 - **New Substack section**: Use the admin UI at `/admin/dashboard/substack`, or insert directly into the database
 - **New tool**: Use the admin UI at `/admin/dashboard/tools`. Choose "Link Tool" for external URLs or "Claude Artifact" to embed an artifact at `/tools/[slug]`
-- **New artist to Spotify player**: Add to the `ARTISTS` array in `/components/SpotifyPlayer/SpotifyPlayer.tsx`
 
 #### Deployment
 
@@ -653,5 +600,4 @@ After every session, always:
 
 ## Remaining work (in priority order)
 1. Add Subby + CRITIQ tools via admin dashboard (artifact IDs in Tools system docs above)
-2. Flesh out About page (Substack, musinique.com, Bear Brown LLC, publications)
-3. Consider AI contact assistant widget (currently all CTAs route to mailto)
+2. Consider AI contact assistant widget (currently all CTAs route to mailto)

@@ -5,8 +5,8 @@ import PrimaryButton from "@/components/ui/primary-button"
 import SecondaryButton from "@/components/ui/secondary-button"
 
 export const metadata: Metadata = {
-  title: "OpenAI Nik Bear Brown",
-  description: "Professor Nik Bear Brown's contributions to AI education, research, and the OpenAI Academy.",
+  title: "OpenAI Medhavy",
+  description: "Medhavy's contributions to AI education, research, and the OpenAI Academy.",
 }
 
 export default function OpenAIPage() {
@@ -15,7 +15,7 @@ export default function OpenAIPage() {
       <div className="max-w-4xl mx-auto">
         {/* Hero Section */}
         <div className="mb-16">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6">OpenAI Nik Bear Brown</h1>
+          <h1 className="text-4xl md:text-5xl font-bold mb-6">OpenAI Medhavy</h1>
           <p className="text-xl text-muted-foreground mb-8">
             Associate Teaching Professor at Northeastern University with expertise in AI, machine learning, and computational biology, dedicated to developing ethical AI solutions and preparing the next generation of AI engineers.
           </p>
@@ -64,12 +64,12 @@ export default function OpenAIPage() {
                   <path d="m10 15 5-3-5-3z"></path>
                 </svg>
                 <a href="https://www.youtube.com/@nikbearbrown" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">
-                  Nik Bear Brown on YouTube
+                  Medhavy on YouTube
                 </a>
               </div>
               
               <p className="mt-4">
-                or Nik Bear Brown's 501c3 Non-Profit:
+                or Medhavy's 501c3 Non-Profit:
               </p>
               
               <div className="flex items-center gap-2 not-prose">
@@ -251,14 +251,14 @@ export default function OpenAIPage() {
             <h2 className="text-3xl font-bold mb-6">Connect with Me and My Work</h2>
             <div className="grid gap-8">
               <div>
-                <h3 className="text-xl font-bold mb-4">Nik Bear Brown</h3>
+                <h3 className="text-xl font-bold mb-4">Medhavy</h3>
                 <div className="grid gap-3">
-                  <a href="https://www.nikbearbrown.com/" className="flex items-center gap-2 text-primary hover:underline" target="_blank" rel="noopener noreferrer">
+                  <a href="https://www.medhavy.com/" className="flex items-center gap-2 text-primary hover:underline" target="_blank" rel="noopener noreferrer">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
                       <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
                       <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
                     </svg>
-                    Website: nikbearbrown.com
+                    Website: medhavy.com
                   </a>
                   <a href="https://www.youtube.com/@nikbearbrown" className="flex items-center gap-2 text-primary hover:underline" target="_blank" rel="noopener noreferrer">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
@@ -281,7 +281,7 @@ export default function OpenAIPage() {
                       <path d="M9 15c1.5-.5 3-.5 4.5.5"></path>
                       <path d="M7 9c2-1 6-2 10 .5"></path>
                     </svg>
-                    Spotify: Nik Bear Brown
+                    Spotify: Medhavy
                   </a>
                   <a href="https://music.apple.com/us/artist/1779725275" className="flex items-center gap-2 text-primary hover:underline" target="_blank" rel="noopener noreferrer">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
@@ -289,7 +289,7 @@ export default function OpenAIPage() {
                       <path d="M14.5 4.5c-1.732.646-3 2.255-3 4.171v7.662c0 1.96-1.925 3.338-3.667 2.667A2.72 2.72 0 0 1 6 16.433v-1.39c0-1.583 1.212-2.897 2.757-2.98"></path>
                       <path d="M14.5 4.5c1.732.646 3 2.255 3 4.171v7.662c0 1.96 1.925 3.338 3.667 2.667A2.72 2.72 0 0 0 23 16.433v-1.39c0-1.583-1.212-2.897-2.757-2.98"></path>
                     </svg>
-                    Apple Music: Nik Bear Brown
+                    Apple Music: Medhavy
                   </a>
                 </div>
               </div>

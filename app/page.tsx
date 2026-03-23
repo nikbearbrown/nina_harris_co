@@ -1,15 +1,7 @@
 import { Brain, Rocket, Users } from 'lucide-react'
-import ArtistCarousel from '@/components/ArtistCarousel/ArtistCarousel'
 
 const buttonStyles =
   'inline-flex h-10 items-center justify-center rounded-md px-8 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring bg-black text-white shadow hover:bg-gray-800 dark:border dark:border-input dark:bg-background dark:text-foreground dark:shadow-sm dark:hover:bg-accent dark:hover:text-accent-foreground'
-
-const PUBLICATIONS = [
-  { name: 'skepticism.ai', href: 'https://www.skepticism.ai/' },
-  { name: 'Musinique', href: 'https://www.musinique.net/' },
-  { name: 'Theorist', href: 'https://www.theorist.ai/' },
-  { name: 'Hypothetical', href: 'https://www.hypothetical.ai/' },
-]
 
 const SERVICES = [
   {
@@ -17,26 +9,25 @@ const SERVICES = [
     title: 'AI Consulting',
     description:
       'Direct AI consulting for startups and enterprises. Strategy, implementation, and hands-on build support.',
-    link: { label: 'Get in touch →', href: 'mailto:bear@bearbrown.co' },
+    link: { label: 'Get in touch →', href: 'mailto:medhavy@humanitarians.ai' },
   },
   {
     icon: Rocket,
     title: 'Angel Advising',
     description:
       'I advise early-stage startups in exchange for equity. Deep AI expertise, network access, and long-term skin in the game.',
-    link: { label: 'Learn more →', href: 'mailto:bear@bearbrown.co' },
+    link: { label: 'Learn more →', href: 'mailto:medhavy@humanitarians.ai' },
   },
   {
     icon: Users,
     title: 'Talent Connector',
     description:
       'I connect startups with exceptional recent engineering grads — top-tier talent at entry-level prices.',
-    link: { label: 'Find talent →', href: 'mailto:bear@bearbrown.co' },
+    link: { label: 'Find talent →', href: 'mailto:medhavy@humanitarians.ai' },
   },
 ]
 
 const CONNECT_LINKS = [
-  { name: 'Substack', href: 'https://bearbrownco.substack.com/' },
   { name: 'YouTube', href: 'https://www.youtube.com/@NikBearBrown' },
   { name: 'GitHub', href: 'https://github.com/nikbearbrown' },
   { name: 'Humanitarians AI', href: 'https://humanitarians.ai' },
@@ -51,44 +42,26 @@ export default function Home() {
           <div className="grid gap-10 lg:grid-cols-2 lg:gap-16 items-center">
             <div className="flex flex-col justify-center space-y-6">
               <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
-                Nik Bear Brown
+                Medhavy
               </h1>
               <p className="text-xl font-medium text-foreground/80">
-                AI Consultant, Angel Advisor &amp; Talent Connector
+                Adaptive Learning Platform
               </p>
               <p className="max-w-[540px] text-lg text-muted-foreground leading-relaxed">
-                I help startups move faster with AI — as a consultant, an angel advisor
-                (equity for expertise), and a connector to top recent engineering grads
-                at entry-level prices.
+                White-label, institution-deployable AI education infrastructure.
+                Medhavy helps organizations build and deliver adaptive learning
+                experiences powered by AI.
               </p>
               <div className="flex flex-col gap-3 pt-2">
-                <a href="mailto:bear@bearbrown.co" className={buttonStyles}>
-                  Work With Me
+                <a href="mailto:medhavy@humanitarians.ai" className={buttonStyles}>
+                  Work With Us
                 </a>
-                <div>
-                  <p className="text-xs text-muted-foreground mb-2 font-medium uppercase tracking-wider">
-                    Read My Writing
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    {PUBLICATIONS.map((pub) => (
-                      <a
-                        key={pub.name}
-                        href={pub.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={buttonStyles}
-                      >
-                        {pub.name}
-                      </a>
-                    ))}
-                  </div>
-                </div>
               </div>
             </div>
             <div className="aspect-video rounded-lg overflow-hidden shadow-lg">
               <iframe
                 src="https://www.youtube.com/embed/GN7yQntWJHU"
-                title="Nik Bear Brown"
+                title="Medhavy"
                 width="100%"
                 height="100%"
                 frameBorder="0"
@@ -106,7 +79,7 @@ export default function Home() {
         <div className="container px-4 md:px-6 mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">
-              What I Do
+              What We Do
             </h2>
           </div>
           <div className="grid gap-8 md:grid-cols-3">
@@ -155,19 +128,6 @@ export default function Home() {
               </a>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* Music Section */}
-      <section className="w-full py-16 md:py-24">
-        <div className="container px-4 md:px-6 mx-auto">
-          <h2 className="text-2xl font-bold tracking-tighter sm:text-3xl text-center mb-2">
-            Music from the Bear Brown Family &amp; Friends
-          </h2>
-          <p className="text-center text-muted-foreground mb-10">
-            Poetry, songwriting, and spoken word across genres and collaborations.
-          </p>
-          <ArtistCarousel />
         </div>
       </section>
     </div>

@@ -5,16 +5,6 @@ import Link from 'next/link'
 const SOCIAL_LINKS = [
   { name: 'GitHub', href: 'https://github.com/nikbearbrown' },
   { name: 'YouTube', href: 'https://www.youtube.com/@NikBearBrown' },
-  { name: 'Spotify', href: 'https://open.spotify.com/artist/0hSpFCJodAYMP2cWK72zI6' },
-  { name: 'Substack', href: 'https://bearbrownco.substack.com/' },
-]
-
-const SUBSTACK_PUBLICATIONS = [
-  { name: 'Bear Brown Co', href: 'https://bearbrownco.substack.com/' },
-  { name: 'Skepticism AI', href: 'https://www.skepticism.ai/' },
-  { name: 'Theorist AI', href: 'https://www.theorist.ai/' },
-  { name: 'Hypothetical AI', href: 'https://www.hypothetical.ai/' },
-  { name: 'Musinique', href: 'https://www.musinique.net/' },
 ]
 
 export default function Footer() {
@@ -26,34 +16,32 @@ export default function Footer() {
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
           {/* Company Info */}
           <div className="space-y-3">
-            <h3 className="text-sm font-semibold">Bear Brown LLC</h3>
+            <h3 className="text-sm font-semibold">Medhavy LLC</h3>
             <div className="text-sm text-muted-foreground space-y-1">
               <p>30 N Gould St Ste N</p>
               <p>Sheridan, WY 82801</p>
               <p>
-                <a href="mailto:bear@bearbrown.co" className="hover:text-foreground transition-colors">
-                  bear@bearbrown.co
+                <a href="mailto:medhavy@humanitarians.ai" className="hover:text-foreground transition-colors">
+                  medhavy@humanitarians.ai
                 </a>
               </p>
               <p>EIN: 41-4226710</p>
             </div>
           </div>
 
-          {/* Substack Publications */}
+          {/* Placeholder column for future content */}
           <div className="space-y-3">
-            <h3 className="text-sm font-semibold">Publications</h3>
+            <h3 className="text-sm font-semibold">Platform</h3>
             <div className="flex flex-col gap-2">
-              {SUBSTACK_PUBLICATIONS.map((pub) => (
-                <a
-                  key={pub.name}
-                  href={pub.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  {pub.name}
-                </a>
-              ))}
+              <Link href="/tools" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                Tools
+              </Link>
+              <Link href="/blog" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                Blog
+              </Link>
+              <Link href="/about" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                About
+              </Link>
             </div>
           </div>
 
@@ -94,7 +82,7 @@ export default function Footer() {
 
         {/* Bottom bar */}
         <div className="mt-8 pt-6 border-t text-center text-sm text-muted-foreground">
-          &copy; {currentYear} Bear Brown, LLC. All rights reserved.
+          &copy; {currentYear} Medhavy LLC. All rights reserved.
         </div>
       </div>
     </footer>

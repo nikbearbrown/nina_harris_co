@@ -100,7 +100,7 @@ export default function ProjectsPage() {
       videoId: "videoseries?si=zLM5TzprVSw2H90T&amp;list=PLgOGgHS58rB_FwoBNQrC-4FvHb9lvN3kt",
       githubUrl: "https://github.com/Humanitariansai/Dewey",
       youtubeUrl: "https://youtube.com/playlist?list=PLgOGgHS58rB_FwoBNQrC-4FvHb9lvN3kt",
-      fullDescription: "The Dewey framework is an open-source platform for AI-powered educational intelligence. This experimental project creates an ecosystem of specialized educational agents orchestrated by a central coordination layer to transform learning experiences for students, educators, and professionals. Led by Professor Nik Bear Brown, PhD, MBA, this educational experiment emphasizes learning through building, inviting contributors to discover effective approaches through practical implementation.",
+      fullDescription: "The Dewey framework is an open-source platform for AI-powered educational intelligence. This experimental project creates an ecosystem of specialized educational agents orchestrated by a central coordination layer to transform learning experiences for students, educators, and professionals. Led by Medhavy, this educational experiment emphasizes learning through building, inviting contributors to discover effective approaches through practical implementation.",
       keyFeatures: [
         {
           title: "Content Generation Agents",

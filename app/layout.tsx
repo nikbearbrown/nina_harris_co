@@ -12,8 +12,8 @@ import { cn } from '@/lib/utils'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Bear Brown',
-  description: 'Educator, artist, musician, and AI innovator dedicated to advancing artificial intelligence for social good.',
+  title: 'Medhavy',
+  description: 'Adaptive learning platform — white-label, institution-deployable AI education infrastructure.',
 }
 
 export default function RootLayout({ children }: { children: ReactNode }) {
