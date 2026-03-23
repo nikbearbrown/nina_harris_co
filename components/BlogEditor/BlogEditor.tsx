@@ -46,7 +46,7 @@ interface BlogPost {
   published: boolean
 }
 
-const DEFAULT_BYLINE = `Scrooge & Marley — Counting House & Money Lenders, Est. 1836. We deal in debts, not dreams. Financial services for merchants, landlords, and trading concerns across the City of London.\nCorrespondence: correspondence@scroogeandmarley.com`
+const DEFAULT_BYLINE = `© 2026 Scrooge & Marley. All rights reserved.\n\nMarley is open source (MIT License) · Built by Nik Bear Brown · bearbrown.co · The Skepticism AI Substack`
 
 function slugify(text: string): string {
   return text

@@ -209,7 +209,7 @@ Tiptap (ProseMirror-based) rich text editor, Substack-style:
 - Large title input (no label, headline style)
 - Italic subtitle input ("Add a subtitle...")
 - Cover image upload (drag/drop or click, uploads to Vercel Blob, preview with remove button)
-- Byline textarea (pre-populated with default firm description, saved per post)
+- Byline textarea (pre-populated with copyright + MIT attribution, editable per post)
 - Tags input (comma-separated, stored as PostgreSQL text array)
 - Auto-generated slug from title (editable)
 - Tiptap WYSIWYG editor with toolbar:
