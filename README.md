@@ -1,89 +1,179 @@
-# Medhavy Website
+
+# Scrooge & Marley — Next.js Website Template
+
+A production-grade Next.js website template demonstrated through the fictional 
+Victorian counting house of Ebenezer Scrooge and Jacob Marley, from Charles 
+Dickens' *A Christmas Carol* (1843, public domain).
+
+This is one instance of the **lorem-ipsum** template series — the same codebase 
+styled for different fictional businesses from public domain literature to 
+demonstrate real-world adaptability across brand identities, industries, and 
+content types.
+
+**Live site:** https://marley.bearbrown.co  
+**GitHub:** https://github.com/nikbearbrown/marley  
+**Template series:** https://github.com/nikbearbrown/lorem-ipsum
+
+## Stack
+
+- Next.js (App Router)
+- Tailwind CSS + @tailwindcss/typography
+- TypeScript
+- Neon (serverless PostgreSQL)
+- Vercel Blob (image storage)
+- Tiptap (rich text editor)
+- next-themes (dark/light mode)
 
 ## Prerequisites
 
-Before you begin, ensure you have the following installed on your system:
+- Node.js LTS — https://nodejs.org/
+- Git — https://git-scm.com/downloads
 
-### Required Software
-- **Node.js and npm**
-  - Download from [Node.js official website](https://nodejs.org/)
-  - Choose the LTS (Long Term Support) version
-  - The installer includes both Node.js and npm
+### macOS
+\`\`\`bash
+brew install node git
+\`\`\`
 
-- **Git** (for version control)
-  - Download from [Git's official website](https://git-scm.com/downloads)
+### Ubuntu/Debian
+\`\`\`bash
+sudo apt update && sudo apt install nodejs npm git
+\`\`\`
 
-### System Requirements
-- Operating System: Windows, macOS, or Linux
-- RAM: At least 4GB recommended
-- Disk Space: At least 1GB free space
-- Internet connection for downloading packages
+### Windows
+Download and run the installers from the links above. Restart after.
 
-### Installation by Operating System
-
-#### Windows
-1. Download and run the Node.js installer from [Node.js website](https://nodejs.org/)
-2. Download and run the Git installer from [Git website](https://git-scm.com/downloads)
-3. Restart your computer after installation
-
-#### macOS
-```bash
-# Using Homebrew
-brew install node
-brew install git
-```
-
-#### Linux (Ubuntu/Debian)
-```bash
-sudo apt update
-sudo apt install nodejs npm
-sudo apt install git
-```
-
-### Verifying Installation
-After installation, verify that everything is set up correctly:
-```bash
-node --version
-npm --version
-git --version
-```
+### Verify
+\`\`\`bash
+node --version && npm --version && git --version
+\`\`\`
 
 ## Getting Started
 
-First, install dependencies:
-
-```bash
+\`\`\`bash
+git clone https://github.com/nikbearbrown/marley.git
+cd marley
 npm install --legacy-peer-deps
-```
-
-then, run the development server:
-
-```bash
+cp .env.example .env.local   # add your environment variables
 npm run dev
+\`\`\`
+
+Open http://localhost:3000
+
+## Environment Variables
+
+\`\`\`
+DATABASE_URL=              # Neon PostgreSQL connection string
+ADMIN_PASSWORD=            # Password for /admin/login
+BLOB_READ_WRITE_TOKEN=     # Vercel Blob token
+NEXT_PUBLIC_SITE_URL=      # https://marley.bearbrown.co
+\`\`\`
+
+## Database Setup
+
+Run the SQL in `db/schema.sql` in your Neon dashboard, or paste the contents 
+into the Neon SQL Editor.
+
+## Deployment
+
+Push to `main` → Vercel auto-deploys.
+
+Set all environment variables in Vercel → Project Settings → Environment Variables.
+
+## Admin
+
+Navigate to `/admin` — login with `ADMIN_PASSWORD`. Manage blog posts, tools, 
+and Substack sections from the dashboard.
+
+## Troubleshooting
+
+- **npm install fails** — try `npm cache clean --force` then re-run with `--legacy-peer-deps`
+- **Permission errors on Mac/Linux** — use `sudo` for system-wide installs
+- **Network issues** — `npm config set registry https://registry.npmjs.org/`
+
+## About
+
+Based on the Medhavy platform codebase. Template series created by 
+Nik Bear Brown and Srinivas Sridhar.
+
+*"Scrooge & Marley" is a fictional business from A Christmas Carol by 
+Charles Dickens (1843), public domain.*
+
+---
+
+After updating README.md, commit and push:
+git add README.md
+git commit -m "docs: update README for Scrooge & Marley template"
+git push origin main<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Marley template — multi-brand Next.js architecture reference</title>
+  <meta name="description" content="Technical reference for developers working on thpastedthis help at all?10:19 AMAssessed HTML template's readiness for repository integrationAssessed HTML template's readiness for repository integrationYes — it's already a perfect dev doc. It has all three required meta tags (title, description, keywords), uses the BB palette CSS variables, and covers exactly what a developer needs to work on the codebase.
+Drop it straight into public/dev/ and it auto-appears on /dev with no other steps needed:
+bashcp /path/to/the/file.html public/dev/marley-template-reference.html
+git add public/dev/marley-template-reference.html
+git commit -m "docs: add Marley template architecture reference"
+git push origin main
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+One thing worth updating inside the doc before you push — the footer currently says:
+```
+Built with bearbrown.co · AI tools for educators, creators & founders
+```
 
-### Troubleshooting
+That's Medhavy/Nik's tagline. For the Marley template it should either be removed or changed to something neutral like:
+```
+Marley Template · github.com/nikbearbrown/marley
+```
 
-If you encounter any issues during installation:
+Give Claude Code that as a one-liner:
+```
+In public/dev/marley-template-reference.html, update the footer text 
+from "AI tools for educators, creators & founders" to 
+"Marley Template · github.com/nikbearbrown/marley". 
+Only change that line.No that should always be there ... it should drive traffic to my real consulting company ... every page should have a link to bear brown and co https://www.bearbrown.co/ and Nik Bear Brown's substack https://www.skepticism.ai/. all footers on all pages something Marley is open source under an MIT lience by the above10:23 AMSynthesized footer requirements linking consulting ventures and open-source licensingSynthesized footer requirements linking consulting ventures and open-source licensingRead CLAUDE.md first.
 
-1. **npm install fails**
-   - Clear npm cache: `npm cache clean --force`
-   - Try using `--legacy-peer-deps` flag if there are dependency conflicts
-   - Ensure you're using a compatible Node.js version
+Add persistent attribution to the Footer component and all standalone HTML files.
 
-2. **Permission errors**
-   - Windows: Run terminal as administrator
-   - Mac/Linux: Use `sudo` for system-wide installations
+1. FOOTER COMPONENT (components/Footer/Footer.tsx)
+   Add a bottom attribution bar below the existing copyright line:
 
-3. **Network issues**
-   - Check your internet connection
-   - If behind a proxy, configure npm accordingly
-   - Try using a different npm registry: `npm config set registry https://registry.npmjs.org/`
+   "Marley is open source (MIT License) · Built by Nik Bear Brown · 
+   bearbrown.co · The Skepticism AI Substack"
 
-## Deploy on Vercel
+   Links:
+   - "Nik Bear Brown" → https://www.bearbrown.co/
+   - "bearbrown.co" → https://www.bearbrown.co/
+   - "The Skepticism AI Substack" → https://www.skepticism.ai/
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+   Style: same muted treatment as the copyright line. 
+   All links open in new tab with rel="noopener noreferrer".
+   Do not change any other part of the footer layout.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+2. ADD MIT LICENSE FILE
+   Create LICENSE in the repo root:
+
+   MIT License
+   Copyright (c) 2026 Nik Bear Brown
+   
+   (standard MIT license text)
+
+3. HTML FILES IN public/dev/ AND public/artifacts/
+   For every .html file in public/dev/ and public/artifacts/, 
+   update or add the footer to include:
+
+   "Marley is open source (MIT License) · 
+   <a href="https://www.bearbrown.co/">bearbrown.co</a> · 
+   <a href="https://www.skepticism.ai/">The Skepticism AI Substack</a>"
+
+   Match the existing footer style in each file. 
+   If no footer exists, add one above </body>.
+
+4. CLAUDE.md
+   Add a section noting:
+   - MIT License, copyright Nik Bear Brown
+   - All pages link to https://www.bearbrown.co/ and https://www.skepticism.ai/
+   - This attribution must be preserved in all brand instances and forks
+
+List every file you plan to change before editing anything. Sonnet 4.6Extended
