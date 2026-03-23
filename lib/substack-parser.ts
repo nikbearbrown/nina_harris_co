@@ -55,9 +55,92 @@ function parseCSVLine(line: string): string[] {
   return fields
 }
 
+/**
+ * Extract the post body HTML from a full Substack HTML document.
+ * Substack exports are full HTML pages — we want only the article content.
+ * Tries several selectors in order, falls back to <body> content.
+ */
+function extractPostBody(html: string): string {
+  // Try to extract content from known Substack body containers:
+  // <div class="body markup"> is the most common in Substack exports
+  const bodyMarkupMatch = html.match(
+    /<div\s+class="body\s+markup"[^>]*>([\s\S]*?)<\/div>\s*(<div\s+class="(footer|post-footer|subscription)|<\/article|$)/i,
+  )
+  if (bodyMarkupMatch) {
+    return bodyMarkupMatch[1].trim()
+  }
+
+  // Try <div class="available-content"> (another Substack wrapper)
+  const availableMatch = html.match(
+    /<div\s+class="available-content"[^>]*>([\s\S]*?)<\/div>\s*(<div\s+class="(footer|post-footer|subscription)|<\/article|$)/i,
+  )
+  if (availableMatch) {
+    return availableMatch[1].trim()
+  }
+
+  // Try extracting everything inside <body>...</body>, stripping headers/footers
+  const bodyMatch = html.match(/<body[^>]*>([\s\S]*?)<\/body>/i)
+  if (bodyMatch) {
+    let body = bodyMatch[1]
+    // Remove <header>...</header> and <footer>...</footer> if present
+    body = body.replace(/<header[\s\S]*?<\/header>/gi, '')
+    body = body.replace(/<footer[\s\S]*?<\/footer>/gi, '')
+    // Remove <script> tags
+    body = body.replace(/<script[\s\S]*?<\/script>/gi, '')
+    // Remove <style> tags
+    body = body.replace(/<style[\s\S]*?<\/style>/gi, '')
+    const trimmed = body.trim()
+    if (trimmed.length > 0) {
+      return trimmed
+    }
+  }
+
+  // Last resort: return the full HTML (better than empty)
+  return html
+}
+
+/**
+ * Find the best matching HTML content for a given slug from the htmlMap.
+ * Tries exact match first, then progressively looser strategies.
+ */
+function findHtmlContent(
+  slug: string,
+  htmlMap: Map<string, string>,
+  htmlKeys: string[],
+): string | null {
+  // 1. Exact match
+  if (htmlMap.has(slug)) {
+    return htmlMap.get(slug)!
+  }
+
+  // 2. Filename starts with slug (handles numeric suffixes like "my-post-123456")
+  const startsWithMatch = htmlKeys.find((key) => key.startsWith(slug + '-') || key.startsWith(slug + '.'))
+  if (startsWithMatch) {
+    return htmlMap.get(startsWithMatch)!
+  }
+
+  // 3. Slug starts with filename (slug has extra segments)
+  const reverseMatch = htmlKeys.find((key) => slug.startsWith(key + '-') || slug.startsWith(key + '.'))
+  if (reverseMatch) {
+    return htmlMap.get(reverseMatch)!
+  }
+
+  // 4. Slug is contained within a filename (handles date-prefix patterns like "2024-01-15-my-post")
+  const containsMatch = htmlKeys.find((key) => key.includes(slug) || slug.includes(key))
+  if (containsMatch) {
+    return htmlMap.get(containsMatch)!
+  }
+
+  return null
+}
+
 export function parseSubstackZip(buffer: Buffer): ParsedPost[] {
   const zip = new AdmZip(buffer)
   const entries = zip.getEntries()
+
+  // Debug: log all entry names in the ZIP
+  const allEntryNames = entries.map((e) => e.entryName)
+  console.log('[substack-parser] ZIP contains', entries.length, 'entries:', allEntryNames)
 
   // Find posts.csv
   const csvEntry = entries.find(
@@ -74,6 +157,7 @@ export function parseSubstackZip(buffer: Buffer): ParsedPost[] {
   }
 
   const headers = parseCSVLine(lines[0]).map((h) => h.trim().toLowerCase())
+  console.log('[substack-parser] CSV headers:', headers)
   const titleIdx = headers.indexOf('title')
   const subtitleIdx = headers.indexOf('subtitle')
   const postDateIdx = headers.indexOf('post_date')
@@ -82,14 +166,19 @@ export function parseSubstackZip(buffer: Buffer): ParsedPost[] {
   const typeIdx = headers.indexOf('type')
   const isPublishedIdx = headers.indexOf('is_published')
 
-  // Build a map of HTML files by name
+  // Build a map of HTML files by basename (without extension)
+  // Handle files at root or in subdirectories
   const htmlMap = new Map<string, string>()
   for (const entry of entries) {
     if (entry.entryName.endsWith('.html')) {
-      const name = entry.entryName.split('/').pop()!.replace('.html', '')
-      htmlMap.set(name, entry.getData().toString('utf-8'))
+      const basename = entry.entryName.split('/').pop()!.replace('.html', '')
+      const rawHtml = entry.getData().toString('utf-8')
+      htmlMap.set(basename, rawHtml)
+      console.log('[substack-parser] HTML file found:', entry.entryName, '→ key:', basename, '(', rawHtml.length, 'bytes)')
     }
   }
+
+  const htmlKeys = Array.from(htmlMap.keys())
 
   const posts: ParsedPost[] = []
 
@@ -114,14 +203,24 @@ export function parseSubstackZip(buffer: Buffer): ParsedPost[] {
     if (slugIdx >= 0 && fields[slugIdx]?.trim()) {
       slug = fields[slugIdx].trim()
     } else if (url) {
-      const parts = url.split('/')
+      // URL is like https://example.substack.com/p/my-post-title
+      const urlPath = url.replace(/\/$/, '') // strip trailing slash
+      const parts = urlPath.split('/')
       slug = parts[parts.length - 1] || slugify(title)
     } else {
       slug = slugify(title)
     }
 
-    // Find matching HTML content
-    const content = htmlMap.get(slug) || ''
+    // Find matching HTML content with fuzzy matching
+    const rawHtml = findHtmlContent(slug, htmlMap, htmlKeys)
+    const content = rawHtml ? extractPostBody(rawHtml) : ''
+
+    console.log(
+      '[substack-parser] Post:', JSON.stringify(slug),
+      '→ HTML match:', rawHtml ? 'YES' : 'NO',
+      '| raw:', rawHtml?.length ?? 0, 'bytes',
+      '| extracted:', content.length, 'bytes',
+    )
 
     // Build excerpt from content
     const plainText = stripHtml(content)
@@ -159,6 +258,9 @@ export function parseSubstackZip(buffer: Buffer): ParsedPost[] {
       canonicalUrl: url,
     })
   }
+
+  console.log('[substack-parser] Parsed', posts.length, 'posts,',
+    posts.filter((p) => p.content.length > 0).length, 'with content')
 
   return posts
 }
