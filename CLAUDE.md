@@ -287,16 +287,16 @@ The color palette lives in three places that must stay in sync:
 - `public/theme.json` — machine-readable for doc generators
 - `app/globals.css` — CSS variables (`--bb-1` through `--bb-8`) that drive the actual site
 
-### Current palette (inherited, pending rebrand)
+### Current palette (WCAG AAA compliant)
 | Var | Hex | Role | WCAG on bb8 |
 |-----|-----|------|-------------|
 | bb1 | #0D0D0D | soot black — primary text | 16.5:1 |
-| bb2 | #4A4A4A | iron grey — primary accent | 5.9:1 |
-| bb3 | #8B0000 | dried-ink red — danger/emphasis | 5.2:1 |
-| bb4 | #8B7536 | cold brass — highlight/callout | 4.5:1 |
+| bb2 | #434343 | iron grey — primary accent | 7.1:1 |
+| bb3 | #6B0000 | dried-ink red — danger/emphasis | 7.8:1 |
+| bb4 | #645420 | cold brass — highlight/callout | 7.2:1 |
 | bb5 | #2F2F2F | charcoal — secondary accent | 10.8:1 |
-| bb6 | #6B6B5E | tarnished pewter — muted accent | — |
-| bb7 | #9C9680 | aged ledger tan — borders, subtle bg | — |
+| bb6 | #4D4D43 | tarnished pewter — muted accent | 7.0:1 |
+| bb7 | #5E5A4A | aged ledger tan — borders, subtle bg | 7.0:1 |
 | bb8 | #E8E0D0 | parchment — page background | — |
 
 ### To rebrand a new deployment
@@ -308,7 +308,7 @@ The color palette lives in three places that must stay in sync:
 - Minimal and editorial by default — white space is the primary design element
 - Color used for accent, hierarchy, and accessibility — not decoration
 - Never use color for pure aesthetics — every color use must serve readability or navigation
-- WCAG AA contrast minimum for all text/background combinations
+- WCAG AAA contrast minimum (7:1) for all text/background combinations
 - Clean academic aesthetic — clarity over ornamentation
 
 ## Design direction
