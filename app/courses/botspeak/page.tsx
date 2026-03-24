@@ -107,7 +107,7 @@ export default function BotSpeakPage() {
                   bear@bearbrown.co
                 </a>
                 <Link
-                  href="/about"
+                  href="/notes/irreducibly-human-project-doc"
                   className="text-sm text-primary hover:underline"
                 >
                   About the Series

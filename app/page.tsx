@@ -228,7 +228,7 @@ export default function Home() {
               START WITH BOTSPEAK
             </a>
             <a
-              href="/about"
+              href="/notes/irreducibly-human-project-doc"
               className="inline-flex h-10 items-center justify-center rounded-md px-8 text-sm font-bold tracking-wide transition-colors border border-white/30 text-white hover:bg-white/10"
             >
               ABOUT THE SERIES

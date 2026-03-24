@@ -34,7 +34,7 @@ export default function Footer() {
               <Link href="/blog" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
                 Blog
               </Link>
-              <Link href="/about" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+              <Link href="/notes/irreducibly-human-project-doc" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
                 About
               </Link>
             </div>
