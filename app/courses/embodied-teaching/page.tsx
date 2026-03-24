@@ -88,7 +88,7 @@ export default function EmbodiedTeachingPage() {
           <section>
             <h2 className="text-3xl font-bold mb-6">Back to the Beginning</h2>
             <div className="flex flex-col sm:flex-row gap-4 flex-wrap">
-              <PrimaryButton href="/courses/botspeak">
+              <PrimaryButton href="/notes/NEU_botspeak-syllabus">
                 Start Over: BotSpeak
               </PrimaryButton>
               <SecondaryButton href="/courses">

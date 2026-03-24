@@ -44,19 +44,19 @@ export default function AboutPage() {
             <h2 className="text-2xl font-bold mb-4">The Five Courses</h2>
             <ul>
               <li>
-                <Link href="/courses/botspeak" className="text-primary hover:underline">BotSpeak</Link> — Tier 4: Creative Authorship
+                <Link href="/notes/NEU_botspeak-syllabus" className="text-primary hover:underline">BotSpeak</Link> — Tier 4: Creative Authorship
               </li>
               <li>
-                <Link href="/courses/causal-reasoning" className="text-primary hover:underline">Causal Reasoning</Link> — Tier 5: Causal Reasoning
+                <Link href="/notes/NEU_causal-reasoning-syllabus" className="text-primary hover:underline">Causal Reasoning</Link> — Tier 5: Causal Reasoning
               </li>
               <li>
-                <Link href="/courses/ethical-play" className="text-primary hover:underline">Ethical Play</Link> — Tier 3: Ethical Play
+                <Link href="/notes/NEU_ethical-play-tictoc" className="text-primary hover:underline">Ethical Play</Link> — Tier 3: Ethical Play
               </li>
               <li>
-                <Link href="/courses/aimagineering" className="text-primary hover:underline">AIMagineering</Link> — Tier 4: Creative Authorship
+                <Link href="/notes/NEU_aimagineering-syllabus" className="text-primary hover:underline">AIMagineering</Link> — Tier 4: Creative Authorship
               </li>
               <li>
-                <Link href="/courses/embodied-teaching" className="text-primary hover:underline">Embodied Teaching</Link> — Tier 2: Embodied Teaching
+                <Link href="/notes/NEU_embodied-teaching-syllabus" className="text-primary hover:underline">Embodied Teaching</Link> — Tier 2: Embodied Teaching
               </li>
             </ul>
           </section>

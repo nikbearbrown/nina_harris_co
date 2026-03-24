@@ -222,7 +222,7 @@ export default function Home() {
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <a
-              href="/courses/botspeak"
+              href="/notes/NEU_botspeak-syllabus"
               className="inline-flex h-10 items-center justify-center rounded-md px-8 text-sm font-bold tracking-wide transition-colors bg-white text-[var(--bb-2)] shadow hover:bg-white/90"
             >
               START WITH BOTSPEAK
