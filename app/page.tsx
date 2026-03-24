@@ -95,7 +95,7 @@ export default function Home() {
           <div className="grid gap-10 lg:grid-cols-2 lg:gap-16 items-center">
             <div className="flex flex-col justify-center space-y-6">
               <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
-                Irreducibly Human
+                Nina Harris & Co
               </h1>
               <p className="text-lg text-muted-foreground">
                 What AI Can and Can&apos;t Do
@@ -121,7 +121,7 @@ export default function Home() {
             <div className="aspect-video rounded-lg overflow-hidden shadow-lg">
               <iframe
                 src="https://www.youtube.com/embed/R2X2-_USSVY?si=mIyL7XqejJGbtizL"
-                title="Irreducibly Human"
+                title="Nina Harris & Co"
                 width="100%"
                 height="100%"
                 frameBorder="0"
@@ -244,7 +244,7 @@ export default function Home() {
             Bear Brown &amp; Company
           </h2>
           <p className="max-w-[600px] mx-auto text-background/70 text-lg mb-8">
-            Irreducibly Human is a production of Bear Brown &amp; Company.
+            Nina Harris & Co is a production of Bear Brown &amp; Company.
             For questions about the series, reach out directly.
           </p>
           <div className="flex flex-wrap justify-center gap-4">

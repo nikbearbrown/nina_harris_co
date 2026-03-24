@@ -20,7 +20,7 @@ export async function generateMetadata({
       description: doc.description || doc.title,
     }
   }
-  return { title: 'Notes - Irreducibly Human' }
+  return { title: 'Notes - Nina Harris & Co' }
 }
 
 export default async function DevDocPage({

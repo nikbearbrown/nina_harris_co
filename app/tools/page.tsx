@@ -7,8 +7,8 @@ import ToolsBrowser from './ToolsBrowser'
 export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
-  title: 'Tools - Irreducibly Human',
-  description: 'Tools directory curated by Irreducibly Human.',
+  title: 'Tools - Nina Harris & Co',
+  description: 'Tools directory curated by Nina Harris & Co.',
 }
 
 interface Tool {

@@ -26,8 +26,8 @@ export async function generateMetadata({
   const doc = getArtifactDoc(slug)
   if (doc) {
     return {
-      title: `${doc.title} - Irreducibly Human Tools`,
-      description: doc.description || `${doc.title} — tool by Irreducibly Human`,
+      title: `${doc.title} - Nina Harris & Co Tools`,
+      description: doc.description || `${doc.title} — tool by Nina Harris & Co`,
     }
   }
 
@@ -36,13 +36,13 @@ export async function generateMetadata({
     const rows = await sql`SELECT name, description FROM tools WHERE slug = ${slug}`
     if (rows.length > 0) {
       return {
-        title: `${rows[0].name} - Irreducibly Human Tools`,
-        description: rows[0].description || `${rows[0].name} — tool by Irreducibly Human`,
+        title: `${rows[0].name} - Nina Harris & Co Tools`,
+        description: rows[0].description || `${rows[0].name} — tool by Nina Harris & Co`,
       }
     }
   } catch {}
 
-  return { title: 'Tool - Irreducibly Human' }
+  return { title: 'Tool - Nina Harris & Co' }
 }
 
 export default async function ToolPage({

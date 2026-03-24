@@ -2,7 +2,7 @@
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "Projects | Irreducibly Human",
+  title: "Projects | Nina Harris & Co",
   description: "Coming soon.",
   robots: { index: false, follow: false },
 }

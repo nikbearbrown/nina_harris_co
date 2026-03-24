@@ -12,7 +12,7 @@ import { cn } from '@/lib/utils'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Irreducibly Human',
+  title: 'Nina Harris & Co',
   description: 'What AI Can and Can\'t Do — a 5-course series from Bear Brown & Company.',
 }
 

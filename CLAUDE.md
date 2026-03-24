@@ -1,9 +1,9 @@
-# CLAUDE.md — Irreducibly Human
+# CLAUDE.md — Nina Harris & Co
 
-> **Irreducibly Human: What AI Can and Can't Do** — a 5-course graduate series in Bear Brown & Company. Each course develops a specific tier of human intelligence that AI cannot replicate.
+> **Nina Harris & Co: What AI Can and Can't Do** — a 5-course graduate series in Bear Brown & Company. Each course develops a specific tier of human intelligence that AI cannot replicate.
 
 ## Who this site is for
-Irreducibly Human is the companion site for a graduate certificate program at Bear Brown & Company. It serves as the public-facing hub for course descriptions, research blog posts, interactive tools, and developer documentation.
+Nina Harris & Co is the companion site for a graduate certificate program at Bear Brown & Company. It serves as the public-facing hub for course descriptions, research blog posts, interactive tools, and developer documentation.
 
 Primary audiences:
 - Prospective and current graduate students evaluating the certificate
@@ -26,7 +26,7 @@ Brand voice: Academic, clear, direct. Informed by research, accessible to practi
 - adm-zip (server-side Substack ZIP parsing)
 
 ## Author
-**Nik Bear Brown**, Bear Brown & Company. Creator of the Irreducibly Human curriculum and this platform.
+**Nik Bear Brown**, Bear Brown & Company. Creator of the Nina Harris & Co curriculum and this platform.
 
 ## Site structure
 1. `/` — Home (program intro + course overview + contact)
@@ -43,9 +43,9 @@ Brand voice: Academic, clear, direct. Informed by research, accessible to practi
 12. `/blog` — Blog feed: published posts newest first, clean card list
 13. `/blog/[slug]` — Individual blog post with prose content
 14. `/about` — About the program (prose format, author info)
-15. `/privacy` — Privacy Policy for Irreducibly Human
-16. `/privacy/cookies` — Cookie Policy for Irreducibly Human (dedicated page)
-17. `/terms-of-service` — Terms of Service for Irreducibly Human
+15. `/privacy` — Privacy Policy for Nina Harris & Co
+16. `/privacy/cookies` — Cookie Policy for Nina Harris & Co (dedicated page)
+17. `/terms-of-service` — Terms of Service for Nina Harris & Co
 18. `/substack` — Newsletter hub: card grid of all Substack sections
 19. `/substack/[section]` — Section page: description, "Follow on Substack" CTA, chronological article list
 20. `/substack/[section]/[slug]` — Full article: attribution banner, prose content, "Subscribe on Substack" footer CTA
@@ -85,7 +85,7 @@ Teaching is irreducibly human. This course covers presence, improvisation, emoti
 ## Persistent layout (every page)
 
 ### Header (`/components/Header/Header.tsx`) — DONE
-- Logo: text-based "Irreducibly Human" in bold tracking-tighter
+- Logo: text-based "Nina Harris & Co" in bold tracking-tighter
 - Nav: Home (`/`) | Courses (`/courses`) | Tools (`/tools`) | Dev (`/dev`) | About (`/about`) | Blog (`/blog`)
 - Social buttons (top right): GitHub (github.com/nikbearbrown/irreducibly-human), Substack (skepticism.ai), YouTube (youtube.com/@Musinique), Spotify (open.spotify.com/artist/0hSpFCJodAYMP2cWK72zI6) — black button style
 - Dark/light mode toggle (ThemeToggle component)
@@ -94,7 +94,7 @@ Teaching is irreducibly human. This course covers presence, improvisation, emoti
 
 ### Footer (`/components/Footer/Footer.tsx`) — DONE
 Four-column grid layout:
-- **Program Info:** Irreducibly Human, Bear Brown & Company, Bear Brown & Company, bear@bearbrown.co
+- **Program Info:** Nina Harris & Co, Bear Brown & Company, Bear Brown & Company, bear@bearbrown.co
 - **Platform:** Links to Courses, Tools, Blog, About
 - **Connect:** GitHub (github.com/nikbearbrown/irreducibly-human), Substack (skepticism.ai), Bear Brown & Co (bearbrown.co), YouTube (youtube.com/@Musinique), Spotify (open.spotify.com/artist/0hSpFCJodAYMP2cWK72zI6)
 - **Legal:** Privacy Policy, Cookie Policy, Terms of Service
@@ -108,7 +108,7 @@ Four-column grid layout:
 
 ## Home page (`/app/page.tsx`) — NEEDS UPDATE
 Five sections, alternating white/muted/dark backgrounds:
-1. **Hero** (two-column): Left — h1 "Irreducibly Human", subtext "What AI Can and Can't Do", program description, "Explore Courses" + "Contact Us" buttons. Right — introductory video embed.
+1. **Hero** (two-column): Left — h1 "Nina Harris & Co", subtext "What AI Can and Can't Do", program description, "Explore Courses" + "Contact Us" buttons. Right — introductory video embed.
 2. **The Five Courses** (2x2+1 card grid, muted bg): Five course cards — BotSpeak, Causal Reasoning, Ethical Play, AIMagineering, Embodied Teaching. Each with description + course link.
 3. **Who This Is For** (3-column cards, dark bg): For Graduate Students, For Researchers, For Professionals — each with 4 bullet points.
 4. **Get Started** (bb-2 bg): CTA section with "EXPLORE COURSES" (/courses), "ABOUT THE PROGRAM" (/about), "CONTACT US" buttons.
@@ -262,14 +262,14 @@ Tiptap (ProseMirror-based) rich text editor, Substack-style:
 
 ## About page (`/app/about/page.tsx`) — NEEDS UPDATE
 Prose-forward format with sections:
-- Program introduction (Irreducibly Human at Bear Brown & Company)
+- Program introduction (Nina Harris & Co at Bear Brown & Company)
 - Author (Nik Bear Brown, Bear Brown & Company)
 - The Thesis (what AI can and can't do — the irreducibly human capacities)
 - The Five Courses (overview of the sequence)
 - Contact (email)
 
 ## Legal Pages — DONE
-All three pages use the same structural template, branded for Irreducibly Human. Bear Brown & Company, Bear Brown & Company. Contact: bear@bearbrown.co. Educational program.
+All three pages use the same structural template, branded for Nina Harris & Co. Bear Brown & Company, Bear Brown & Company. Contact: bear@bearbrown.co. Educational program.
 
 ### Privacy Policy (`/app/privacy/page.tsx`)
 Sections: introduction, information we collect (contact data, inquiry content, engagement data, analytics), how we use info, sharing (consent, legitimate interests, contract, legal, vital interests), third-party services (Vercel, Neon, Substack, Anthropic, GitHub), cookies reference (links to Cookie Policy page), data security, data retention, your privacy rights, children's privacy, changes, contact. Nav: Terms of Service ← → Cookie Policy.
@@ -280,7 +280,7 @@ Separate dedicated page at `/privacy/cookies`. Sections: what are cookies, cooki
 ### Terms of Service (`/app/terms-of-service/page.tsx`)
 15 sections: introduction, website purpose, educational content, intellectual property, use license, user conduct, newsletter content, third-party services and links, disclaimer, limitations, indemnification, revisions and errata, governing law (Massachusetts, USA), modifications, contact. Nav: Privacy Policy ← → Home.
 
-## Theming (Irreducibly Human palette)
+## Theming (Nina Harris & Co palette)
 
 The color palette lives in three places that must stay in sync:
 - `lib/theme.ts` — TypeScript source of truth
@@ -402,7 +402,7 @@ NEXT_PUBLIC_ANTHROPIC_API_KEY=   # only if embedding AI assistant directly
 
 ### Overview
 
-irreduciblyhuman.xyz is the companion site for "Irreducibly Human: What AI Can and Can't Do," a 5-course graduate certificate in Bear Brown & Company. It runs on Next.js with Vercel auto-deploy. The public site has no login; the admin dashboard is cookie-protected.
+irreduciblyhuman.xyz is the companion site for "Nina Harris & Co: What AI Can and Can't Do," a 5-course graduate certificate in Bear Brown & Company. It runs on Next.js with Vercel auto-deploy. The public site has no login; the admin dashboard is cookie-protected.
 
 ---
 
@@ -410,7 +410,7 @@ irreduciblyhuman.xyz is the companion site for "Irreducibly Human: What AI Can a
 
 **Home page** (`/`) — Landing page with program introduction, course overview cards, audience benefits, CTA, and contact info.
 
-**Courses** (`/courses`) — Card grid of the five courses in the Irreducibly Human sequence. Click a course to read its full description.
+**Courses** (`/courses`) — Card grid of the five courses in the Nina Harris & Co sequence. Click a course to read its full description.
 
 **About** (`/about`) — Prose-format page covering the program's thesis, author, course sequence, and contact details.
 
@@ -642,9 +642,9 @@ After every session, always:
 2. Commit and push all changes to main with a descriptive commit message.
 
 ## Remaining work (in priority order)
-1. Rebrand Header, Footer, Home page, and About page to Irreducibly Human
+1. Rebrand Header, Footer, Home page, and About page to Nina Harris & Co
 2. Build `/courses` directory page and five individual course pages
-3. Update legal pages (Privacy, Cookies, Terms) for Irreducibly Human branding
-4. Update color palette for Irreducibly Human branding
+3. Update legal pages (Privacy, Cookies, Terms) for Nina Harris & Co branding
+4. Update color palette for Nina Harris & Co branding
 5. Add tools via admin dashboard
 6. Consider contact form widget (currently all CTAs route to mailto)
