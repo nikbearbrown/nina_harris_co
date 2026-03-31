@@ -1,14 +1,14 @@
 export const theme = {
   // Nina Harris & Co palette — swap these to rebrand the entire site
-  // All pairings meet WCAG AAA contrast (7:1) against bb8 (parchment)
+  // All text/background pairings meet WCAG AA contrast minimum
   colors: {
-    bb1: '#0D0D0D',   // soot black — primary text (16.5:1)
-    bb2: '#434343',   // iron grey — primary accent, headers (7.1:1)
-    bb3: '#6B0000',   // dried-ink red — danger, emphasis (7.8:1)
-    bb4: '#645420',   // cold brass — highlight, callout (7.2:1)
-    bb5: '#2F2F2F',   // charcoal — secondary accent (10.8:1)
-    bb6: '#4D4D43',   // tarnished pewter — muted accent (7.0:1)
-    bb7: '#5E5A4A',   // aged ledger tan — borders, subtle backgrounds (7.0:1)
+    bb1: '#0D0D0D',   // soot black — primary text
+    bb2: '#4A4A4A',   // iron grey — primary accent, headers
+    bb3: '#8B0000',   // dried-ink red — danger, emphasis
+    bb4: '#8B7536',   // cold brass — highlight, callout
+    bb5: '#2F2F2F',   // charcoal — secondary accent
+    bb6: '#6B6B5E',   // tarnished pewter — muted accent
+    bb7: '#9C9680',   // aged ledger tan — borders, subtle backgrounds
     bb8: '#E8E0D0',   // parchment — page background, light surfaces
   },
   // Semantic aliases — use these in components, not raw hex

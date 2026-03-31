@@ -97,24 +97,20 @@ export default function Home() {
               <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
                 Nina Harris & Co
               </h1>
-              <p className="text-lg text-muted-foreground">
-                What AI Can and Can&apos;t Do
+              <p className="text-lg text-muted-foreground font-medium">
+                AI-Powered Brand and Marketing Tools for Students and Nonprofits
               </p>
               <p className="max-w-[540px] text-lg leading-relaxed">
-                A curriculum series, production pipeline, and measurement infrastructure
-                for the cognitive capacities the AI era most urgently requires humans to
-                develop — demonstrated by the method used to build it. The argument evolves
-                through conversation with{' '}
-                <a href="https://marley.bearbrown.co/" target="_blank" rel="noopener noreferrer" className="underline hover:text-foreground/80">Dewey</a>.
-                The curriculum takes shape as the design is debated. What you&apos;re looking
-                at is the working document, not the finished product. That&apos;s the point.
+                Professional-grade brand strategy, copywriting, editorial review, and
+                investor pitch tools — built by marketers and educators, powered by AI,
+                offered through Humanitarians AI. No jargon. No guessing. Just the work.
               </p>
               <div className="flex flex-wrap gap-3 pt-2">
-                <a href="/courses" className={buttonStyles}>
-                  Explore the Courses
+                <a href="/tools" className={buttonStyles}>
+                  Explore the Tools
                 </a>
-                <a href="/notes/irreducibly-human-project-doc" className={buttonOutline}>
-                  About the Series
+                <a href="/about" className={buttonOutline}>
+                  About Nina Harris & Co
                 </a>
               </div>
             </div>

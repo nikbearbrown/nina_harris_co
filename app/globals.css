@@ -5,12 +5,12 @@
   :root {
     /* Nina Harris & Co palette — swap these to rebrand the entire site */
     --bb-1: #0D0D0D;
-    --bb-2: #434343;
-    --bb-3: #6B0000;
-    --bb-4: #645420;
+    --bb-2: #4A4A4A;
+    --bb-3: #8B0000;
+    --bb-4: #8B7536;
     --bb-5: #2F2F2F;
-    --bb-6: #4D4D43;
-    --bb-7: #5E5A4A;
+    --bb-6: #6B6B5E;
+    --bb-7: #9C9680;
     --bb-8: #E8E0D0;
 
     /* Semantic aliases */
@@ -30,20 +30,20 @@
     --card-foreground: 0 0% 5%;
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 5%;
-    --primary: 0 0% 29%; /* Iron Grey */
+    --primary: 0 0% 29%; /* Iron Grey #4A4A4A */
     --primary-foreground: 40 20% 95%;
     --secondary: 40 10% 95%;
-    --secondary-foreground: 0 0% 29%; /* Iron Grey */
+    --secondary-foreground: 0 0% 29%; /* Iron Grey #4A4A4A */
     --muted: 40 10% 95%;
-    --muted-foreground: 0 0% 40%;
-    --accent: 0 0% 29%; /* Iron Grey */
+    --muted-foreground: 40 5% 40%;
+    --accent: 0 0% 29%; /* Iron Grey #4A4A4A */
     --accent-foreground: 40 20% 95%;
-    --destructive: 0 100% 27%; /* Dried-ink Red */
+    --destructive: 0 100% 27%; /* Dried-ink Red #8B0000 */
     --destructive-foreground: 40 20% 95%;
     --border: 40 10% 85%;
     --input: 40 10% 85%;
-    --ring: 0 0% 29%; /* Iron Grey */
-    --highlight: 0 100% 27%; /* Dried-ink Red for highlighting */
+    --ring: 0 0% 29%; /* Iron Grey #4A4A4A */
+    --highlight: 0 100% 27%; /* Dried-ink Red #8B0000 for highlighting */
     --highlight-foreground: 40 20% 95%;
     --radius: 0.5rem;
   }
