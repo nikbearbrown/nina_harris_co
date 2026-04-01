@@ -8,11 +8,10 @@ import { cn } from '@/lib/utils'
 import ThemeToggle from '@/components/ThemeToggle'
 
 const NAV_ITEMS = [
-  { name: 'Blog', href: '/blog' },
-  { name: 'Books', href: '/books' },
-  { name: 'Dev', href: '/dev' },
-  { name: 'Notes', href: '/notes' },
+  { name: 'Services', href: '/services' },
   { name: 'Tools', href: '/tools' },
+  { name: 'About', href: '/about' },
+  { name: 'Contact', href: '/contact' },
 ]
 
 const SOCIAL_LINKS = [
