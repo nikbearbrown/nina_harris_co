@@ -1,5 +1,8 @@
 import { MetadataRoute } from 'next'
 import { neon } from '@neondatabase/serverless'
+import { join } from 'path'
+import { scanBooks } from '@/lib/book-meta'
+import { scanHtmlSubdirs } from '@/lib/html-meta'
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://irreduciblyhuman.xyz'
 
@@ -9,12 +12,51 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE_URL}/tools`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.8 },
     { url: `${BASE_URL}/notes`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.8 },
     { url: `${BASE_URL}/about`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${BASE_URL}/books`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.8 },
+    { url: `${BASE_URL}/dev`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.8 },
     { url: `${BASE_URL}/blog`, lastModified: new Date(), changeFrequency: 'daily', priority: 0.9 },
     { url: `${BASE_URL}/substack`, lastModified: new Date(), changeFrequency: 'daily', priority: 0.9 },
     { url: `${BASE_URL}/privacy`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.3 },
     { url: `${BASE_URL}/privacy/cookies`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.3 },
     { url: `${BASE_URL}/terms-of-service`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.3 },
   ]
+
+  // Books (filesystem)
+  const books = scanBooks(join(process.cwd(), 'public', 'books'))
+  for (const book of books) {
+    entries.push({
+      url: `${BASE_URL}/books/${book.slug}`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    })
+  }
+
+  // Notes subdirs (filesystem)
+  const noteGroups = scanHtmlSubdirs(join(process.cwd(), 'public', 'notes'))
+  for (const g of noteGroups) {
+    for (const doc of g.docs) {
+      entries.push({
+        url: `${BASE_URL}/notes/${doc.slug}`,
+        lastModified: new Date(),
+        changeFrequency: 'monthly',
+        priority: 0.6,
+      })
+    }
+  }
+
+  // Dev subdirs (filesystem)
+  const devGroups = scanHtmlSubdirs(join(process.cwd(), 'public', 'dev'))
+  for (const g of devGroups) {
+    for (const doc of g.docs) {
+      entries.push({
+        url: `${BASE_URL}/dev/${doc.slug}`,
+        lastModified: new Date(),
+        changeFrequency: 'monthly',
+        priority: 0.6,
+      })
+    }
+  }
 
   try {
     const db = neon(process.env.DATABASE_URL!)

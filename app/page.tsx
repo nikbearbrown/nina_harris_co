@@ -95,15 +95,13 @@ export default function Home() {
           <div className="grid gap-10 lg:grid-cols-2 lg:gap-16 items-center">
             <div className="flex flex-col justify-center space-y-6">
               <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
-                Nina Harris & Co
+                Brand Strategy for Nonprofits That Can&apos;t Afford to Get It Wrong
               </h1>
-              <p className="text-lg text-muted-foreground font-medium">
-                AI-Powered Brand and Marketing Tools for Students and Nonprofits
-              </p>
               <p className="max-w-[540px] text-lg leading-relaxed">
-                Professional-grade brand strategy, copywriting, editorial review, and
-                investor pitch tools — built by marketers and educators, powered by AI,
-                offered through Humanitarians AI. No jargon. No guessing. Just the work.
+                Your nonprofit does serious work. Your brand should reflect it. Nina Harris &amp; Co
+                builds brand identity, guidelines, websites, and social strategy for nonprofits —
+                led by 40 years of agency experience, powered by AI, delivered by the next
+                generation of brand professionals. A Humanitarians AI service.
               </p>
               <div className="flex flex-wrap gap-3 pt-2">
                 <a href="/tools" className={buttonStyles}>
