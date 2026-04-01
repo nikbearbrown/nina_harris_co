@@ -58,31 +58,22 @@ const COURSES = [
 
 const AUDIENCES = [
   {
-    heading: 'FOR ENGINEERS',
-    items: [
-      'AI-tool-capable but no framework for evaluating outputs',
-      'Need to distinguish correlation from causation in model behavior',
-      'Building systems that require human judgment at the boundary',
-      'Want to understand what their tools actually can\'t do',
-    ],
+    heading: 'FOR NONPROFITS',
+    body: "You do the work. You don't have a brand team. We give you access to the same strategic frameworks Fortune 500 companies pay agencies six figures to build — brand identity, guidelines, websites, copywriting, LinkedIn strategy, and Substack publications — at no cost, through a team that cares about the work as much as you do.",
+    link: 'Ready to start?',
+    href: '/about',
   },
   {
-    heading: 'FOR EDUCATORS',
-    items: [
-      'Deploying AI in embodied, relational domains',
-      'Need to preserve what makes teaching human',
-      'Designing curricula that develop irreducibly human skills',
-      'Preparing students for a world shaped by AI',
-    ],
+    heading: 'FOR STUDENTS',
+    body: "The job market doesn't care about your GPA. It cares about how you show up. These tools and services walk you through building a personal brand that stands out — strategy before aesthetics, substance before polish. Start with Nina for the identity foundation. Use Ogilvy to write copy that sounds like you. Use Eddy when your writing needs a tough editor before it goes live.",
+    link: 'Explore the tools',
+    href: '/tools',
   },
   {
-    heading: 'FOR DESIGNERS',
-    items: [
-      'Need judgment before and after the tool runs',
-      'Distinguishing generative novelty from genuine originality',
-      'Building creative processes that use AI without depending on it',
-      'Developing aesthetic criteria that machines cannot replicate',
-    ],
+    heading: 'FOR OPT VOLUNTEERS',
+    body: "You have the skills. You need the experience. Through Humanitarians AI, you work on real brand projects for real nonprofit clients — website development, brand guidelines, social strategy, and content creation. Every project is documented, portfolio-ready, and supervised by a senior Creative Director. This isn't a simulation. It's the work.",
+    link: 'Learn about the program',
+    href: '/about',
   },
 ]
 
@@ -105,10 +96,10 @@ export default function Home() {
               </p>
               <div className="flex flex-wrap gap-3 pt-2">
                 <a href="/tools" className={buttonStyles}>
-                  Explore the Tools
+                  See Our Services →
                 </a>
                 <a href="/about" className={buttonOutline}>
-                  About Nina Harris & Co
+                  Work With Us →
                 </a>
               </div>
             </div>
@@ -172,31 +163,28 @@ export default function Home() {
             <h2 className="text-sm font-semibold tracking-widest uppercase text-background/60 mb-3">
               Who This Is For
             </h2>
-            <p className="text-lg text-background/70 max-w-2xl mx-auto">
-              This series is for practitioners who already use AI and need a
-              framework for understanding where it stops and human judgment begins.
+            <p className="text-2xl font-bold text-background max-w-2xl mx-auto">
+              Built for people doing real work without a real budget
             </p>
           </div>
           <div className="grid gap-8 md:grid-cols-3">
             {AUDIENCES.map((audience) => (
               <div
                 key={audience.heading}
-                className="rounded-lg border border-background/10 bg-background/5 p-8"
+                className="rounded-lg border border-background/10 bg-background/5 p-8 flex flex-col"
               >
                 <h3 className="text-lg font-bold tracking-wide mb-4">
                   {audience.heading}
                 </h3>
-                <ul className="space-y-3">
-                  {audience.items.map((item) => (
-                    <li
-                      key={item}
-                      className="text-background/80 text-sm leading-relaxed flex gap-2"
-                    >
-                      <span className="text-background/40 shrink-0">—</span>
-                      {item}
-                    </li>
-                  ))}
-                </ul>
+                <p className="text-background/80 text-sm leading-relaxed flex-1">
+                  {audience.body}
+                </p>
+                <a
+                  href={audience.href}
+                  className="mt-6 text-sm font-medium text-background hover:underline"
+                >
+                  {audience.link} →
+                </a>
               </div>
             ))}
           </div>
