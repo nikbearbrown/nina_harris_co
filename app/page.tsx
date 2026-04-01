@@ -104,15 +104,10 @@ export default function Home() {
               </div>
             </div>
             <div className="aspect-video rounded-lg overflow-hidden shadow-lg">
-              <iframe
-                src="https://www.youtube.com/embed/R2X2-_USSVY?si=mIyL7XqejJGbtizL"
-                title="Nina Harris & Co"
-                width="100%"
-                height="100%"
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                className="w-full h-full"
+              <img
+                src="/hero-image.jpg"
+                alt="Nina Harris & Co"
+                className="w-full h-full object-cover"
               />
             </div>
           </div>
@@ -157,31 +152,31 @@ export default function Home() {
       </section>
 
       {/* Who This Is For Section */}
-      <section className="w-full py-16 md:py-24 bg-foreground text-background">
+      <section className="w-full py-16 md:py-24 bg-muted/40">
         <div className="container px-4 md:px-6 mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-sm font-semibold tracking-widest uppercase text-background/60 mb-3">
+          <div className="text-center mb-12 max-w-2xl mx-auto">
+            <p className="text-sm font-semibold tracking-widest uppercase text-muted-foreground mb-3">
               Who This Is For
-            </h2>
-            <p className="text-2xl font-bold text-background max-w-2xl mx-auto">
-              Built for people doing real work without a real budget
             </p>
+            <h2 className="text-3xl font-bold tracking-tight">
+              Built for people doing real work without a real budget
+            </h2>
           </div>
           <div className="grid gap-8 md:grid-cols-3">
             {AUDIENCES.map((audience) => (
               <div
                 key={audience.heading}
-                className="rounded-lg border border-background/10 bg-background/5 p-8 flex flex-col"
+                className="rounded-lg border bg-card p-8 shadow-sm flex flex-col"
               >
-                <h3 className="text-lg font-bold tracking-wide mb-4">
+                <h3 className="text-sm font-bold tracking-widest uppercase text-muted-foreground mb-4">
                   {audience.heading}
                 </h3>
-                <p className="text-background/80 text-sm leading-relaxed flex-1">
+                <p className="text-base leading-relaxed text-muted-foreground flex-1 mb-6">
                   {audience.body}
                 </p>
                 <a
                   href={audience.href}
-                  className="mt-6 text-sm font-medium text-background hover:underline"
+                  className="text-sm font-medium text-foreground hover:underline underline-offset-4"
                 >
                   {audience.link} →
                 </a>
@@ -192,51 +187,40 @@ export default function Home() {
       </section>
 
       {/* CTA Section */}
-      <section className="w-full py-16 md:py-24 bg-[var(--bb-2)] text-white">
-        <div className="container px-4 md:px-6 mx-auto text-center">
-          <h2 className="text-sm font-semibold tracking-widest uppercase text-white/60 mb-3">
-            Begin the Sequence
-          </h2>
-          <p className="text-lg text-white/80 max-w-3xl mx-auto mb-10 leading-relaxed">
-            The series starts with BotSpeak — learning to communicate with AI systems
-            clearly, critically, and without illusion. Each subsequent course builds on
-            the last, developing the human capacities that no model can replicate.
-          </p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <a
-              href="/notes/NEU_botspeak-syllabus"
-              className="inline-flex h-10 items-center justify-center rounded-md px-8 text-sm font-bold tracking-wide transition-colors bg-white text-[var(--bb-2)] shadow hover:bg-white/90"
-            >
-              START WITH BOTSPEAK
-            </a>
-            <a
-              href="/notes/irreducibly-human-project-doc"
-              className="inline-flex h-10 items-center justify-center rounded-md px-8 text-sm font-bold tracking-wide transition-colors border border-white/30 text-white hover:bg-white/10"
-            >
-              ABOUT THE SERIES
-            </a>
-          </div>
-        </div>
-      </section>
-
-      {/* Contact Section */}
       <section className="w-full py-16 md:py-24 bg-foreground text-background">
-        <div className="container px-4 md:px-6 mx-auto text-center">
-          <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl mb-4">
-            Bear Brown &amp; Company
+        <div className="container px-4 md:px-6 mx-auto max-w-4xl">
+          <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl mb-10">
+            Let&apos;s talk about your brand
           </h2>
-          <p className="max-w-[600px] mx-auto text-background/70 text-lg mb-8">
-            Nina Harris & Co is a production of Bear Brown &amp; Company.
-            For questions about the series, reach out directly.
-          </p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <a
-              href="mailto:bear@bearbrown.co"
-              className="inline-flex h-10 items-center justify-center rounded-md px-8 text-sm font-medium transition-colors border border-background/30 text-background hover:bg-background/10"
-            >
-              bear@bearbrown.co
-            </a>
+          <div className="grid gap-6 md:grid-cols-3 mb-12">
+            <div className="border border-background/10 rounded-lg p-6">
+              <p className="text-sm font-semibold text-background/50 uppercase tracking-widest mb-3">For Nonprofits</p>
+              <p className="text-sm text-background/80 leading-relaxed">
+                If you need brand work — identity, guidelines, website, LinkedIn, Substack — we&apos;d
+                like to hear from you. Start with a conversation, not a contract.
+              </p>
+            </div>
+            <div className="border border-background/10 rounded-lg p-6">
+              <p className="text-sm font-semibold text-background/50 uppercase tracking-widest mb-3">For Students</p>
+              <p className="text-sm text-background/80 leading-relaxed">
+                If you&apos;re building a personal brand, start with Nina — the brand intake tool.
+                It&apos;s the foundation everything else is built on.
+              </p>
+            </div>
+            <div className="border border-background/10 rounded-lg p-6">
+              <p className="text-sm font-semibold text-background/50 uppercase tracking-widest mb-3">For OPT Volunteers</p>
+              <p className="text-sm text-background/80 leading-relaxed">
+                If you&apos;re looking for real project experience in brand and creative, learn about
+                the Humanitarians AI program.
+              </p>
+            </div>
           </div>
+          <a
+            href="mailto:nina@humanitarians.ai"
+            className="inline-flex h-10 items-center justify-center rounded-md px-8 text-sm font-medium transition-colors border border-background/30 text-background hover:bg-background/10"
+          >
+            Get in Touch →
+          </a>
         </div>
       </section>
     </div>
