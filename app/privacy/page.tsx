@@ -19,7 +19,7 @@ export default function PrivacyPolicyPage() {
           <section className="mb-8">
             <h2 className="text-2xl font-semibold mb-4">Introduction</h2>
             <p>
-              Welcome to <strong>Nina Harris & Co</strong>. We are committed to protecting your
+              Welcome to <strong><a href="https://ninaharris.co" className="text-primary hover:underline">ninaharris.co</a></strong>, operated by <strong>Nina Harris & Co</strong>. We are committed to protecting your
               personal information and your right to privacy. If you have any questions or concerns about this privacy
               policy or our practices with regard to your personal information, please contact us at{' '}
               <a href="mailto:nina@humanitarians.ai" className="text-primary hover:underline">nina@humanitarians.ai</a>.
