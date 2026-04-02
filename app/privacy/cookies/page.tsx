@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 export const metadata: Metadata = {
   title: 'Cookie Policy - Nina Harris & Co',
-  description: 'Cookie policy for Nina Harris & Co and irreduciblyhuman.xyz',
+  description: 'Cookie policy for Nina Harris & Co',
 }
 
 export default function CookiePolicyPage() {
@@ -22,13 +22,13 @@ export default function CookiePolicyPage() {
               Cookies are small text files that are placed on your computer or mobile device when you visit a website.
               They are widely used to make websites work more efficiently and to provide information to website owners.
               This Cookie Policy explains how <strong>Nina Harris & Co</strong> uses cookies and similar technologies on{' '}
-              <strong>irreduciblyhuman.xyz</strong>.
+              <strong><a href="https://ninaharris.co" className="text-primary hover:underline">ninaharris.co</a></strong>.
             </p>
             <ul className="list-none pl-0 mt-4 space-y-1 text-base">
               <li><strong>Company:</strong> Nina Harris & Co</li>
               <li><strong>Address:</strong> 30 N Gould St Ste N, Sheridan, WY 82801</li>
               <li><strong>Email:</strong>{' '}
-                <a href="mailto:bear@bearbrown.co" className="text-primary hover:underline">bear@bearbrown.co</a>
+                <a href="mailto:nina@humanitarians.ai" className="text-primary hover:underline">nina@humanitarians.ai</a>
               </li>
             </ul>
           </section>
@@ -151,7 +151,7 @@ export default function CookiePolicyPage() {
             </p>
             <ul className="list-none pl-0 mt-4 space-y-1 text-base">
               <li><strong>Email:</strong>{' '}
-                <a href="mailto:bear@bearbrown.co" className="text-primary hover:underline">bear@bearbrown.co</a>
+                <a href="mailto:nina@humanitarians.ai" className="text-primary hover:underline">nina@humanitarians.ai</a>
               </li>
               <li><strong>Address:</strong> 30 N Gould St Ste N, Sheridan, WY 82801</li>
             </ul>
