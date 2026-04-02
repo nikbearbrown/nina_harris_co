@@ -16,7 +16,7 @@ const NAV_ITEMS = [
 
 const SOCIAL_LINKS = [
   { name: 'GitHub', href: 'https://github.com/nikbearbrown/' },
-  { name: 'Substack', href: 'https://www.skepticism.ai/' },
+  { name: 'Substack', href: 'https://humanitariansai.substack.com/' },
 ]
 
 const buttonStyles =
