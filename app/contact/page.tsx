@@ -22,11 +22,6 @@ const CONTACT_ITEMS = [
     value: 'humanitariansai.substack.com',
     href: 'https://humanitariansai.substack.com/',
   },
-  {
-    label: 'GitHub',
-    value: 'github.com/nikbearbrown',
-    href: 'https://github.com/nikbearbrown/',
-  },
 ]
 
 const REASONS = [
