@@ -116,7 +116,7 @@ export default function ServicesPage() {
             </p>
           </div>
           <a
-            href="mailto:bear@bearbrown.co"
+            href="mailto:harris.nina@humanitarians.ai"
             className="inline-flex h-10 items-center justify-center rounded-md px-8 text-sm font-medium transition-colors border border-background/30 text-background hover:bg-background/10 whitespace-nowrap"
           >
             Get in touch →
