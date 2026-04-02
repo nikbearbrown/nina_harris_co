@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 export const metadata: Metadata = {
   title: 'Privacy Policy - Nina Harris & Co',
-  description: 'Privacy policy for Nina Harris & Co and irreduciblyhuman.xyz',
+  description: 'Privacy policy for Nina Harris & Co',
 }
 
 export default function PrivacyPolicyPage() {
@@ -19,16 +19,16 @@ export default function PrivacyPolicyPage() {
           <section className="mb-8">
             <h2 className="text-2xl font-semibold mb-4">Introduction</h2>
             <p>
-              Welcome to <strong>irreduciblyhuman.xyz</strong>, operated by <strong>Nina Harris & Co</strong>. We are committed to protecting your
+              Welcome to <strong>Nina Harris & Co</strong>. We are committed to protecting your
               personal information and your right to privacy. If you have any questions or concerns about this privacy
               policy or our practices with regard to your personal information, please contact us at{' '}
-              <a href="mailto:bear@bearbrown.co" className="text-primary hover:underline">bear@bearbrown.co</a>.
+              <a href="mailto:nina@humanitarians.ai" className="text-primary hover:underline">nina@humanitarians.ai</a>.
             </p>
             <ul className="list-none pl-0 mt-4 space-y-1 text-base">
               <li><strong>Company:</strong> Nina Harris & Co</li>
               <li><strong>Address:</strong> 30 N Gould St Ste N, Sheridan, WY 82801</li>
               <li><strong>Email:</strong>{' '}
-                <a href="mailto:bear@bearbrown.co" className="text-primary hover:underline">bear@bearbrown.co</a>
+                <a href="mailto:nina@humanitarians.ai" className="text-primary hover:underline">nina@humanitarians.ai</a>
               </li>
             </ul>
           </section>
@@ -197,7 +197,7 @@ export default function PrivacyPolicyPage() {
             </p>
             <ul className="list-none pl-0 mt-4 space-y-1 text-base">
               <li><strong>Email:</strong>{' '}
-                <a href="mailto:bear@bearbrown.co" className="text-primary hover:underline">bear@bearbrown.co</a>
+                <a href="mailto:nina@humanitarians.ai" className="text-primary hover:underline">nina@humanitarians.ai</a>
               </li>
               <li><strong>Address:</strong> 30 N Gould St Ste N, Sheridan, WY 82801</li>
             </ul>
