@@ -28,7 +28,7 @@ const FEATURED_TOOLS = [
     description:
       'A senior brand strategist built as an AI tool. Walks you through a complete brand identity build — intake, archetype mapping, audience personas, creative brief, value proposition, voice and tone, visual direction, and style guide. Every step earned before the next one unlocks.',
     cta: 'Use Nina',
-    href: '#',
+    href: 'https://www.humanitarians.ai/tools/nina-tool',
   },
   {
     name: 'EDDY THE EDITOR',
@@ -36,7 +36,7 @@ const FEATURED_TOOLS = [
     description:
       'A two-mode editorial tool for writers publishing on Substack. Reviews against professional journalism standards — headline mechanics, hook strength, structural flow, paragraph pacing, logical coherence — then adds Substack-specific publishing expertise.',
     cta: 'Use Eddy',
-    href: '#',
+    href: 'https://www.humanitarians.ai/tools/eddy-editor-tool',
   },
   {
     name: 'OGILVY',
@@ -44,7 +44,7 @@ const FEATURED_TOOLS = [
     description:
       "An AI copywriting coach built on David Ogilvy's principles. Mode one teaches — breaks down why your draft isn't working. Mode two writes — produces copy in your brand voice across platforms, calibrated for each channel's conventions.",
     cta: 'Use Ogilvy',
-    href: '#',
+    href: 'https://www.humanitarians.ai/tools/Ogilvy',
   },
   {
     name: 'BRANDY',
@@ -52,7 +52,7 @@ const FEATURED_TOOLS = [
     description:
       'Runs a brand audit on any existing identity — visual, verbal, or strategic. Evaluates coherence, tests positioning against competitors, scores audience fit, and identifies the most likely failure mode when someone else implements your brand.',
     cta: 'Use Brandy',
-    href: '#',
+    href: 'https://www.humanitarians.ai/tools/brandy-tool',
   },
   {
     name: 'MADISON',
@@ -60,7 +60,7 @@ const FEATURED_TOOLS = [
     description:
       'Builds a 10-slide pitch deck from strategy, not from a template. Pressure-tests your claims, flags thin evidence, enforces timing discipline at 130 words per minute, and strips AI scaffolding before anything reaches an investor, donor, or grader.',
     cta: 'Use Madison',
-    href: '#',
+    href: 'https://www.humanitarians.ai/tools/madison-tool',
   },
   {
     name: 'PROOF',
@@ -68,7 +68,7 @@ const FEATURED_TOOLS = [
     description:
       "Audits what a nonprofit brand actually establishes — not what it claims, intends, or aspires to. Every finding labeled, every recommendation traceable to a specific observation. Built for 501(c)(3) organizations that need to know what their brand proves.",
     cta: 'Use PROOF',
-    href: '#',
+    href: 'https://www.humanitarians.ai/tools/proof-tool',
   },
   {
     name: 'SUBBY',
@@ -76,7 +76,7 @@ const FEATURED_TOOLS = [
     description:
       'A two-mode Substack writing assistant covering 19 format-specific commands — from 300-word Notes to 3,000-word serial installments, subject lines to manifesto statements. Asks before it writes. Pushes back on weak briefs.',
     cta: 'Use Subby',
-    href: '#',
+    href: 'https://www.humanitarians.ai/tools/subby-tool',
   },
   {
     name: 'WILKES',
@@ -84,7 +84,7 @@ const FEATURED_TOOLS = [
     description:
       'Generates narrative journalism in the spirit of Paul Wilkes — intimate, specific, witness-based, and never preachy. Long-form profiles, documentary arcs, and field narratives for nonprofit storytelling.',
     cta: 'Use Wilkes',
-    href: '#',
+    href: 'https://www.humanitarians.ai/tools/wilkes-tool',
   },
 ]
 
@@ -170,6 +170,8 @@ export default async function ToolsPage() {
                 <div className="md:pt-8">
                   <a
                     href={tool.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="inline-flex h-10 items-center justify-center rounded-md px-6 text-sm font-medium transition-colors border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground whitespace-nowrap"
                   >
                     {tool.cta} →
