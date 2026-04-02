@@ -82,7 +82,7 @@ const FEATURED_TOOLS = [
     name: 'WILKES',
     subtitle: 'Narrative Journalism',
     description:
-      'Generates narrative journalism in the spirit of Paul Wilkes — intimate, specific, witness-based, and never preachy. Long-form profiles, documentary arcs, and field narratives for nonprofit storytelling.',
+      'Wilkes — A narrative journalism writing tool built in the spirit of Paul Wilkes. Intimate, specific, witness-based. The specific fact, honestly reported, is more powerful than any appeal.',
     cta: 'Use Wilkes',
     href: 'https://www.humanitarians.ai/tools/wilkes-tool',
   },
