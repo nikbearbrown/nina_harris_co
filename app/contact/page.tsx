@@ -19,8 +19,8 @@ const CONTACT_ITEMS = [
   },
   {
     label: 'Substack',
-    value: 'skepticism.ai',
-    href: 'https://www.skepticism.ai/',
+    value: 'humanitariansai.substack.com',
+    href: 'https://humanitariansai.substack.com/',
   },
   {
     label: 'GitHub',
