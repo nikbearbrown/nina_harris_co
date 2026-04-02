@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 export const metadata: Metadata = {
   title: 'Terms of Service - Nina Harris & Co',
-  description: 'Terms of Service for Nina Harris & Co and irreduciblyhuman.xyz',
+  description: 'Terms of Service for Nina Harris & Co',
 }
 
 export default function TermsOfServicePage() {
@@ -19,7 +19,7 @@ export default function TermsOfServicePage() {
           <section className="mb-8">
             <h2 className="text-2xl font-semibold mb-4">1. Introduction</h2>
             <p>
-              Welcome to <strong>irreduciblyhuman.xyz</strong>. By accessing or using this website, you agree to be bound by
+              Welcome to <strong><a href="https://ninaharris.co" className="text-primary hover:underline">ninaharris.co</a></strong>. By accessing or using this website, you agree to be bound by
               these Terms of Service (&ldquo;Terms&rdquo;). If you do not agree to these Terms, please do not use
               our website.
             </p>
@@ -27,7 +27,7 @@ export default function TermsOfServicePage() {
               <li><strong>Company:</strong> Nina Harris & Co</li>
               <li><strong>Address:</strong> 30 N Gould St Ste N, Sheridan, WY 82801</li>
               <li><strong>Email:</strong>{' '}
-                <a href="mailto:bear@bearbrown.co" className="text-primary hover:underline">bear@bearbrown.co</a>
+                <a href="mailto:nina@humanitarians.ai" className="text-primary hover:underline">nina@humanitarians.ai</a>
               </li>
             </ul>
           </section>
@@ -35,7 +35,7 @@ export default function TermsOfServicePage() {
           <section className="mb-8">
             <h2 className="text-2xl font-semibold mb-4">2. Website Purpose</h2>
             <p>
-              Nina Harris & Co provides educational content and course materials. The irreduciblyhuman.xyz website serves as an informational resource, tool directory,
+              Nina Harris & Co provides educational content and course materials. The ninaharris.co website serves as an informational resource, tool directory,
               and professional contact point. Content on this website is intended to provide general information about our
               services and activities, and does not constitute professional advice.
             </p>
@@ -191,7 +191,7 @@ export default function TermsOfServicePage() {
             </p>
             <ul className="list-none pl-0 mt-4 space-y-1 text-base">
               <li><strong>Email:</strong>{' '}
-                <a href="mailto:bear@bearbrown.co" className="text-primary hover:underline">bear@bearbrown.co</a>
+                <a href="mailto:nina@humanitarians.ai" className="text-primary hover:underline">nina@humanitarians.ai</a>
               </li>
               <li><strong>Address:</strong> 30 N Gould St Ste N, Sheridan, WY 82801</li>
             </ul>
