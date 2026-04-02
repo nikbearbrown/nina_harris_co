@@ -23,8 +23,7 @@ const TOOLS = [
 ]
 
 const CONNECT = [
-  { label: 'GitHub', href: 'https://github.com/nikbearbrown/', external: true },
-  { label: 'Substack', href: 'https://humanitariansai.substack.com/', external: true },
+{ label: 'Substack', href: 'https://humanitariansai.substack.com/', external: true },
   { label: 'Humanitarians AI', href: 'https://humanitarians.ai', external: true },
 ]
 
