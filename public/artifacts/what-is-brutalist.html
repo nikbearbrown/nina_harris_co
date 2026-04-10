@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What Is Brutalist?</title>
+<meta name="description" content="An interactive presentation exploring Brutalist design — its origins, principles, and influence on architecture and the web.">
+<meta name="keywords" content="brutalist design, brutalism, architecture, web design, presentation">
+<style>
+  :root {
+    --dark-bg: #111111;
+    --dark-fg: #f0f0f0;
+    --dark-fg-dim: #999999;
+    --accent: #e85d26;
+    --light-bg: #f5f2ed;
+    --light-fg: #1a1a1a;
+    --light-fg-dim: #666666;
+    --light-accent: #d14f1e;
+    --font-title: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --font-body: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --slide-pad: 60px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    height: 100%;
+    background: var(--dark-bg);
+    color: var(--dark-fg);
+    font-family: var(--font-body);
+    font-size: 18px;
+    line-height: 1.6;
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .progress-bar {
+    position: fixed; top: 0; left: 0;
+    height: 2px; background: var(--accent);
+    z-index: 200;
+    transition: width 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    width: 0;
+  }
+
+  .deck { position: relative; width: 100%; height: 100%; }
+
+  .slide {
+    position: absolute; top: 0; left: 0;
+    width: 100%; height: 100%;
+    display: none; opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .slide.active { opacity: 1; }
+
+  [data-step] {
+    opacity: 0; transform: translateY(14px);
+    transition: opacity 0.45s ease, transform 0.45s ease;
+    pointer-events: none;
+  }
+  [data-step].visible {
+    opacity: 1; transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  .slide-title {
+    font-family: var(--font-title);
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 700; line-height: 1.15;
+    letter-spacing: -0.02em; margin-bottom: 0.6em;
+    text-wrap: balance;
+  }
+
+  .slide-body {
+    font-size: clamp(0.95rem, 1.8vw, 1.15rem);
+    line-height: 1.7; max-width: 600px;
+  }
+  .slide-body p { margin-bottom: 0.7em; text-wrap: pretty; }
+  .slide-body em { font-style: italic; }
+
+  .accent { color: var(--accent); font-weight: 700; }
+
+  .barred {
+    position: relative; padding-left: 1.2em;
+  }
+  .barred::before {
+    content: ''; position: absolute;
+    left: 0; top: 0; width: 3px; height: 100%;
+    background: var(--accent);
+    transform: scaleY(0); transform-origin: top;
+    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  [data-step].visible.barred::before,
+  [data-step].visible .barred::before { transform: scaleY(1); }
+
+  /* ---- SPLIT RIGHT DARK ---- */
+  .split-r-dark.active { display: flex; }
+  .split-r-dark { background: var(--dark-bg); color: var(--dark-fg); }
+  .split-r-dark .txt { width: 55%; height: 100%; padding: var(--slide-pad); display: flex; flex-direction: column; justify-content: center; }
+  .split-r-dark .img { width: 45%; height: 100%; background-size: cover; background-position: center; flex-shrink: 0; }
+
+  /* ---- SPLIT RIGHT LIGHT ---- */
+  .split-r-light.active { display: flex; }
+  .split-r-light { background: var(--light-bg); color: var(--light-fg); }
+  .split-r-light .txt { width: 55%; height: 100%; padding: var(--slide-pad); display: flex; flex-direction: column; justify-content: center; background: var(--light-bg); }
+  .split-r-light .img { width: 45%; height: 100%; background-size: cover; background-position: center; flex-shrink: 0; }
+  .split-r-light .slide-title { color: var(--light-fg); }
+  .split-r-light .slide-body p { color: var(--light-fg); }
+  .split-r-light .slide-body em { color: var(--light-accent); }
+  .split-r-light .barred::before { background: var(--light-accent); }
+  .split-r-light .accent { color: var(--light-accent); }
+
+  /* ---- SPLIT LEFT DARK ---- */
+  .split-l-dark.active { display: flex; }
+  .split-l-dark { background: var(--dark-bg); color: var(--dark-fg); }
+  .split-l-dark .img { width: 45%; height: 100%; background-size: cover; background-position: center; flex-shrink: 0; }
+  .split-l-dark .txt { width: 55%; height: 100%; padding: var(--slide-pad); display: flex; flex-direction: column; justify-content: center; }
+
+  /* ---- STORY SLIDE (dark, two-col) ---- */
+  .story.active { display: flex; }
+  .story { background: var(--dark-bg); color: var(--dark-fg); padding: var(--slide-pad); align-items: center; gap: 60px; }
+  .story .txt { width: 55%; display: flex; flex-direction: column; justify-content: center; }
+  .story .avatar { width: 40%; flex-shrink: 0; }
+  .story .avatar img { width: 100%; height: auto; border: 3px solid var(--accent); display: block; }
+
+  /* ---- Bottom bar ---- */
+  .bottom-bar {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 12px 30px; background: rgba(17,17,17,0.95);
+    border-top: 1px solid rgba(255,255,255,0.06);
+    z-index: 100; font-size: 0.8rem;
+  }
+  .counter { color: var(--dark-fg-dim); font-weight: 600; letter-spacing: 0.05em; }
+  .nav-btn {
+    background: none; border: 1px solid rgba(255,255,255,0.15);
+    color: var(--dark-fg-dim); padding: 6px 16px; margin-left: 8px;
+    cursor: pointer; font-size: 0.8rem; font-weight: 600; transition: all 0.2s;
+  }
+  .nav-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .tag { color: var(--dark-fg-dim); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; }
+
+  @media (max-width: 768px) {
+    :root { --slide-pad: 30px; }
+    .story.active, .split-r-dark.active, .split-r-light.active, .split-l-dark.active { flex-direction: column; }
+    .split-r-dark .txt, .split-r-dark .img,
+    .split-r-light .txt, .split-r-light .img,
+    .split-l-dark .txt, .split-l-dark .img { width: 100%; height: 50%; }
+    .story .txt { width: 100%; }
+    .story .avatar { width: 160px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progress"></div>
+
+<div class="deck" id="deck">
+
+  <!-- SLIDE 1: What Is Brutalist? (dark, story + avatar) -->
+  <section class="slide story" id="slide-1">
+    <div class="txt">
+      <h1 class="slide-title">What Is Brutalist?</h1>
+      <div class="slide-body barred" data-step="1">
+        <p>For three semesters I watched students and myself struggle with the same tools. Beautiful.ai, Canva, Gamma. Templates fought us. Layouts broke. The best presentations were built on Vercel, but even Vercel has limitations.</p>
+        <p>Prof. Nik Bear Brown saw this and decided to fix it. He built Brutalist: an AI-powered presentation tool where the content is the design.</p>
+        <p>One HTML file. No software. No templates. Open it in a browser and present.</p>
+      </div>
+    </div>
+    <div class="avatar" data-step="1">
+      <img src="BrutalistNikcopy.jpg" alt="Prof. Nik Bear Brown">
+    </div>
+  </section>
+
+  <!-- SLIDE 2: Raw Concrete, No Facade (dark, split right) -->
+  <section class="slide split-r-dark" id="slide-2">
+    <div class="txt">
+      <h1 class="slide-title">Raw Concrete, No Facade</h1>
+      <div class="slide-body barred" data-step="1">
+        <p>The name comes from architecture. Brutalism started in the 1950s. Post-war Europe. Materials were scarce.</p>
+        <p>Architects built with raw concrete, left exposed. No decorative finish. No paint. No facade.</p>
+        <p>The French term was <em>béton brut</em>. Raw concrete. If a beam held up the ceiling, you saw the beam.</p>
+      </div>
+    </div>
+    <div class="img" style="background-image:url('brutalist-arch8.jpg');"></div>
+  </section>
+
+  <!-- SLIDE 3: Structure Is the Aesthetic (light, split right — same as slide 5) -->
+  <section class="slide split-r-light" id="slide-3">
+    <div class="txt">
+      <h1 class="slide-title">Structure Is the Aesthetic</h1>
+      <div class="slide-body barred" data-step="1">
+        <p>Brutalism was a reaction against ornamentation. Buildings before it were clean but still decorative. Brutalism stripped that away.</p>
+        <p>In art school they say "form follows function." Brutalism goes further: the function <em>is</em> the form. Nothing is hidden.</p>
+      </div>
+      <div class="slide-body barred" data-step="2">
+        <p>The name also connects to Art Brut, "raw art," coined by French artist Jean Dubuffet in the 1940s. Art made by outsiders who didn't follow the rules. Unpolished. Untrained. The expression was the point.</p>
+      </div>
+    </div>
+    <div class="img" style="background-image:url('brutalist-arch3.jpg');"></div>
+  </section>
+
+  <!-- SLIDE 4: From Buildings to Browsers (dark, split left) -->
+  <section class="slide split-l-dark" id="slide-4">
+    <div class="img" style="background-image:url('brutalist-google1.jpg');"></div>
+    <div class="txt">
+      <h1 class="slide-title">From Buildings to Browsers</h1>
+      <div class="slide-body barred" data-step="1">
+        <p>In the 2010s, designers applied the same philosophy to the web. Raw typography. Visible grids. No stock photography.</p>
+        <p>No rounded corners, no gradients, no "make it pretty" polish. The content is the design. The structure is visible.</p>
+        <p>If a page is built from HTML, it looks like HTML.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 5: This Is Why Your Slides Look Like This (light, split right) -->
+  <section class="slide split-r-light" id="slide-5">
+    <div class="txt">
+      <h1 class="slide-title">This Is Why Your Slides Look Like This</h1>
+      <div class="slide-body barred" data-step="1">
+        <p>These presentations are built in Brutalist. One HTML file. No software. No templates. Open it in a browser and present.</p>
+        <p>Typography, space, and structure do all the work. Nothing decorates. Everything communicates.</p>
+      </div>
+      <div class="slide-body" data-step="2" style="margin-top:1.5em;">
+        <p class="accent">You're engineers. The structure is the beauty. That should feel familiar.</p>
+      </div>
+    </div>
+    <div class="img" style="background-image:url('brutalist-arch7.jpg');"></div>
+  </section>
+
+</div>
+
+<div class="bottom-bar">
+  <span class="tag">INFO 7375 | Branding & AI</span>
+  <span class="counter" id="counter">1 / 5</span>
+  <span>
+    <button class="nav-btn" id="prev">← PREV</button>
+    <button class="nav-btn" id="next">NEXT →</button>
+  </span>
+</div>
+
+<script>
+(function() {
+  var slides = document.querySelectorAll('.slide');
+  var counter = document.getElementById('counter');
+  var progress = document.getElementById('progress');
+  var total = slides.length;
+  var cur = 0;
+
+  function getMax(s) {
+    var m = 0, els = s.querySelectorAll('[data-step]');
+    for (var i = 0; i < els.length; i++) { var v = parseInt(els[i].getAttribute('data-step')); if (v > m) m = v; }
+    return m;
+  }
+
+  var st = [];
+  for (var i = 0; i < total; i++) st.push({ c: 0, m: getMax(slides[i]) });
+
+  function prog() { progress.style.width = ((cur + 1) / total) * 100 + '%'; }
+
+  function revStep(idx, step) {
+    var els = slides[idx].querySelectorAll('[data-step="' + step + '"]');
+    for (var i = 0; i < els.length; i++) els[i].classList.add('visible');
+  }
+
+  function revAll(idx) {
+    var els = slides[idx].querySelectorAll('[data-step]');
+    for (var i = 0; i < els.length; i++) els[i].classList.add('visible');
+    st[idx].c = st[idx].m;
+  }
+
+  function hideAll(idx) {
+    var els = slides[idx].querySelectorAll('[data-step]');
+    for (var i = 0; i < els.length; i++) els[i].classList.remove('visible');
+    st[idx].c = 0;
+  }
+
+  function go(n, dir) {
+    if (n < 0 || n >= total) return;
+    slides[cur].classList.remove('active');
+    cur = n;
+    slides[cur].classList.add('active');
+    counter.textContent = (cur + 1) + ' / ' + total;
+    prog();
+    if (dir === 'back') revAll(cur); else hideAll(cur);
+  }
+
+  function advance() {
+    if (st[cur].c < st[cur].m) { st[cur].c++; revStep(cur, st[cur].c); }
+    else go(cur + 1, 'forward');
+  }
+
+  function back() {
+    if (st[cur].c > 0) {
+      var els = slides[cur].querySelectorAll('[data-step="' + st[cur].c + '"]');
+      for (var i = 0; i < els.length; i++) els[i].classList.remove('visible');
+      st[cur].c--;
+    } else go(cur - 1, 'back');
+  }
+
+  slides[0].classList.add('active');
+  prog();
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') { e.preventDefault(); advance(); }
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); back(); }
+  });
+
+  document.querySelector('.deck').addEventListener('click', function(e) {
+    if (!e.target.closest('.bottom-bar')) advance();
+  });
+
+  document.getElementById('prev').addEventListener('click', function(e) { e.stopPropagation(); back(); });
+  document.getElementById('next').addEventListener('click', function(e) { e.stopPropagation(); advance(); });
+})();
+</script>
+
+</body>
+</html>
