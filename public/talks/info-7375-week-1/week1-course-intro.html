@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>INFO 7375 Week 1 — Course Introduction | Summer 2026</title>
+<meta name="author" content="Nina Harris & Nik Bear Brown">
+<meta name="description" content="INFO 7375 Week 1 course introduction: an overview of the Nina Harris & Co graduate certificate, instructors, and what it means to be irreducibly human in the age of AI.">
+<meta name="keywords" content="INFO 7375, course introduction, Nina Harris, Nik Bear Brown, brutalist design, AI, graduate certificate, week 1">
+<style>
+  :root {
+    --dark-bg: #111111;
+    --dark-fg: #f0f0f0;
+    --dark-fg-dim: #999999;
+    --dark-accent: #e85d26;
+    --light-bg: #f5f2ed;
+    --light-fg: #1a1a1a;
+    --light-fg-dim: #666666;
+    --light-accent: #d14f1e;
+    --light-border: rgba(0,0,0,0.08);
+    --accent: #e85d26;
+    --font-title: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --font-body: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --slide-max-w: 1200px;
+    --slide-pad: 60px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    height: 100%;
+    background: var(--dark-bg);
+    color: var(--dark-fg);
+    font-family: var(--font-body);
+    font-size: 18px;
+    line-height: 1.6;
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ----------------------------------------
+     PROGRESS BAR
+     ---------------------------------------- */
+
+  .progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 2px;
+    background: var(--accent);
+    z-index: 200;
+    transition: width 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    width: 0;
+  }
+
+  /* ----------------------------------------
+     SLIDE CONTAINER
+     ---------------------------------------- */
+
+  .deck { position: relative; width: 100%; height: 100%; }
+
+  .slide {
+    position: absolute;
+    inset: 0;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    padding: var(--slide-pad);
+    max-width: var(--slide-max-w);
+    margin: 0 auto;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    background: var(--dark-bg);
+    color: var(--dark-fg);
+  }
+
+  .slide.active { display: flex; opacity: 1; }
+
+  /* ----------------------------------------
+     REVEAL ANIMATION SYSTEM
+     ---------------------------------------- */
+
+  [data-step] {
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity 0.45s ease, transform 0.45s ease;
+    pointer-events: none;
+  }
+
+  [data-step].visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  /* ----------------------------------------
+     LIGHT MODE
+     ---------------------------------------- */
+
+  .slide.light {
+    background: var(--light-bg);
+    color: var(--light-fg);
+    max-width: 100%;
+  }
+
+  .slide.light .slide-title { color: var(--light-fg); }
+  .slide.light .slide-subtitle { color: var(--light-fg-dim); }
+  .slide.light .slide-body p { color: var(--light-fg); }
+  .slide.light .slide-body strong { color: var(--light-accent); }
+  .slide.light .label { color: var(--light-accent); }
+  .slide.light .col-label { color: var(--light-accent); }
+  .slide.light .grade-pct { color: var(--light-accent); }
+  .slide.light .grade-row { border-bottom-color: var(--light-border); }
+  .slide.light .num-list li { border-bottom-color: var(--light-border); }
+  .slide.light .num-list li::before { color: var(--light-accent); border-color: var(--light-accent); }
+  .slide.light .num-list li.done::before { background: var(--light-accent); color: var(--light-bg); }
+  .slide.light .outcome-num { color: var(--light-accent); }
+
+  .light-inner { max-width: var(--slide-max-w); margin: 0 auto; width: 100%; }
+
+  /* ----------------------------------------
+     COVER SLIDE + KEN BURNS
+     ---------------------------------------- */
+
+  @keyframes kenburns {
+    0% { transform: scale(1); }
+    100% { transform: scale(1.06); }
+  }
+
+  .slide.slide-cover {
+    max-width: 100%;
+    padding: 0;
+    overflow: hidden;
+    background-image: url('images/BrutalistNina.jpg');
+    background-size: cover;
+    background-position: center top;
+  }
+
+  .cover-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    padding: 40px var(--slide-pad) 50px;
+    background: linear-gradient(to top, var(--dark-bg) 0%, rgba(0,0,0,0.85) 50%, transparent 100%);
+  }
+
+  .cover-overlay .slide-title {
+    font-size: clamp(2.2rem, 5.5vw, 3.6rem);
+    margin-bottom: 0.2em;
+    color: var(--dark-fg);
+  }
+
+  .cover-overlay .slide-subtitle {
+    margin-bottom: 0;
+    font-size: clamp(1rem, 2vw, 1.4rem);
+    color: var(--dark-accent);
+  }
+
+  .cover-overlay [data-step] {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .cover-overlay [data-step].visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ----------------------------------------
+     TYPOGRAPHY
+     ---------------------------------------- */
+
+  .slide-title {
+    font-family: var(--font-title);
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.6em;
+    text-wrap: balance;
+  }
+
+  .slide-subtitle {
+    font-size: clamp(1rem, 2vw, 1.3rem);
+    color: var(--dark-fg-dim);
+    margin-bottom: 2em;
+    font-weight: 400;
+  }
+
+  .slide-body {
+    font-size: clamp(0.95rem, 1.8vw, 1.15rem);
+    line-height: 1.7;
+    max-width: 900px;
+  }
+
+  .slide-body p { margin-bottom: 0.8em; text-wrap: pretty; }
+  .slide-body strong { color: var(--accent); font-weight: 600; }
+
+  .label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.2em;
+  }
+
+  /* ----------------------------------------
+     TWO-COLUMN + BAR DRAW
+     ---------------------------------------- */
+
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    margin-top: 0.5em;
+  }
+
+  .col-label {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 0.5em;
+  }
+
+  .col.barred {
+    border-left: none;
+    position: relative;
+    padding-left: 1.2em;
+  }
+
+  .col.barred::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 3px;
+    height: 100%;
+    background: var(--accent);
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .col.barred[data-step].visible::before {
+    transform: scaleY(1);
+  }
+
+  .slide.light .col.barred::before { background: var(--light-accent); }
+
+  .col p {
+    margin-bottom: 0.5em;
+    font-size: clamp(0.9rem, 1.6vw, 1.05rem);
+    line-height: 1.65;
+    text-wrap: pretty;
+  }
+
+  /* ----------------------------------------
+     INSTRUCTOR CARDS
+     ---------------------------------------- */
+
+  .instructor-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    margin-top: 1em;
+  }
+
+  .instructor {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .instructor-img {
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    border: 3px solid var(--accent);
+    object-fit: cover;
+    margin-bottom: 1.2em;
+    background: #222;
+  }
+
+  .instructor-name { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.3em; }
+  .instructor-bio { font-size: 0.95rem; color: var(--dark-fg-dim); line-height: 1.5; max-width: 360px; text-wrap: pretty; }
+
+  /* ----------------------------------------
+     OUTCOMES GRID + NUMBER SCALE
+     ---------------------------------------- */
+
+  .outcomes-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px 60px;
+    margin-top: 0.5em;
+  }
+
+  .outcome-card {
+    border-left: none;
+    position: relative;
+    padding: 0.8em 0 0.8em 1.2em;
+  }
+
+  .outcome-card::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 3px;
+    height: 100%;
+    background: var(--accent);
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .outcome-card[data-step].visible::before {
+    transform: scaleY(1);
+  }
+
+  .outcome-num {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--accent);
+    margin-bottom: 0.3em;
+    line-height: 1;
+    transform: scale(0.6);
+    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .outcome-card[data-step].visible .outcome-num {
+    transform: scale(1);
+  }
+
+  .outcome-card p {
+    font-size: clamp(0.9rem, 1.6vw, 1.05rem);
+    line-height: 1.6;
+    text-wrap: pretty;
+  }
+
+  /* ----------------------------------------
+     NUMBERED LIST (agenda)
+     ---------------------------------------- */
+
+  .num-list {
+    list-style: none;
+    counter-reset: item;
+    margin-top: 0.5em;
+  }
+
+  .num-list li {
+    counter-increment: item;
+    padding: 0.5em 0;
+    padding-left: 2.4em;
+    position: relative;
+    font-size: clamp(0.9rem, 1.6vw, 1.05rem);
+    line-height: 1.6;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    text-wrap: pretty;
+  }
+
+  .num-list li:last-child { border-bottom: none; }
+
+  .num-list li::before {
+    content: counter(item);
+    position: absolute;
+    left: 0;
+    top: 0.5em;
+    width: 2em;
+    height: 2em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--accent);
+    border: 1.5px solid var(--accent);
+    border-radius: 50%;
+  }
+
+  .num-list li.done::before {
+    content: "✓";
+    background: var(--accent);
+    color: var(--dark-bg);
+    border-color: var(--accent);
+  }
+
+  /* ----------------------------------------
+     PHASE BLOCKS + BAR DRAW
+     ---------------------------------------- */
+
+  .phases {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 40px;
+    margin-top: 1em;
+  }
+
+  .phase {
+    border-left: none;
+    position: relative;
+    padding-left: 1.2em;
+  }
+
+  .phase::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 3px;
+    height: 100%;
+    background: var(--accent);
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .phase[data-step].visible::before {
+    transform: scaleY(1);
+  }
+
+  .slide.light .phase::before { background: var(--light-accent); }
+
+  .phase-label {
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    margin-bottom: 0.4em;
+  }
+
+  .slide.light .phase-label { color: var(--light-accent); }
+
+  .phase-name { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5em; }
+  .phase p { font-size: 0.95rem; color: var(--dark-fg-dim); line-height: 1.55; margin-bottom: 0.4em; text-wrap: pretty; }
+  .slide.light .phase p { color: var(--light-fg-dim); }
+
+  /* ----------------------------------------
+     GRADING TABLE
+     ---------------------------------------- */
+
+  .grade-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 0.55em 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    font-size: clamp(0.9rem, 1.6vw, 1.05rem);
+  }
+
+  .grade-row:last-of-type { border-bottom: none; }
+  .grade-item { flex: 1; }
+  .grade-pct { font-weight: 700; color: var(--accent); text-align: right; min-width: 50px; }
+
+  /* ----------------------------------------
+     CLOSING SLIDE + PULSE
+     ---------------------------------------- */
+
+  @keyframes border-glow {
+    0% { box-shadow: 0 0 0 0 rgba(232, 93, 38, 0.5); }
+    50% { box-shadow: 0 0 24px 10px rgba(232, 93, 38, 0.2); }
+    100% { box-shadow: 0 0 0 0 rgba(232, 93, 38, 0); }
+  }
+
+  .closing {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .closing .slide-title {
+    font-size: clamp(1.8rem, 4.5vw, 2.8rem);
+    max-width: 800px;
+  }
+
+  .closing-img {
+    width: 280px;
+    height: 280px;
+    border-radius: 50%;
+    border: 3px solid var(--accent);
+    object-fit: cover;
+    margin-bottom: 2em;
+    background: #222;
+  }
+
+  .slide.closing.active .closing-img {
+    animation: border-glow 1.8s ease-out 0.5s 1;
+  }
+
+  .closing-sub {
+    font-size: 1.2rem;
+    color: var(--dark-fg-dim);
+    margin-top: 0.8em;
+    text-wrap: pretty;
+  }
+
+  /* ----------------------------------------
+     BOTTOM BAR
+     ---------------------------------------- */
+
+  .bottom-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 30px;
+    background: rgba(17,17,17,0.95);
+    border-top: 1px solid rgba(255,255,255,0.06);
+    z-index: 100;
+    font-size: 0.8rem;
+  }
+
+  .slide-counter { color: var(--dark-fg-dim); font-weight: 600; letter-spacing: 0.05em; }
+
+  .nav-btn {
+    background: none;
+    border: 1px solid rgba(255,255,255,0.15);
+    color: var(--dark-fg-dim);
+    padding: 6px 16px;
+    margin-left: 8px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    transition: all 0.2s;
+  }
+
+  .nav-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+  .course-tag {
+    color: var(--dark-fg-dim);
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* ----------------------------------------
+     RESPONSIVE
+     ---------------------------------------- */
+
+  @media (max-width: 768px) {
+    :root { --slide-pad: 30px; }
+    .two-col, .instructor-row, .phases, .outcomes-grid { grid-template-columns: 1fr; gap: 30px; }
+    .instructor-img, .closing-img { width: 160px; height: 160px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- PROGRESS BAR -->
+<div class="progress-bar" id="progress"></div>
+
+<div class="deck" id="deck">
+
+  <!-- ============================================================
+       SLIDE 1 — COVER (Ken Burns image)
+       Reveals: title on arrival, subtitle on click
+       ============================================================ -->
+  <section class="slide slide-cover" id="slide-1">
+    <div class="cover-overlay">
+      <h1 class="slide-title">Becoming a Full-Stack Creative</h1>
+      <div class="slide-subtitle" data-step="1">From Concept to Code</div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SLIDE 2 — Two Professors (dark)
+       Reveals: title on arrival, Nik, then Nina
+       ============================================================ -->
+  <section class="slide" id="slide-2">
+    <h1 class="slide-title">Two Professors, Two Disciplines,<br>One Framework</h1>
+    <div class="instructor-row">
+      <div class="instructor" data-step="1">
+        <img class="instructor-img" src="images/BrutalistNik.jpg" alt="Prof. Nik Bear Brown">
+        <div class="instructor-name">Prof. Nik Bear Brown</div>
+        <div class="instructor-bio">AI engineering professor and creative technologist. Creator of the Madison framework. Teaching you the technical architecture and AI workflows.</div>
+      </div>
+      <div class="instructor" data-step="2">
+        <img class="instructor-img" src="images/BrutalistNina2.jpg" alt="Prof. Nina Harris">
+        <div class="instructor-name">Prof. Nina Harris</div>
+        <div class="instructor-bio">Brand and Creative Director with 40+ years leading global campaigns. Publicis, Saatchi & Saatchi, McCann-Erickson, Charles Schwab. Teaching you brand strategy, storytelling, and creative direction.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SLIDE 3 — Two Things (dark, bar draw)
+       Reveals: title on arrival, Track 1, Track 2, closing
+       ============================================================ -->
+  <section class="slide" id="slide-3">
+    <h1 class="slide-title">You Will Build Two Things<br>That Get You Hired</h1>
+    <div class="two-col">
+      <div class="col barred" data-step="1">
+        <div class="col-label">Track 1: AI-Powered Tool (Madison or Your Own)</div>
+        <p>Madison is our teaching framework. Most students build on it.</p>
+        <p>If you have a stronger idea that targets your career, pitch it. Same standards apply.</p>
+        <p>Working prototype, technical documentation, portfolio case study.</p>
+      </div>
+      <div class="col barred" data-step="2">
+        <div class="col-label">Track 2: Personal or Startup Brand & Portfolio</div>
+        <p>Brand strategy, UVP, and visual identity system.</p>
+        <p>Live portfolio website and tailored resumes.</p>
+        <p>At least one published article and an active LinkedIn presence.</p>
+      </div>
+    </div>
+    <div class="slide-body" style="margin-top:1.5em;" data-step="3">
+      <p>Everything you build ships publicly. Nothing stays in a classroom folder.</p>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SLIDE 4 — Four Outcomes (dark, number scale, bar draw)
+       Reveals: title on arrival, top row, bottom row, closing
+       ============================================================ -->
+  <section class="slide" id="slide-4">
+    <h1 class="slide-title">Four Things You'll Be Able to Do</h1>
+    <div class="slide-subtitle">All portfolio-ready</div>
+    <div class="outcomes-grid">
+      <div class="outcome-card" data-step="1">
+        <div class="outcome-num">1</div>
+        <p>Design, implement, and document an AI-powered tool (using Madison or an approved original concept) with a working prototype and technical documentation.</p>
+      </div>
+      <div class="outcome-card" data-step="1">
+        <div class="outcome-num">2</div>
+        <p>Build a brand identity system from strategy through visual identity to published storytelling.</p>
+      </div>
+      <div class="outcome-card" data-step="2">
+        <div class="outcome-num">3</div>
+        <p>Assemble a deployment-ready portfolio: live website, tailored resumes, LinkedIn profile, published article.</p>
+      </div>
+      <div class="outcome-card" data-step="2">
+        <div class="outcome-num">4</div>
+        <p>Deliver a 10-slide Madison Pitch that demonstrates both technical implementation and brand thinking.</p>
+      </div>
+    </div>
+    <div class="slide-body" style="margin-top:1.2em;" data-step="3">
+      <p>Every assignment ladders to at least one of these.</p>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SLIDE 5 — Three Phases (LIGHT, bar draw)
+       Reveals: title on arrival, Phase 1, 2, 3, closing
+       ============================================================ -->
+  <section class="slide light" id="slide-5">
+    <div class="light-inner">
+      <h1 class="slide-title">The Course Moves in Three Phases</h1>
+      <div class="phases">
+        <div class="phase" data-step="1">
+          <div class="phase-label">Phase 1 — Weeks 1–5</div>
+          <div class="phase-name">Build the Engine</div>
+          <p>Madison framework deep dive. Ideation, MVP, documentation.</p>
+          <p>You learn the system and start contributing to it.</p>
+        </div>
+        <div class="phase" data-step="2">
+          <div class="phase-label">Phase 2 — Weeks 6–10</div>
+          <div class="phase-name">Build the Brand</div>
+          <p>Brand strategy, visual identity, portfolio site, storytelling.</p>
+          <p>AI-powered image creation, video, and content.</p>
+        </div>
+        <div class="phase" data-step="3">
+          <div class="phase-label">Phase 3 — Weeks 11–14</div>
+          <div class="phase-name">Launch and Prove It</div>
+          <p>LinkedIn, social media, resumes, pitch decks, final presentations.</p>
+          <p>You put the work in front of real audiences.</p>
+        </div>
+      </div>
+      <div class="slide-body" style="margin-top:1.5em;" data-step="4">
+        <p>The detailed week-by-week schedule is on Canvas.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SLIDE 6 — Grading (LIGHT, bar draw, count-up)
+       Reveals: title on arrival, breakdown, philosophy
+       ============================================================ -->
+  <section class="slide light" id="slide-6">
+    <div class="light-inner">
+      <h1 class="slide-title">80% Completion. 20% Quality.</h1>
+      <div class="two-col">
+        <div class="col barred" data-step="1">
+          <div class="col-label">Grade Breakdown</div>
+          <div class="grade-row"><span class="grade-item">AI-Powered Tool Project</span><span class="grade-pct"><span data-count="30">0%</span></span></div>
+          <div class="grade-row"><span class="grade-item">Personal Brand & Portfolio</span><span class="grade-pct"><span data-count="30">0%</span></span></div>
+          <div class="grade-row"><span class="grade-item">Midterm & Final Presentations</span><span class="grade-pct"><span data-count="15">0%</span></span></div>
+          <div class="grade-row"><span class="grade-item">Participation</span><span class="grade-pct"><span data-count="5">0%</span></span></div>
+          <div class="grade-row" style="border-top:2px solid var(--light-accent); margin-top:0.3em; padding-top:0.7em;">
+            <span class="grade-item"><strong>Quality of Work</strong></span><span class="grade-pct"><strong><span data-count="20">0%</span></strong></span>
+          </div>
+        </div>
+        <div class="col barred" data-step="2">
+          <div class="col-label">The Philosophy</div>
+          <p>80% of your grade: did you build it, submit it, and meet the requirements?</p>
+          <p>20% of your grade: how does your work compare to the room?</p>
+          <p style="margin-top:0.8em;">That 20% is subjective. So is every hiring decision, client presentation, and investor pitch you'll ever face. Get used to it here.</p>
+          <p style="color:var(--light-fg-dim); margin-top:0.8em;">Rubric details are on Canvas.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SLIDE 7 — What You Bring / What We Teach (LIGHT, bar draw)
+       Reveals: title on arrival, You Bring, We Teach, closing
+       ============================================================ -->
+  <section class="slide light" id="slide-7">
+    <div class="light-inner">
+      <h1 class="slide-title">What You Bring, What We Teach</h1>
+      <div class="two-col">
+        <div class="col barred" data-step="1">
+          <div class="col-label">You Bring</div>
+          <p>Some familiarity with AI tools (ChatGPT, Claude, Canva, etc.).</p>
+          <p>Some programming experience. Deep technical knowledge is not required.</p>
+          <p>Willingness to build in public.</p>
+        </div>
+        <div class="col barred" data-step="2">
+          <div class="col-label">We Teach</div>
+          <p>Madison framework architecture and applications.</p>
+          <p>Brand strategy, storytelling, and visual identity.</p>
+          <p>AI creative workflows: n8n, Figma, V0.dev, Midjourney.</p>
+          <p>Portfolio construction and pitch delivery.</p>
+        </div>
+      </div>
+      <div class="slide-body" style="margin-top:1.5em;" data-step="3">
+        <p>If you don't have experience with any of these tools, we'll get you there.</p>
+        <p>By Week 14, you'll be wearing a lot of hats.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SLIDE 8 — CLOSING (dark, image pulse)
+       Reveals: image+pulse on arrival, title, subtitle
+       ============================================================ -->
+  <section class="slide closing" id="slide-8">
+    <img class="closing-img" src="images/BrutalistNina.jpg" alt="Character wearing multiple hats — Midjourney illustration">
+    <h1 class="slide-title" data-step="1">Engineers Who Tell Stories.<br>Artists Who Code.<br>Dreamers Who Build.</h1>
+    <div class="closing-sub" data-step="2">That's what creative engineering is all about.<br>Ready to put on some hats?</div>
+  </section>
+
+</div><!-- /deck -->
+
+<!-- BOTTOM BAR -->
+<div class="bottom-bar">
+  <span class="course-tag">INFO 7375 | Branding & AI</span>
+  <span class="slide-counter" id="counter">1 / 8</span>
+  <span>
+    <button class="nav-btn" id="prev" aria-label="Previous slide">← PREV</button>
+    <button class="nav-btn" id="next" aria-label="Next slide">NEXT →</button>
+  </span>
+</div>
+
+<!-- ============================================================
+     NAVIGATION + REVEAL + MICRO-ANIMATION SCRIPT
+     ============================================================ -->
+<script>
+(function() {
+  var slides = document.querySelectorAll('.slide');
+  var counter = document.getElementById('counter');
+  var progress = document.getElementById('progress');
+  var total = slides.length;
+  var cur = 0;
+
+  function getMaxStep(slide) {
+    var max = 0;
+    var els = slide.querySelectorAll('[data-step]');
+    for (var i = 0; i < els.length; i++) {
+      var s = parseInt(els[i].getAttribute('data-step'));
+      if (s > max) max = s;
+    }
+    return max;
+  }
+
+  var stepState = [];
+  for (var i = 0; i < total; i++) {
+    stepState.push({ current: 0, max: getMaxStep(slides[i]) });
+  }
+
+  function updateProgress() {
+    var pct = ((cur + 1) / total) * 100;
+    progress.style.width = pct + '%';
+  }
+
+  /* --- Count-up animation for grade percentages --- */
+  function animateCount(el) {
+    var target = parseInt(el.getAttribute('data-count'));
+    var duration = 800;
+    var start = performance.now();
+    function update(now) {
+      var t = Math.min((now - start) / duration, 1);
+      t = t * t * (3 - 2 * t);
+      el.textContent = Math.round(t * target) + '%';
+      if (t < 1) requestAnimationFrame(update);
+    }
+    requestAnimationFrame(update);
+  }
+
+  function revealStep(slideIdx, step) {
+    var els = slides[slideIdx].querySelectorAll('[data-step="' + step + '"]');
+    for (var i = 0; i < els.length; i++) {
+      els[i].classList.add('visible');
+      /* Trigger count-up on any data-count elements inside */
+      var counts = els[i].querySelectorAll('[data-count]');
+      for (var j = 0; j < counts.length; j++) {
+        animateCount(counts[j]);
+      }
+    }
+  }
+
+  function revealAll(slideIdx) {
+    var els = slides[slideIdx].querySelectorAll('[data-step]');
+    for (var i = 0; i < els.length; i++) {
+      els[i].classList.add('visible');
+    }
+    /* Set count-up targets to final values */
+    var counts = slides[slideIdx].querySelectorAll('[data-count]');
+    for (var j = 0; j < counts.length; j++) {
+      counts[j].textContent = counts[j].getAttribute('data-count') + '%';
+    }
+    stepState[slideIdx].current = stepState[slideIdx].max;
+  }
+
+  function hideAll(slideIdx) {
+    var els = slides[slideIdx].querySelectorAll('[data-step]');
+    for (var i = 0; i < els.length; i++) {
+      els[i].classList.remove('visible');
+    }
+    /* Reset count-up values */
+    var counts = slides[slideIdx].querySelectorAll('[data-count]');
+    for (var j = 0; j < counts.length; j++) {
+      counts[j].textContent = '0%';
+    }
+    stepState[slideIdx].current = 0;
+  }
+
+  function showSlide(n, direction) {
+    if (n < 0 || n >= total) return;
+    slides[cur].classList.remove('active');
+    cur = n;
+    slides[cur].classList.add('active');
+    counter.textContent = (cur + 1) + ' / ' + total;
+    updateProgress();
+
+    if (direction === 'back') {
+      revealAll(cur);
+    } else {
+      hideAll(cur);
+    }
+  }
+
+  function advance() {
+    var st = stepState[cur];
+    if (st.current < st.max) {
+      st.current++;
+      revealStep(cur, st.current);
+    } else {
+      showSlide(cur + 1, 'forward');
+    }
+  }
+
+  function goBack() {
+    var st = stepState[cur];
+    if (st.current > 0) {
+      var els = slides[cur].querySelectorAll('[data-step="' + st.current + '"]');
+      for (var i = 0; i < els.length; i++) {
+        els[i].classList.remove('visible');
+      }
+      /* Reset any count-up in this step */
+      for (var i = 0; i < els.length; i++) {
+        var counts = els[i].querySelectorAll('[data-count]');
+        for (var j = 0; j < counts.length; j++) {
+          counts[j].textContent = '0%';
+        }
+      }
+      st.current--;
+    } else {
+      showSlide(cur - 1, 'back');
+    }
+  }
+
+  /* Init */
+  slides[0].classList.add('active');
+  updateProgress();
+
+  /* Keyboard */
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') {
+      e.preventDefault(); advance();
+    }
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      e.preventDefault(); goBack();
+    }
+    if (e.key === 'Home') { e.preventDefault(); showSlide(0, 'forward'); }
+    if (e.key === 'End') { e.preventDefault(); showSlide(total - 1, 'back'); }
+  });
+
+  /* Click to advance */
+  document.querySelector('.deck').addEventListener('click', function(e) {
+    if (!e.target.closest('.bottom-bar')) advance();
+  });
+
+  /* Nav buttons */
+  document.getElementById('prev').addEventListener('click', function(e) {
+    e.stopPropagation(); goBack();
+  });
+  document.getElementById('next').addEventListener('click', function(e) {
+    e.stopPropagation(); advance();
+  });
+
+  /* Touch swipe */
+  var touchStartX = 0;
+  document.addEventListener('touchstart', function(e) { touchStartX = e.changedTouches[0].screenX; });
+  document.addEventListener('touchend', function(e) {
+    var dx = e.changedTouches[0].screenX - touchStartX;
+    if (Math.abs(dx) > 50) { dx < 0 ? advance() : goBack(); }
+  });
+})();
+</script>
+
+</body>
+</html>
