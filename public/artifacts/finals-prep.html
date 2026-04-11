@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Finals Prep — Your 12-Minute Brand Performance</title>
+<meta name="description" content="Finals preparation guide for Nina Harris & Co: structure and deliver your 12-minute brand performance presentation with confidence.">
+<meta name="keywords" content="finals prep, brand performance, presentation, Nina Harris, Nina Harris & Co, graduate certificate">
+<style>
+  :root {
+    --dark-bg: #111111;
+    --dark-fg: #f0f0f0;
+    --dark-fg-dim: #999999;
+    --accent: #e85d26;
+    --light-bg: #f5f2ed;
+    --light-fg: #1a1a1a;
+    --light-fg-dim: #666666;
+    --light-accent: #d14f1e;
+    --light-border: rgba(0,0,0,0.08);
+    --font-title: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --font-body: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --slide-pad: 60px;
+    --slide-max-w: 1200px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    height: 100%;
+    background: var(--dark-bg);
+    color: var(--dark-fg);
+    font-family: var(--font-body);
+    font-size: 18px;
+    line-height: 1.6;
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .progress-bar {
+    position: fixed;
+    top: 0; left: 0;
+    height: 2px;
+    background: var(--accent);
+    z-index: 200;
+    transition: width 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    width: 0;
+  }
+
+  .deck { position: relative; width: 100%; height: 100%; }
+
+  .slide {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    background: var(--dark-bg);
+    color: var(--dark-fg);
+  }
+
+  .slide.active { opacity: 1; }
+
+  /* Reveal system */
+  [data-step] {
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity 0.45s ease, transform 0.45s ease;
+    pointer-events: none;
+  }
+  [data-step].visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  /* Light mode */
+  .light { background: var(--light-bg); color: var(--light-fg); }
+  .light .slide-title { color: var(--light-fg); }
+  .light .slide-body p { color: var(--light-fg); }
+  .light .dim { color: var(--light-fg-dim); }
+  .light .col-label { color: var(--light-accent); }
+  .light .barred::before { background: var(--light-accent); }
+  .light .accent { color: var(--light-accent); }
+  .light .grade-row { border-bottom-color: var(--light-border); }
+  .light .grade-pct { color: var(--light-accent); }
+  .light .check-item { border-bottom-color: var(--light-border); }
+  .light .check-num { color: var(--light-accent); border-color: var(--light-accent); }
+
+  /* Typography */
+  .slide-title {
+    font-family: var(--font-title);
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.6em;
+    text-wrap: balance;
+  }
+
+  .slide-subtitle {
+    font-size: clamp(1rem, 2vw, 1.3rem);
+    color: var(--dark-fg-dim);
+    margin-bottom: 1.5em;
+    font-weight: 400;
+  }
+  .light .slide-subtitle { color: var(--light-fg-dim); }
+
+  .slide-body {
+    font-size: clamp(0.95rem, 1.8vw, 1.15rem);
+    line-height: 1.7;
+    max-width: 900px;
+  }
+  .slide-body p { margin-bottom: 0.7em; text-wrap: pretty; }
+
+  .accent { color: var(--accent); font-weight: 600; }
+  .dim { color: var(--dark-fg-dim); }
+
+  /* Barred text */
+  .barred {
+    position: relative;
+    padding-left: 1.2em;
+  }
+  .barred::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0;
+    width: 3px; height: 100%;
+    background: var(--accent);
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  [data-step].visible .barred::before,
+  .barred[data-step].visible::before { transform: scaleY(1); }
+
+  /* Two column */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    margin-top: 0.5em;
+  }
+
+  .col-label {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 0.5em;
+  }
+
+  .col p {
+    margin-bottom: 0.5em;
+    font-size: clamp(0.9rem, 1.6vw, 1.05rem);
+    line-height: 1.65;
+    text-wrap: pretty;
+  }
+
+  /* Cover - Type C */
+  .cover-c.active {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .cover-c {
+    padding: var(--slide-pad);
+    padding-left: 80px;
+    position: relative;
+  }
+  .cover-c .accent-bar {
+    position: absolute;
+    left: 0; top: 15%; bottom: 15%;
+    width: 5px;
+    background: var(--accent);
+  }
+  .cover-c .slide-title {
+    font-size: clamp(2.8rem, 7vw, 4.5rem);
+    max-width: 800px;
+  }
+  .cover-c .cover-sub {
+    font-size: clamp(1.1rem, 2.2vw, 1.5rem);
+    color: var(--accent);
+    margin-top: 0.2em;
+  }
+  .cover-c .cover-tag {
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--dark-fg-dim);
+    margin-top: 2em;
+  }
+
+  /* Standard dark/light slide */
+  .std.active { display: flex; flex-direction: column; justify-content: center; }
+  .std { padding: var(--slide-pad); }
+  .std .inner { max-width: var(--slide-max-w); margin: 0 auto; width: 100%; }
+  .light.std { max-width: 100%; }
+
+  /* Phases / time blocks */
+  .time-blocks {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    gap: 20px;
+    margin-top: 1em;
+  }
+
+  .time-block {
+    position: relative;
+    padding-left: 1.2em;
+  }
+  .time-block::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0;
+    width: 3px; height: 100%;
+    background: var(--light-accent);
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  [data-step].visible .time-block::before { transform: scaleY(1); }
+
+  .time-min {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--light-accent);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.4em;
+  }
+  .time-label {
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 0.3em;
+  }
+  .time-desc {
+    font-size: 0.85rem;
+    color: var(--light-fg-dim);
+    line-height: 1.5;
+  }
+
+  /* Grade rows */
+  .grade-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 60px;
+    margin-top: 0.5em;
+  }
+
+  .grade-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 0.6em 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    font-size: clamp(0.9rem, 1.6vw, 1.05rem);
+  }
+  .grade-row:last-child { border-bottom: none; }
+  .grade-item { flex: 1; }
+  .grade-pct { font-weight: 700; color: var(--accent); text-align: right; min-width: 60px; }
+
+  /* Checklist */
+  .checklist {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px 60px;
+    margin-top: 0.5em;
+  }
+  .check-item {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    padding: 0.5em 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    font-size: clamp(0.9rem, 1.6vw, 1.05rem);
+    line-height: 1.5;
+  }
+  .check-box {
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--accent);
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  /* Wins/Losses two column */
+  .wl-item {
+    padding: 0.4em 0;
+    font-size: clamp(0.9rem, 1.6vw, 1.05rem);
+    line-height: 1.55;
+    text-wrap: pretty;
+  }
+  .wl-bad { color: var(--light-fg-dim); text-decoration: line-through; text-decoration-color: var(--light-accent); }
+
+  /* Closing */
+  .closing.active {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  .closing { padding: var(--slide-pad); }
+  .closing .slide-title {
+    font-size: clamp(1.8rem, 4.5vw, 2.8rem);
+    max-width: 700px;
+  }
+  .closing-sub {
+    font-size: 1.2rem;
+    color: var(--dark-fg-dim);
+    margin-top: 0.8em;
+  }
+
+  /* Bottom bar */
+  .bottom-bar {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 30px;
+    background: rgba(17,17,17,0.95);
+    border-top: 1px solid rgba(255,255,255,0.06);
+    z-index: 100;
+    font-size: 0.8rem;
+  }
+  .slide-counter { color: var(--dark-fg-dim); font-weight: 600; }
+  .nav-btn {
+    background: none;
+    border: 1px solid rgba(255,255,255,0.15);
+    color: var(--dark-fg-dim);
+    padding: 6px 16px;
+    margin-left: 8px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-weight: 600;
+    transition: all 0.2s;
+  }
+  .nav-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .course-tag { color: var(--dark-fg-dim); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; }
+
+  @media (max-width: 768px) {
+    :root { --slide-pad: 30px; }
+    .two-col, .time-blocks, .grade-grid, .checklist { grid-template-columns: 1fr; gap: 20px; }
+    .cover-c { padding-left: var(--slide-pad); }
+    .cover-c .accent-bar { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progress"></div>
+
+<div class="deck" id="deck">
+
+  <!-- ============================================================
+       SLIDE 1 — COVER (Type C, dark)
+       ============================================================ -->
+  <section class="slide cover-c" id="slide-1">
+    <div class="accent-bar"></div>
+    <h1 class="slide-title">Your 12-Minute Brand Performance</h1>
+    <div class="cover-sub" data-step="1">Finals Prep</div>
+    <div class="cover-tag" data-step="1">INFO 7375 | Branding & AI</div>
+  </section>
+
+  <!-- ============================================================
+       SLIDE 2 — Pick Your Path (dark, two-col)
+       Reveals: title, then both paths, then closing
+       ============================================================ -->
+  <section class="slide std" id="slide-2">
+    <div class="inner">
+      <h1 class="slide-title">Pick Your Path and Stay In It</h1>
+      <div class="slide-subtitle">Declare on your first slide. Never switch.</div>
+      <div class="two-col">
+        <div class="barred" data-step="1">
+          <div class="col-label">Path A: Personal Brand</div>
+          <div class="slide-body">
+            <p>"I'm [Name]. I've built a brand for myself as a [professional identity], featuring my Madison tool as a case study in my portfolio."</p>
+            <p><span class="accent">You are the product.</span> Your tool is proof of what you can build.</p>
+            <p>Language: always "I" and "my."</p>
+          </div>
+        </div>
+        <div class="barred" data-step="2">
+          <div class="col-label">Path B: Madison Startup</div>
+          <div class="slide-body">
+            <p>"I'm [Name]. I've built a startup called [Tool Name], and I'm presenting as its founder and creator."</p>
+            <p><span class="accent">Your tool is the product.</span> You are the founder behind it.</p>
+            <p>Solo founder? "I" is fine. Company framing? Use "we" consistently.</p>
+          </div>
+        </div>
+      </div>
+      <div class="slide-body" data-step="3" style="margin-top:1.5em;">
+        <p class="accent">If the audience can't tell which path you're on by Slide 2, you've already lost them.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SLIDE 3 — Five Sections, Ten Minutes (light)
+       Reveals: title, then time blocks in sequence, then closing
+       ============================================================ -->
+  <section class="slide std light" id="slide-3">
+    <div class="inner">
+      <h1 class="slide-title">Five Sections. Twelve Minutes.</h1>
+      <div class="time-blocks" data-step="1">
+        <div class="time-block">
+          <div class="time-min">1 min</div>
+          <div class="time-label">Brand Introduction</div>
+          <div class="time-desc">Name, positioning statement, brand essence. Path B: tool name + what it does.</div>
+        </div>
+        <div class="time-block">
+          <div class="time-min">2 min</div>
+          <div class="time-label">Brand Strategy</div>
+          <div class="time-desc">Target audience, UVP, brand pillars, competitive positioning.</div>
+        </div>
+        <div class="time-block">
+          <div class="time-min">2 min</div>
+          <div class="time-label">Visual Identity</div>
+          <div class="time-desc">Logo, color palette, typography. Website walkthrough. Social media examples.</div>
+        </div>
+        <div class="time-block">
+          <div class="time-min">3 min</div>
+          <div class="time-label">Brand Storytelling</div>
+          <div class="time-desc">One full brand story. Name the narrative framework. Connect it to your values.</div>
+        </div>
+        <div class="time-block">
+          <div class="time-min">4 min</div>
+          <div class="time-label">Live Demo</div>
+          <div class="time-desc">Working tool. 2–3 key features. Explain the methodology powering it.</div>
+        </div>
+      </div>
+      <div class="slide-body" data-step="2" style="margin-top:1.5em;">
+        <p><span class="accent">Practice until you can do it in 11:30.</span> Points are deducted for going over 12.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SLIDE 4 — The Story (dark)
+       Reveals: title, then body, then framework note
+       ============================================================ -->
+  <section class="slide std" id="slide-4">
+    <div class="inner">
+      <h1 class="slide-title">The Story Is Where You Become Memorable</h1>
+      <div class="slide-body barred" data-step="1">
+        <p>You have 3 minutes. Use them.</p>
+        <p>Present one brand story in full. Not a summary. Not bullet points. A story with a beginning, a turn, and a landing.</p>
+        <p>Path A: A professional journey story that shaped who you are. Path B: The origin story of your tool, or a use case that shows real transformation.</p>
+      </div>
+      <div class="slide-body" data-step="2" style="margin-top:1.5em;">
+        <p><span class="accent">Name the narrative framework you're using and explain why you chose it.</span> This is worth points under Storytelling Mastery (35 points). Don't skip it.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SLIDE 5 — The Demo (dark)
+       Reveals: title, then body, then checklist
+       ============================================================ -->
+  <section class="slide std" id="slide-5">
+    <div class="inner">
+      <h1 class="slide-title">The Demo Proves Everything</h1>
+      <div class="slide-body barred" data-step="1">
+        <p>4 minutes. Live. Working. Not screenshots.</p>
+        <p>Show 2–3 key features. Don't try to show everything. Pick the features that demonstrate your strongest thinking.</p>
+        <p>Explain the AI and branding methodology behind it. The rubric scores Strategic Thinking at 40 points. The demo is where you prove it.</p>
+      </div>
+      <div class="slide-body" data-step="2" style="margin-top:1.5em;">
+        <p class="accent">Demo checklist:</p>
+        <p>Test it the morning of class. Have backup screenshots ready. Explain what we're seeing as you show it. If it breaks, switch to screenshots and keep talking.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SLIDE 6 — How You're Scored (light)
+       Reveals: title, then grade grid, then bonus
+       ============================================================ -->
+  <section class="slide std light" id="slide-6">
+    <div class="inner">
+      <h1 class="slide-title">How You're Scored</h1>
+      <div class="slide-subtitle">200 points + 10 bonus</div>
+      <div class="grade-grid" data-step="1">
+        <div class="grade-row"><span class="grade-item">Execution</span><span class="grade-pct">40 pts</span></div>
+        <div class="grade-row"><span class="grade-item">Brand Consistency</span><span class="grade-pct">40 pts</span></div>
+        <div class="grade-row"><span class="grade-item">Strategic Thinking</span><span class="grade-pct">40 pts</span></div>
+        <div class="grade-row"><span class="grade-item">Storytelling Mastery</span><span class="grade-pct">35 pts</span></div>
+        <div class="grade-row"><span class="grade-item">Creativity & Innovation</span><span class="grade-pct">25 pts</span></div>
+        <div class="grade-row"><span class="grade-item">Presentation & Communication</span><span class="grade-pct">20 pts</span></div>
+      </div>
+      <div class="slide-body" data-step="2" style="margin-top:1.5em;">
+        <p><span class="accent">Bonus: Exceptional Innovation (+10 pts).</span> Not given for completing everything well. Given for doing something nobody else did. Bold creative risk that is memorable and professional.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SLIDE 7 — What Loses vs Earns (light, two-col)
+       Reveals: title, then both columns
+       ============================================================ -->
+  <section class="slide std light" id="slide-7">
+    <div class="inner">
+      <h1 class="slide-title">What Loses vs What Earns</h1>
+      <div class="two-col">
+        <div class="barred" data-step="1">
+          <div class="col-label">Loses Points</div>
+          <div class="slide-body">
+            <div class="wl-item wl-bad">Going over 12 minutes</div>
+            <div class="wl-item wl-bad">Reading slides word for word</div>
+            <div class="wl-item wl-bad">Apologizing for unfinished work</div>
+            <div class="wl-item wl-bad">Mixing Path A and Path B</div>
+            <div class="wl-item wl-bad">Demo breaks with no backup</div>
+            <div class="wl-item wl-bad">Story doesn't connect to your brand</div>
+            <div class="wl-item wl-bad">No narrative framework named</div>
+          </div>
+        </div>
+        <div class="barred" data-step="2">
+          <div class="col-label">Earns Points</div>
+          <div class="slide-body">
+            <div class="wl-item">Clear path declaration on Slide 1</div>
+            <div class="wl-item">Compelling story with named framework</div>
+            <div class="wl-item">Working live demo</div>
+            <div class="wl-item">Brand consistency across all touchpoints</div>
+            <div class="wl-item">Confident delivery under 12 minutes</div>
+            <div class="wl-item">Everything connects: strategy to story to demo</div>
+            <div class="wl-item">Methodology explained, not just features shown</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SLIDE 8 — Pre-Presentation Checklist (dark)
+       Reveals: title, then checklist
+       ============================================================ -->
+  <section class="slide std" id="slide-8">
+    <div class="inner">
+      <h1 class="slide-title">Before You Present</h1>
+      <div class="checklist" data-step="1">
+        <div class="check-item"><div class="check-box"></div>Practiced full 12 minutes out loud 5+ times?</div>
+        <div class="check-item"><div class="check-box"></div>Website is live and loads correctly?</div>
+        <div class="check-item"><div class="check-box"></div>Demo link works in a different browser?</div>
+        <div class="check-item"><div class="check-box"></div>Backup screenshots ready if demo breaks?</div>
+        <div class="check-item"><div class="check-box"></div>Story connects to your brand values?</div>
+        <div class="check-item"><div class="check-box"></div>Narrative framework identified and named?</div>
+        <div class="check-item"><div class="check-box"></div>All links in your slides work?</div>
+        <div class="check-item"><div class="check-box"></div>Answer ready for "Why did you build this?"</div>
+        <div class="check-item"><div class="check-box"></div>You know which path (A or B)?</div>
+        <div class="check-item"><div class="check-box"></div>Slides uploaded to course platform?</div>
+      </div>
+      <div class="slide-body" data-step="2" style="margin-top:1.5em;">
+        <p class="accent">All three must be in place before you present: slides uploaded, website live, demo working. No exceptions.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SLIDE 9 — The One Question (light)
+       Reveals: title, then body
+       ============================================================ -->
+  <section class="slide std light" id="slide-9">
+    <div class="inner">
+      <h1 class="slide-title">The Question Behind Every Slide You Build</h1>
+      <div class="slide-body barred" data-step="1">
+        <p style="font-size:1.3rem; font-weight:700; color:var(--light-accent); margin-bottom:0.8em;">"Why did you build this?"</p>
+        <p>Every hiring manager, investor, and client will ask this when they see your work. Not in this class. Out there.</p>
+        <p>Your presentation should answer it without anyone having to ask. Your story answers why. Your strategy answers for whom. Your demo answers how.</p>
+        <p>If all three connect, the question answers itself.</p>
+      </div>
+      <div class="slide-body" data-step="2" style="margin-top:1.5em;">
+        <p><span class="accent">The night before:</span> Test your demo one more time. Practice your story 10 times out loud. Get some sleep. Show up ready.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SLIDE 10 — Closing (dark, centered)
+       Reveals: title, then subtitle
+       ============================================================ -->
+  <section class="slide closing" id="slide-10">
+    <h1 class="slide-title" data-step="1">Tell Your Story.<br>Show Your Tool.<br>Make It Count.</h1>
+    <div class="closing-sub" data-step="2">You built it in one semester. It's all real. It's all yours. Now go present it.</div>
+  </section>
+
+</div>
+
+<div class="bottom-bar">
+  <span class="course-tag">INFO 7375 | Branding & AI</span>
+  <span class="slide-counter" id="counter">1 / 10</span>
+  <span>
+    <button class="nav-btn" id="prev">← PREV</button>
+    <button class="nav-btn" id="next">NEXT →</button>
+  </span>
+</div>
+
+<script>
+(function() {
+  var slides = document.querySelectorAll('.slide');
+  var counter = document.getElementById('counter');
+  var progress = document.getElementById('progress');
+  var total = slides.length;
+  var cur = 0;
+
+  function getMaxStep(s) {
+    var m = 0, els = s.querySelectorAll('[data-step]');
+    for (var i = 0; i < els.length; i++) { var v = parseInt(els[i].getAttribute('data-step')); if (v > m) m = v; }
+    return m;
+  }
+
+  var st = [];
+  for (var i = 0; i < total; i++) st.push({ c: 0, m: getMaxStep(slides[i]) });
+
+  function updateProgress() { progress.style.width = ((cur + 1) / total) * 100 + '%'; }
+
+  function revealStep(idx, step) {
+    var els = slides[idx].querySelectorAll('[data-step="' + step + '"]');
+    for (var i = 0; i < els.length; i++) els[i].classList.add('visible');
+  }
+
+  function revealAll(idx) {
+    var els = slides[idx].querySelectorAll('[data-step]');
+    for (var i = 0; i < els.length; i++) els[i].classList.add('visible');
+    st[idx].c = st[idx].m;
+  }
+
+  function hideAll(idx) {
+    var els = slides[idx].querySelectorAll('[data-step]');
+    for (var i = 0; i < els.length; i++) els[i].classList.remove('visible');
+    st[idx].c = 0;
+  }
+
+  function showSlide(n, dir) {
+    if (n < 0 || n >= total) return;
+    slides[cur].classList.remove('active');
+    cur = n;
+    slides[cur].classList.add('active');
+    counter.textContent = (cur + 1) + ' / ' + total;
+    updateProgress();
+    if (dir === 'back') revealAll(cur); else hideAll(cur);
+  }
+
+  function advance() {
+    if (st[cur].c < st[cur].m) { st[cur].c++; revealStep(cur, st[cur].c); }
+    else showSlide(cur + 1, 'forward');
+  }
+
+  function goBack() {
+    if (st[cur].c > 0) {
+      var els = slides[cur].querySelectorAll('[data-step="' + st[cur].c + '"]');
+      for (var i = 0; i < els.length; i++) els[i].classList.remove('visible');
+      st[cur].c--;
+    } else showSlide(cur - 1, 'back');
+  }
+
+  slides[0].classList.add('active');
+  updateProgress();
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') { e.preventDefault(); advance(); }
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); goBack(); }
+  });
+
+  document.querySelector('.deck').addEventListener('click', function(e) {
+    if (!e.target.closest('.bottom-bar')) advance();
+  });
+
+  document.getElementById('prev').addEventListener('click', function(e) { e.stopPropagation(); goBack(); });
+  document.getElementById('next').addEventListener('click', function(e) { e.stopPropagation(); advance(); });
+})();
+</script>
+
+</body>
+</html>
