@@ -38,25 +38,28 @@ Brand voice: Academic, clear, direct. Informed by research, accessible to practi
 7. `/courses/embodied-teaching` — Embodied Teaching and Mentorship
 8. `/tools` — Tools directory (card grid, Neon-driven)
 9. `/tools/[slug]` — Artifact tool embed page (full-viewport iframe)
-10. `/dev` — Dev docs browser (searchable card grid, filesystem-driven)
-11. `/dev/[slug]` — Full-viewport iframe of a dev doc HTML file
-12. `/blog` — Blog feed: published posts newest first, clean card list
-13. `/blog/[slug]` — Individual blog post with prose content
-14. `/about` — About the program (prose format, author info)
-15. `/privacy` — Privacy Policy for Nina Harris & Co
-16. `/privacy/cookies` — Cookie Policy for Nina Harris & Co (dedicated page)
-17. `/terms-of-service` — Terms of Service for Nina Harris & Co
-18. `/substack` — Newsletter hub: card grid of all Substack sections
-19. `/substack/[section]` — Section page: description, "Follow on Substack" CTA, chronological article list
-20. `/substack/[section]/[slug]` — Full article: attribution banner, prose content, "Subscribe on Substack" footer CTA
-21. `/admin/login` — Admin login page (password form)
-22. `/admin/dashboard` — Admin dashboard (protected via middleware + `admin_session` cookie)
-23. `/admin/dashboard/blog` — Manage blog posts (list, create, edit, delete)
-24. `/admin/dashboard/blog/new` — New post editor
-25. `/admin/dashboard/blog/[id]/edit` — Edit existing post
-26. `/admin/dashboard/blog/import` — Import posts (Substack ZIP or blog export ZIP)
-27. `/admin/dashboard/tools` — Manage tools (link and artifact types)
-28. `/admin/dashboard/substack` — Manage Substack sections & import ZIP archives
+10. `/talks` — Talks browser (card grid grouped by category, filesystem-driven)
+11. `/talks/[...slug]` — Individual talk embed (full-viewport iframe with title bar)
+14. `/dev` — Dev docs browser (searchable card grid, filesystem-driven)
+15. `/dev/[slug]` — Full-viewport iframe of a dev doc HTML file
+16. `/blog` — Blog feed: published posts newest first, clean card list
+17. `/blog/[slug]` — Individual blog post with prose content
+18. `/about` — About the program (prose format, author info)
+19. `/privacy` — Privacy Policy for Nina Harris & Co
+20. `/privacy/cookies` — Cookie Policy for Nina Harris & Co (dedicated page)
+21. `/terms-of-service` — Terms of Service for Nina Harris & Co
+22. `/substack` — Newsletter hub: card grid of all Substack sections
+23. `/substack/[section]` — Section page: description, "Follow on Substack" CTA, chronological article list
+24. `/substack/[section]/[slug]` — Full article: attribution banner, prose content, "Subscribe on Substack" footer CTA
+25. `/admin/login` — Admin login page (password form)
+26. `/admin/dashboard` — Admin dashboard (protected via middleware + `admin_session` cookie)
+27. `/admin/dashboard/blog` — Manage blog posts (list, create, edit, delete)
+28. `/admin/dashboard/blog/new` — New post editor
+29. `/admin/dashboard/blog/[id]/edit` — Edit existing post
+30. `/admin/dashboard/blog/import` — Import posts (Substack ZIP or blog export ZIP)
+31. `/admin/dashboard/tools` — Manage tools (link and artifact types)
+32. `/admin/dashboard/talks` — Browse talks filesystem, sync metadata, preview links
+33. `/admin/dashboard/substack` — Manage Substack sections & import ZIP archives
 
 ### Placeholder pages (noindex, inherited from previous project)
 - `/classes` — Coming Soon placeholder
@@ -187,6 +190,45 @@ CREATE POLICY "service_role_tools" ON tools FOR ALL USING (true) WITH CHECK (tru
 
 ### Shared utility
 - `lib/html-meta.ts` — `scanHtmlDir(dir)` reads all `.html` files from a directory and extracts `<title>`, `<meta name="description">`, `<meta name="keywords">` tags. Returns `HtmlDocMeta[]`. Used by both `/dev` pages and admin.
+
+## Talks system — DONE
+
+### Adding new talks
+1. Build the HTML slide deck (self-contained HTML file)
+2. Include required meta tags: `<title>`, `<meta name="description">`, `<meta name="keywords">`, and optionally `<meta name="author">`, `<meta name="category">`, `<meta name="slide-count">`
+3. Drop into a subfolder of `public/talks/` (subfolder becomes the category group), e.g. `public/talks/botspeak/my-talk.html`
+4. Optionally add audio files alongside: `public/talks/botspeak/my-talk/slide-01.mp3`, etc.
+5. Push to main — Vercel deploys and the talk appears automatically on `/talks`
+6. No database entry needed — filesystem is the source of truth
+
+### Talks metadata (HTML meta tags)
+```html
+<title>Talk Title Here</title>
+<meta name="description" content="Brief description of the talk">
+<meta name="keywords" content="tag1, tag2, tag3">
+<meta name="author" content="Nik Bear Brown">
+<meta name="category" content="BotSpeak">
+<meta name="slide-count" content="14">
+```
+
+### Optional filters.json
+Drop a `public/talks/filters.json` file with a JSON array of tag strings to pin specific filter tags on the browse page. If absent, all tags are derived from the HTML files.
+
+### Public pages
+- `/talks` — Card grid grouped by subfolder (category), search + tag filter, each card links to `/talks/{folder}/{slug}`
+- `/talks/[...slug]` — Full-page iframe embed with title bar (title, author, description, breadcrumb, "Full Screen ↗" link)
+
+### Admin page
+- `/admin/dashboard/talks` — Syncs and lists all talks grouped by folder. Shows filename badge, category, tags, author, slide count. "Sync Talks" button refreshes from filesystem. "Open" button previews each talk.
+
+### Key files
+```
+app/talks/page.tsx                      # Server component — scans public/talks/, reads filters.json
+app/talks/TalksBrowser.tsx              # Client component — search, tag filter, grouped card grid
+app/talks/[...slug]/page.tsx            # Talk embed page — iframe, title bar, breadcrumb
+app/api/admin/talks/sync/route.ts       # POST: scans public/talks/ subdirs, returns grouped metadata
+app/admin/dashboard/talks/page.tsx      # Admin talks browser — grouped view, sync, preview links
+```
 
 ## Blog system — DONE
 
