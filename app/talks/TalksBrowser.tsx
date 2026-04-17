@@ -25,9 +25,77 @@ interface Group {
   docs: Doc[]
 }
 
+const TOTAL_WEEKS = 14
+
+function getWeekNumber(folder: string): number | null {
+  const match = folder.match(/^info-7375-week-(\d+)$/i)
+  return match ? parseInt(match[1]) : null
+}
+
+function DocCard({ doc }: { doc: Doc }) {
+  return (
+    <Link href={`/talks/${doc.slug}`}>
+      <Card className="h-full hover:border-foreground/20 transition-colors cursor-pointer overflow-hidden">
+        {doc.thumbnail && (
+          <div className="relative w-full aspect-video bg-muted">
+            <Image
+              src={doc.thumbnail}
+              alt={doc.title}
+              fill
+              className="object-cover"
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            />
+          </div>
+        )}
+        <CardHeader>
+          <CardTitle className="text-base flex items-center gap-2">
+            {doc.title}
+            <ExternalLink className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
+          </CardTitle>
+          {doc.description && (
+            <CardDescription className="line-clamp-2">
+              {doc.description}
+            </CardDescription>
+          )}
+          <div className="flex flex-wrap items-center gap-2 pt-1 text-xs text-muted-foreground">
+            {doc.author && <span>{doc.author}</span>}
+            {doc.category && (
+              <>
+                {doc.author && <span>·</span>}
+                <span>{doc.category}</span>
+              </>
+            )}
+            {doc.slideCount && (
+              <>
+                {(doc.author || doc.category) && <span>·</span>}
+                <span>{doc.slideCount} slides</span>
+              </>
+            )}
+          </div>
+          {doc.tags.length > 0 && (
+            <div className="flex flex-wrap gap-1 pt-2">
+              {doc.tags.slice(0, 3).map(tag => (
+                <Badge key={tag} variant="secondary" className="text-[10px]">
+                  {tag}
+                </Badge>
+              ))}
+              {doc.tags.length > 3 && (
+                <span className="text-[10px] text-muted-foreground">
+                  +{doc.tags.length - 3} more
+                </span>
+              )}
+            </div>
+          )}
+        </CardHeader>
+      </Card>
+    </Link>
+  )
+}
+
 export default function TalksBrowser({ groups, filterTags = [] }: { groups: Group[]; filterTags?: string[] }) {
   const [query, setQuery] = useState('')
   const [activeTag, setActiveTag] = useState<string | null>(null)
+  const [selectedWeek, setSelectedWeek] = useState(1)
 
   const allTags = useMemo(() => {
     if (filterTags.length > 0) return filterTags
@@ -36,13 +104,21 @@ export default function TalksBrowser({ groups, filterTags = [] }: { groups: Grou
     return Array.from(set).sort()
   }, [groups, filterTags])
 
+  // All info-7375-week groups (unfiltered) — used to know which weeks have any content
+  const weeksWithContent = useMemo(() => {
+    const set = new Set<number>()
+    groups.forEach(g => {
+      const w = getWeekNumber(g.folder)
+      if (w !== null) set.add(w)
+    })
+    return set
+  }, [groups])
+
   const filteredGroups = useMemo(() => {
     return groups
       .map(g => {
         let docs = g.docs
-        if (activeTag) {
-          docs = docs.filter(d => d.tags.includes(activeTag))
-        }
+        if (activeTag) docs = docs.filter(d => d.tags.includes(activeTag))
         if (query.trim()) {
           const q = query.toLowerCase()
           docs = docs.filter(
@@ -57,7 +133,22 @@ export default function TalksBrowser({ groups, filterTags = [] }: { groups: Grou
       .filter(g => g.docs.length > 0)
   }, [groups, query, activeTag])
 
-  const totalDocs = filteredGroups.reduce((n, g) => n + g.docs.length, 0)
+  const info7375Groups = useMemo(
+    () => filteredGroups.filter(g => getWeekNumber(g.folder) !== null),
+    [filteredGroups]
+  )
+
+  const otherGroups = useMemo(
+    () => filteredGroups.filter(g => getWeekNumber(g.folder) === null),
+    [filteredGroups]
+  )
+
+  const currentWeekDocs = useMemo(
+    () => info7375Groups.find(g => getWeekNumber(g.folder) === selectedWeek)?.docs ?? [],
+    [info7375Groups, selectedWeek]
+  )
+
+  const hasAnyContent = filteredGroups.length > 0 || weeksWithContent.size > 0
 
   return (
     <>
@@ -104,74 +195,70 @@ export default function TalksBrowser({ groups, filterTags = [] }: { groups: Grou
         </div>
       )}
 
-      {totalDocs === 0 ? (
-        <p className="text-muted-foreground">
-          {query || activeTag ? 'No talks match your search.' : 'No talks yet.'}
-        </p>
+      {!hasAnyContent ? (
+        <p className="text-muted-foreground">No talks yet.</p>
       ) : (
         <div className="space-y-10">
-          {filteredGroups.map(g => (
+
+          {/* INFO 7375 — always rendered so week nav is always visible */}
+          <section>
+            <h2 className="text-2xl font-bold tracking-tighter mb-1 border-b pb-2">
+              INFO 7375 — Branding &amp; AI
+            </h2>
+            <p className="text-sm text-muted-foreground mb-4">Summer 2026 · Northeastern University</p>
+
+            {/* Week selector */}
+            <div className="flex flex-wrap gap-2 mb-6">
+              {Array.from({ length: TOTAL_WEEKS }, (_, i) => i + 1).map(week => {
+                const hasContent = weeksWithContent.has(week)
+                const isSelected = selectedWeek === week
+                return (
+                  <button
+                    key={week}
+                    onClick={() => hasContent && setSelectedWeek(week)}
+                    disabled={!hasContent}
+                    className={[
+                      'px-3 py-1.5 text-sm font-medium rounded-md border transition-colors',
+                      isSelected && hasContent
+                        ? 'bg-foreground text-background border-foreground'
+                        : hasContent
+                        ? 'border-border hover:border-foreground/50 hover:bg-muted'
+                        : 'border-border/30 text-muted-foreground/35 cursor-not-allowed',
+                    ].join(' ')}
+                  >
+                    Week {week}
+                  </button>
+                )
+              })}
+            </div>
+
+            {/* Selected week content */}
+            {currentWeekDocs.length > 0 ? (
+              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                {currentWeekDocs.map(doc => (
+                  <DocCard key={doc.slug} doc={doc} />
+                ))}
+              </div>
+            ) : weeksWithContent.has(selectedWeek) ? (
+              <p className="text-sm text-muted-foreground">
+                No talks for Week {selectedWeek} match your search.
+              </p>
+            ) : (
+              <p className="text-sm text-muted-foreground">
+                Week {selectedWeek} content coming soon.
+              </p>
+            )}
+          </section>
+
+          {/* All other (non INFO 7375) groups */}
+          {otherGroups.map(g => (
             <section key={g.folder}>
               <h2 className="text-2xl font-bold tracking-tighter mb-4 border-b pb-2">
                 {g.folderTitle}
               </h2>
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {g.docs.map(doc => (
-                  <Link key={doc.slug} href={`/talks/${doc.slug}`}>
-                    <Card className="h-full hover:border-foreground/20 transition-colors cursor-pointer overflow-hidden">
-                      {doc.thumbnail && (
-                        <div className="relative w-full aspect-video bg-muted">
-                          <Image
-                            src={doc.thumbnail}
-                            alt={doc.title}
-                            fill
-                            className="object-cover"
-                            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                          />
-                        </div>
-                      )}
-                      <CardHeader>
-                        <CardTitle className="text-base flex items-center gap-2">
-                          {doc.title}
-                          <ExternalLink className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
-                        </CardTitle>
-                        {doc.description && (
-                          <CardDescription className="line-clamp-2">
-                            {doc.description}
-                          </CardDescription>
-                        )}
-                        <div className="flex flex-wrap items-center gap-2 pt-1 text-xs text-muted-foreground">
-                          {doc.author && <span>{doc.author}</span>}
-                          {doc.category && (
-                            <>
-                              {doc.author && <span>·</span>}
-                              <span>{doc.category}</span>
-                            </>
-                          )}
-                          {doc.slideCount && (
-                            <>
-                              {(doc.author || doc.category) && <span>·</span>}
-                              <span>{doc.slideCount} slides</span>
-                            </>
-                          )}
-                        </div>
-                        {doc.tags.length > 0 && (
-                          <div className="flex flex-wrap gap-1 pt-2">
-                            {doc.tags.slice(0, 3).map(tag => (
-                              <Badge key={tag} variant="secondary" className="text-[10px]">
-                                {tag}
-                              </Badge>
-                            ))}
-                            {doc.tags.length > 3 && (
-                              <span className="text-[10px] text-muted-foreground">
-                                +{doc.tags.length - 3} more
-                              </span>
-                            )}
-                          </div>
-                        )}
-                      </CardHeader>
-                    </Card>
-                  </Link>
+                  <DocCard key={doc.slug} doc={doc} />
                 ))}
               </div>
             </section>
