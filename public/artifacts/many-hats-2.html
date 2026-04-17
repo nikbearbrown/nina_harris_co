@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Many Hats of Creative Engineering | INFO 7375 Summer 2026</title>
+<meta name="author" content="Nina Harris & Nik Bear Brown">
+<meta name="description" content="INFO 7375 Branding & AI — Why Wearing Multiple Hats is the Future, Summer 2026, Northeastern University">
+<meta name="keywords" content="INFO 7375, branding, AI, creative engineering, many hats, Northeastern University, Summer 2026">
+<style>
+  /* ========================================
+     MUSINIQUE BRUTALIST DESIGN SYSTEM
+     INFO 7375 — Summer 2026
+     ======================================== */
+
+  :root {
+    --bg-dark: #111111;
+    --fg-dark: #f0f0f0;
+    --fg-dim-dark: #999999;
+    --bg-light: #f5f2ed;
+    --fg-light: #1a1a1a;
+    --fg-dim-light: #666666;
+    --accent: #e85d26;
+    --accent-dim: rgba(232, 93, 38, 0.2);
+    --font: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --slide-max-w: 1200px;
+    --slide-pad: 60px;
+    --bar-gap: 36px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    height: 100%;
+    background: var(--bg-dark);
+    color: var(--fg-dark);
+    font-family: var(--font);
+    font-size: 18px;
+    line-height: 1.6;
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* ----------------------------------------
+     PROGRESS BAR
+     ---------------------------------------- */
+  #progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 2px;
+    background: var(--accent);
+    z-index: 1000;
+    transition: width 0.3s ease;
+  }
+
+  /* ----------------------------------------
+     SLIDE SYSTEM
+     ---------------------------------------- */
+  .deck {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  .slide {
+    position: absolute;
+    inset: 0;
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    overflow: hidden;
+  }
+
+  .slide.active {
+    display: flex;
+    opacity: 1;
+  }
+
+  .slide.dark {
+    background: var(--bg-dark);
+    color: var(--fg-dark);
+  }
+  .slide.dark .dim { color: var(--fg-dim-dark); }
+
+  .slide.light {
+    background: var(--bg-light);
+    color: var(--fg-light);
+  }
+  .slide.light .dim { color: var(--fg-dim-light); }
+
+  /* ----------------------------------------
+     SLIDE INNER LAYOUT
+     ---------------------------------------- */
+  .slide-inner {
+    width: 100%;
+    max-width: var(--slide-max-w);
+    margin: 0 auto;
+    padding: var(--slide-pad);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+    padding-bottom: 80px;
+  }
+
+  /* ----------------------------------------
+     COVER SLIDE — TYPE B SPLIT
+     ---------------------------------------- */
+  .cover-split {
+    flex-direction: row;
+    max-width: none;
+    padding: 0;
+  }
+
+  .cover-image {
+    width: 50%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .cover-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .cover-text {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: var(--slide-pad);
+    padding-bottom: 80px;
+  }
+
+  .cover-headline {
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+    margin-bottom: 20px;
+  }
+
+  .cover-subtitle {
+    font-size: clamp(1rem, 2vw, 1.3rem);
+    color: var(--accent);
+    font-weight: 400;
+    margin-bottom: 40px;
+  }
+
+  .cover-footer-tag {
+    font-size: 0.85rem;
+    color: var(--fg-dim-dark);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  /* ----------------------------------------
+     TYPOGRAPHY
+     ---------------------------------------- */
+  .slide-title {
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+    margin-bottom: 32px;
+  }
+
+  .slide-body {
+    font-size: clamp(0.95rem, 1.8vw, 1.15rem);
+    line-height: 1.7;
+    text-wrap: pretty;
+  }
+
+  .accent { color: var(--accent); }
+  .dim { color: var(--fg-dim-dark); }
+  .bold { font-weight: 700; }
+
+  /* ----------------------------------------
+     CLICK-TO-REVEAL
+     ---------------------------------------- */
+  .reveal {
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity 0.45s ease, transform 0.45s ease;
+    pointer-events: none;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  /* ----------------------------------------
+     VERTICAL ACCENT BAR
+     --bar-gap controls space between the
+     orange 3px rule and the text content.
+     ---------------------------------------- */
+  .bar-left {
+    border-left: 3px solid var(--accent);
+    padding-left: var(--bar-gap);
+  }
+
+  /* ----------------------------------------
+     TWO-COLUMN LAYOUT
+     ---------------------------------------- */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: start;
+  }
+
+  /* ----------------------------------------
+     SPLIT LAYOUTS (image + text)
+     ---------------------------------------- */
+  .split-layout {
+    flex-direction: row;
+    max-width: none;
+    padding: 0;
+  }
+
+  .split-image {
+    width: 45%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .split-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .split-text {
+    width: 55%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: var(--slide-pad);
+    padding-bottom: 80px;
+  }
+
+  .split-image-right { order: 2; }
+  .split-text-left { order: 1; }
+
+  /* ----------------------------------------
+     FOUR-CARD GRID
+     ---------------------------------------- */
+  .card-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+
+  .card {
+    padding: 28px;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 0;
+  }
+
+  .light .card {
+    border-color: rgba(0,0,0,0.1);
+  }
+
+  .card-label {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    margin-bottom: 12px;
+    font-weight: 600;
+  }
+
+  .card-title {
+    font-size: clamp(1.1rem, 2vw, 1.3rem);
+    font-weight: 700;
+    margin-bottom: 10px;
+    line-height: 1.3;
+  }
+
+  .card-body {
+    font-size: clamp(0.85rem, 1.5vw, 0.95rem);
+    line-height: 1.65;
+  }
+
+  .light .card-body { color: var(--fg-dim-light); }
+  .dark .card-body { color: var(--fg-dim-dark); }
+
+  /* ----------------------------------------
+     THREE-BLOCK LAYOUT (slide 6 tools)
+     ---------------------------------------- */
+  .three-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 40px;
+  }
+
+  .tool-block {
+    padding-top: 24px;
+    padding-bottom: 24px;
+  }
+
+  .tool-block-title {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: var(--accent);
+  }
+
+  .tool-block-body {
+    font-size: clamp(0.85rem, 1.5vw, 0.95rem);
+    line-height: 1.65;
+  }
+
+  /* ----------------------------------------
+     CLOSING SLIDE
+     ---------------------------------------- */
+  .closing-text {
+    font-size: clamp(1.6rem, 4vw, 2.8rem);
+    font-weight: 700;
+    line-height: 1.3;
+    text-wrap: balance;
+    max-width: 800px;
+  }
+
+  .closing-sub {
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    color: var(--fg-dim-dark);
+    margin-top: 24px;
+    line-height: 1.7;
+    max-width: 600px;
+  }
+
+  /* ----------------------------------------
+     STACKED IMAGES
+     ---------------------------------------- */
+  .stacked-images {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    height: 100%;
+  }
+
+  .stacked-images img {
+    width: 100%;
+    flex: 1;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* ----------------------------------------
+     OUTCOME NUMBER ANIMATION
+     ---------------------------------------- */
+  .outcome-num {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 12px;
+    transform: scale(0.6);
+    transition: transform 0.5s ease;
+  }
+
+  .reveal.visible .outcome-num {
+    transform: scale(1);
+  }
+
+  /* ----------------------------------------
+     FOOTER / NAV
+     ---------------------------------------- */
+  #footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(17,17,17,0.95);
+    border-top: 1px solid rgba(255,255,255,0.08);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 24px;
+    z-index: 900;
+    font-size: 0.8rem;
+    color: var(--fg-dim-dark);
+  }
+
+  #footer .tag {
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  #footer .counter {
+    font-variant-numeric: tabular-nums;
+  }
+
+  #footer .nav-btns button {
+    background: none;
+    border: none;
+    color: var(--fg-dim-dark);
+    font-family: var(--font);
+    font-size: 0.8rem;
+    cursor: pointer;
+    padding: 4px 10px;
+    letter-spacing: 0.03em;
+    transition: color 0.2s;
+  }
+
+  #footer .nav-btns button:hover {
+    color: var(--accent);
+  }
+
+  /* ----------------------------------------
+     IMAGE PLACEHOLDER
+     ---------------------------------------- */
+  .img-placeholder {
+    width: 100%;
+    height: 100%;
+    background: #1a1a1a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--fg-dim-dark);
+    font-size: 0.85rem;
+    text-align: center;
+    padding: 20px;
+  }
+
+  .light .img-placeholder {
+    background: #e5e0d8;
+    color: var(--fg-dim-light);
+  }
+
+  /* ----------------------------------------
+     RESPONSIVE
+     ---------------------------------------- */
+  @media (max-width: 768px) {
+    :root {
+      --slide-pad: 28px;
+      --bar-gap: 28px;
+    }
+
+    .cover-split,
+    .split-layout {
+      flex-direction: column;
+    }
+
+    .cover-image, .cover-text,
+    .split-image, .split-text {
+      width: 100%;
+      height: auto;
+    }
+
+    .cover-image, .split-image {
+      height: 35vh;
+    }
+
+    .split-image-right { order: 0; }
+    .split-text-left { order: 0; }
+
+    .two-col, .card-grid {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    .three-col {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+  }
+
+</style>
+</head>
+<body>
+
+<!-- PROGRESS BAR -->
+<div id="progress"></div>
+
+<!-- ================================================
+     SLIDE DECK
+     ================================================ -->
+<div class="deck" id="deck">
+
+  <!-- ============================================
+       SLIDE 1: COVER — TYPE B SPLIT
+       ============================================ -->
+  <div class="slide dark active" data-reveals="0">
+    <div class="slide-inner cover-split">
+      <div class="cover-image">
+        <img src="cover-hats.jpg" alt="Creative engineer character wearing many hats"
+             onerror="this.parentElement.innerHTML='<div class=img-placeholder>cover-hats.jpg<br>Place image in same folder as HTML</div>'">
+      </div>
+      <div class="cover-text">
+        <div class="cover-headline">The Many Hats of Creative Engineering</div>
+        <div class="cover-subtitle">From Concept to Code</div>
+        <div class="cover-footer-tag">INFO 7375 / Branding & AI / Summer 2026</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================
+       SLIDE 2: THE WORLD ONCE ASKED YOU TO CHOOSE
+       Text Only — Dark
+       ============================================ -->
+  <div class="slide dark" data-reveals="2">
+    <div class="slide-inner">
+      <div class="slide-title">The World Once Asked You to Choose</div>
+      <div class="reveal slide-body" style="max-width: 700px;">
+        <p>Designer or developer? Artist or engineer? Creative or coder?</p>
+        <p style="margin-top: 16px;">For decades, careers came with a lane. You picked one and stayed in it.</p>
+      </div>
+      <div class="reveal slide-body" style="max-width: 700px; margin-top: 24px;">
+        <p class="accent bold">Creative engineers refuse to pick just one.</p>
+        <p style="margin-top: 12px;" class="dim">They wear the inventor's cap with the artist's beret, the coder's hood with the storyteller's fedora.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================
+       SLIDE 3: WHO IS THE CREATIVE ENGINEER?
+       Two-column with bars — Dark
+       ============================================ -->
+  <div class="slide dark" data-reveals="2">
+    <div class="slide-inner">
+      <div class="slide-title">Who Is the Creative Engineer?</div>
+      <div class="reveal">
+        <p class="slide-body dim" style="margin-bottom: 32px;">Not a job title. A mindset. For startups or personal brands, it works the same way.</p>
+      </div>
+      <div class="reveal two-col">
+        <div class="bar-left">
+          <p class="accent bold" style="margin-bottom: 12px; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.08em;">They Are</p>
+          <p class="slide-body">Coders who sketch.</p>
+          <p class="slide-body">Designers who prototype.</p>
+          <p class="slide-body">Engineers who tell stories.</p>
+        </div>
+        <div class="bar-left">
+          <p class="accent bold" style="margin-bottom: 12px; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.08em;">They See</p>
+          <p class="slide-body">Algorithms as brushes.</p>
+          <p class="slide-body">AI models as collaborators.</p>
+          <p class="slide-body">Digital platforms as canvases.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================
+       SLIDE 4: THE INDUSTRY HAS TRANSFORMED
+       Split Right — Dark
+       ============================================ -->
+  <div class="slide dark" data-reveals="1">
+    <div class="slide-inner split-layout">
+      <div class="split-text split-text-left">
+        <div class="slide-title">The Industry Has Transformed</div>
+        <div class="reveal slide-body" style="max-width: 480px;">
+          <p>Everyone used to stay in their lane.</p>
+          <p style="margin-top: 16px;">Now the best opportunities go to people who swim across all three: <span class="accent bold">creative, technical, business.</span></p>
+        </div>
+      </div>
+      <div class="split-image split-image-right">
+        <div class="stacked-images">
+          <img src="industry-creative-boy.jpg" alt="Creative engineer with paintbrush and laptop"
+               onerror="this.outerHTML='<div class=img-placeholder style=flex:1>industry-creative-boy.jpg</div>'">
+          <img src="industry-creative-girl.jpg" alt="Creative engineer with lasso and tech gear"
+               onerror="this.outerHTML='<div class=img-placeholder style=flex:1>industry-creative-girl.jpg</div>'">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================
+       SLIDE 5: THE GATEKEEPERS ARE GONE
+       Cards — Light
+       ============================================ -->
+  <div class="slide light" data-reveals="3">
+    <div class="slide-inner">
+      <div class="slide-title">The Gatekeepers Are Gone</div>
+      <div class="reveal slide-body dim" style="max-width: 650px; margin-bottom: 36px;">
+        Big companies and agencies used to control creative production. That model broke. Here's what replaced it.
+      </div>
+      <div class="reveal card-grid">
+        <div class="card">
+          <div class="card-label">AI as Creative Partner</div>
+          <div class="card-body">ChatGPT, Midjourney, Runway, Claude. Rapid ideation and execution from your laptop.</div>
+        </div>
+        <div class="card">
+          <div class="card-label">Creative Coding</div>
+          <div class="card-body">Vercel v0, Framer, n8n, Gradio, Streamlit. Interactive storytelling without a dev team.</div>
+        </div>
+      </div>
+      <div class="reveal card-grid" style="margin-top: 32px;">
+        <div class="card">
+          <div class="card-label">Smaller, Faster Teams</div>
+          <div class="card-body">Brands value agility over agency scale. Nimble hybrid teams win the work.</div>
+        </div>
+        <div class="card">
+          <div class="card-label">Build, Don't Join</div>
+          <div class="card-body">The real opportunity is reimagining what organizations could be, not applying to the old ones.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================
+       SLIDE 6: YOUR CREATIVE ARSENAL
+       Three columns with bars — Dark
+       ============================================ -->
+  <div class="slide dark" data-reveals="2">
+    <div class="slide-inner">
+      <div class="slide-title">Your Creative Arsenal</div>
+      <div class="reveal slide-body dim" style="margin-bottom: 36px;">
+        With these tools, you can rival big-budget agencies from your laptop.
+      </div>
+      <div class="reveal three-col">
+        <div class="tool-block bar-left">
+          <div class="tool-block-title">AI Tools</div>
+          <div class="tool-block-body dim">ChatGPT, Midjourney, Runway, Claude, Suno</div>
+        </div>
+        <div class="tool-block bar-left">
+          <div class="tool-block-title">Creative Code</div>
+          <div class="tool-block-body dim">Vercel v0, Framer, n8n, Gradio, Streamlit</div>
+        </div>
+        <div class="tool-block bar-left">
+          <div class="tool-block-title">The Equalizer</div>
+          <div class="tool-block-body dim">Open-source + AI = democratized creativity</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================
+       SLIDE 7: THINK LIKE AN ENTREPRENEUR
+       Split Left — Dark
+       ============================================ -->
+  <div class="slide dark" data-reveals="2">
+    <div class="slide-inner split-layout">
+      <div class="split-image">
+        <img src="entrepreneur.jpg" alt="Entrepreneurial creative engineer with briefcase"
+             onerror="this.parentElement.innerHTML='<div class=img-placeholder>entrepreneur.jpg</div>'">
+      </div>
+      <div class="split-text">
+        <div class="slide-title">Think Like an Entrepreneur.<br><span class="accent">No Matter Who Signs Your Paycheck.</span></div>
+        <div class="reveal slide-body" style="max-width: 440px;">
+          <p>Startup, Fortune 500, or solo. The entrepreneurial mindset is non-negotiable.</p>
+        </div>
+        <div class="reveal slide-body" style="max-width: 440px; margin-top: 20px;">
+          <p>The people who get hired are multi-disciplinary. The people who stay hired think like owners.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================
+       SLIDE 8: THE ENTREPRENEURIAL ADVANTAGE
+       Numbered outcomes — Light
+       ============================================ -->
+  <div class="slide light" data-reveals="4">
+    <div class="slide-inner">
+      <div class="slide-title">The Entrepreneurial Advantage</div>
+      <div class="reveal" style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 12px;">
+        <div>
+          <div class="outcome-num">01</div>
+          <div class="card-title">Data-Driven Branding</div>
+          <div class="card-body">Craft brand identities that resonate because they're built on evidence, not instinct alone.</div>
+        </div>
+        <div>
+          <div class="outcome-num">02</div>
+          <div class="card-title">Immersive Storytelling</div>
+          <div class="card-body">Many successful startups were born from experimental projects by people with hybrid skills.</div>
+        </div>
+      </div>
+      <div class="reveal" style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 32px;">
+        <div>
+          <div class="outcome-num">03</div>
+          <div class="card-title">AI-Driven Innovation</div>
+          <div class="card-body">Creative engineers build AI-powered platforms. Technical and creative skills together unlock what neither can alone.</div>
+        </div>
+        <div>
+          <div class="outcome-num">04</div>
+          <div class="card-title">Rapid Prototyping</div>
+          <div class="card-body">Quickly build new products and features. Speed to prototype is the startup advantage.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================
+       SLIDE 9: THE FUTURE BELONGS TO CREATIVE ENGINEERS
+       Split Right — Light
+       ============================================ -->
+  <div class="slide light" data-reveals="1">
+    <div class="slide-inner split-layout">
+      <div class="split-text split-text-left">
+        <div class="slide-title">The Future Belongs to Creative Engineers</div>
+        <div class="reveal slide-body" style="max-width: 440px;">
+          <p>Not specialists. Not single-discipline experts.</p>
+          <p style="margin-top: 16px;">The future belongs to professionals who refuse to pick one lane. Who can ideate, build, and launch across creativity, technology, and business.</p>
+        </div>
+      </div>
+      <div class="split-image split-image-right">
+        <img src="future-multitask.jpg" alt="Multi-armed creative engineer with many tools"
+             onerror="this.parentElement.innerHTML='<div class=img-placeholder>future-multitask.jpg</div>'">
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================
+       SLIDE 10: CLOSING
+       Text Only — Dark
+       ============================================ -->
+  <div class="slide dark" data-reveals="1">
+    <div class="slide-inner" style="align-items: center; text-align: center;">
+      <div class="closing-text">Specialists get automated.<br><span class="accent">Convergers get hired.</span></div>
+      <div class="reveal closing-sub" style="text-align: center;">
+        AI handles single-skill tasks. Humans who can navigate creativity, technology, and business strategy? Those are the roles companies fight over.
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER / NAV -->
+<div id="footer">
+  <div class="tag">INFO 7375 | Branding & AI</div>
+  <div class="counter"><span id="slide-num">1</span> / <span id="slide-total">10</span></div>
+  <div class="nav-btns">
+    <button id="btn-prev" onclick="navigate(-1)">&larr; PREV</button>
+    <button id="btn-next" onclick="navigate(1)">NEXT &rarr;</button>
+  </div>
+</div>
+
+<!-- ================================================
+     NAVIGATION + REVEAL ENGINE
+     ================================================ -->
+<script>
+(function() {
+  'use strict';
+
+  var slides = Array.from(document.querySelectorAll('.slide'));
+  var totalSlides = slides.length;
+  var currentSlide = 0;
+  var revealIndex = [];
+
+  slides.forEach(function(slide, i) {
+    revealIndex[i] = 0;
+  });
+
+  function getReveals(slideIdx) {
+    return Array.from(slides[slideIdx].querySelectorAll('.reveal'));
+  }
+
+  function showSlide(idx) {
+    slides.forEach(function(s) {
+      s.classList.remove('active');
+    });
+    slides[idx].classList.add('active');
+    updateFooter();
+    updateProgress();
+  }
+
+  function revealNext() {
+    var reveals = getReveals(currentSlide);
+    var shown = revealIndex[currentSlide];
+    if (shown < reveals.length) {
+      reveals[shown].classList.add('visible');
+      revealIndex[currentSlide]++;
+    } else {
+      if (currentSlide < totalSlides - 1) {
+        currentSlide++;
+        showSlide(currentSlide);
+      }
+    }
+  }
+
+  function revealPrev() {
+    var reveals = getReveals(currentSlide);
+    var shown = revealIndex[currentSlide];
+    if (shown > 0) {
+      revealIndex[currentSlide]--;
+      reveals[revealIndex[currentSlide]].classList.remove('visible');
+    } else {
+      if (currentSlide > 0) {
+        currentSlide--;
+        showSlide(currentSlide);
+        var prevReveals = getReveals(currentSlide);
+        prevReveals.forEach(function(r) {
+          r.classList.add('visible');
+        });
+        revealIndex[currentSlide] = prevReveals.length;
+      }
+    }
+  }
+
+  function navigate(dir) {
+    if (dir > 0) revealNext();
+    else revealPrev();
+  }
+
+  window.navigate = navigate;
+
+  function updateFooter() {
+    document.getElementById('slide-num').textContent = currentSlide + 1;
+    document.getElementById('slide-total').textContent = totalSlides;
+  }
+
+  function updateProgress() {
+    var pct = ((currentSlide + 1) / totalSlides) * 100;
+    document.getElementById('progress').style.width = pct + '%';
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'ArrowDown') {
+      e.preventDefault();
+      navigate(1);
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      navigate(-1);
+    }
+  });
+
+  document.addEventListener('click', function(e) {
+    if (e.target.closest('#footer')) return;
+    if (e.target.closest('a')) return;
+    navigate(1);
+  });
+
+  var touchStartX = 0;
+  var touchStartY = 0;
+
+  document.addEventListener('touchstart', function(e) {
+    touchStartX = e.changedTouches[0].clientX;
+    touchStartY = e.changedTouches[0].clientY;
+  }, { passive: true });
+
+  document.addEventListener('touchend', function(e) {
+    var dx = e.changedTouches[0].clientX - touchStartX;
+    var dy = e.changedTouches[0].clientY - touchStartY;
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40) {
+      if (dx < 0) navigate(1);
+      else navigate(-1);
+    }
+  }, { passive: true });
+
+  showSlide(0);
+  updateFooter();
+  updateProgress();
+
+})();
+</script>
+
+</body>
+</html>
