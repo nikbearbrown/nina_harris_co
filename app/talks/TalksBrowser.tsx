@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Search, X, ExternalLink } from 'lucide-react'
@@ -15,6 +16,7 @@ interface Doc {
   author?: string
   category?: string
   slideCount?: string
+  thumbnail?: string
 }
 
 interface Group {
@@ -116,7 +118,18 @@ export default function TalksBrowser({ groups, filterTags = [] }: { groups: Grou
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {g.docs.map(doc => (
                   <Link key={doc.slug} href={`/talks/${doc.slug}`}>
-                    <Card className="h-full hover:border-foreground/20 transition-colors cursor-pointer">
+                    <Card className="h-full hover:border-foreground/20 transition-colors cursor-pointer overflow-hidden">
+                      {doc.thumbnail && (
+                        <div className="relative w-full aspect-video bg-muted">
+                          <Image
+                            src={doc.thumbnail}
+                            alt={doc.title}
+                            fill
+                            className="object-cover"
+                            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                          />
+                        </div>
+                      )}
                       <CardHeader>
                         <CardTitle className="text-base flex items-center gap-2">
                           {doc.title}

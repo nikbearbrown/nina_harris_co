@@ -7,6 +7,7 @@ export interface HtmlDocMeta {
   title: string
   description: string
   tags: string[]
+  thumbnail?: string
 }
 
 export interface GroupedHtmlDocs {
@@ -40,6 +41,7 @@ export function scanHtmlDir(dir: string): HtmlDocMeta[] {
     let title = titleCase(slug)
     let description = ''
     let tags: string[] = []
+    let thumbnail: string | undefined
 
     try {
       const html = readFileSync(join(dir, filename), 'utf-8')
@@ -51,9 +53,12 @@ export function scanHtmlDir(dir: string): HtmlDocMeta[] {
       const k = extractTag(html, /<meta\s+name=["']keywords["']\s+content=["']([^"']+)["']/i)
         ?? extractTag(html, /<meta\s+content=["']([^"']+)["']\s+name=["']keywords["']/i)
       if (k) tags = k.split(',').map(t => t.trim()).filter(Boolean)
+      const img = extractTag(html, /<meta\s+property=["']og:image["']\s+content=["']([^"']+)["']/i)
+        ?? extractTag(html, /<meta\s+content=["']([^"']+)["']\s+property=["']og:image["']/i)
+      if (img) thumbnail = img
     } catch {}
 
-    return { slug, filename, title, description, tags }
+    return { slug, filename, title, description, tags, thumbnail }
   })
 }
 
